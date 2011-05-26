@@ -17,7 +17,7 @@
 #
 class mcollective::service(
   $ensure='UNSET'
-) inherits mcollective::params {
+) {
 
   if $ensure in [ 'running', 'UNSET' ] {
     $ensure_real = 'running'
