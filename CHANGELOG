@@ -1,2 +1,6 @@
+2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.3
+* Fix configuration file for mcollective 1.2.0
+* Add default plugin management
+
 2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.2
 * Initial release with package, file and service management
