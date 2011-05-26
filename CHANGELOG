@@ -1,3 +1,6 @@
+2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.5
+* Add puppet agents (sudo mco puppetd status)
+
 2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.4
 * Add facter facts plugin
 
