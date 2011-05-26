@@ -43,12 +43,12 @@ class mcollective(
   if $server_config == 'UNSET' {
     $server_config_real = template("${module_name}/server.cfg")
   } else {
-    $server_config_real = $config
+    $server_config_real = $server_config
   }
   if $client_config == 'UNSET' {
     $client_config_real = template("${module_name}/client.cfg")
   } else {
-    $client_config_real = $config
+    $client_config_real = $client_config
   }
 
   ## Resource Declarations
@@ -71,7 +71,7 @@ class mcollective(
       owner   => '0',
       group   => '0',
       mode    => '0640',
-      content => $config_real,
+      content => $server_config_real,
       require => Mcollective::Pkg['mcollective'],
       notify  => Class['mcollective::service'],
     }
@@ -94,11 +94,18 @@ class mcollective(
       owner   => '0',
       group   => '0',
       mode    => '0640',
-      content => $config_real,
+      content => $client_config_real,
       require => Mcollective::Pkg['mcollective-client'],
     }
   }
 
+  # If the client OR the server is managed, we need to manage
+  # all of the plugins as well.
+  if $server_real or $client_real {
+    class { 'mcollective::plugins':
+      stage => 'setup_infra',
+    }
+  }
 
 }
 
