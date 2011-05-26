@@ -99,6 +99,13 @@ class mcollective(
     }
   }
 
+  # If the client OR the server is managed, we need to manage
+  # all of the plugins as well.
+  if $server_real or $client_real {
+    class { 'mcollective::plugins':
+      stage => 'setup_infra',
+    }
+  }
 
 }
 
