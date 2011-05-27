@@ -92,6 +92,10 @@ class mcollective(
 
 
 
+  if $version == 'UNSET' {
+      $version_real = 'present'
+  } else {
+      $version_real = $version
   }
 
   if $server_real {
