@@ -1,0 +1,15 @@
+# Basic stuff
+topicprefix = <%= mc_topicprefix %>
+libdir = <%= mc_libdir %>
+loglevel = <%= mc_loglevel %>
+
+# Plugins
+securityprovider = <%= mc_security_provider %>
+plugin.psk = <%= mc_security_psk %>
+
+# Middleware
+connector = stomp
+plugin.stomp.host = <%= stomp_server %>
+plugin.stomp.port = <%= stomp_port %>
+plugin.stomp.user = <%= stomp_user %>
+plugin.stomp.password = <%= stomp_passwd %>
