@@ -1,21 +1,60 @@
 # Class: mcollective
 #
-#   This class manages the MCollective server packages and configuration.
+# This module manages MCollective.
 #
 # Parameters:
+#
+#  [*version*]            - The version of the MCollective package(s) to
+#                             be installed.
+#  [*server*]             - Boolean determining whether you would like to
+#                             install the server component.
+#  [*server_config*]      - The content of the MCollective server configuration
+#                             file.
+#  [*server_config_file*] - The full path to the MCollective server
+#                             configuration file.
+#  [*client*]             - Boolean determining whether you would like to
+#                             install the client component.
+#  [*client_config*]      - The content of the MCollective client configuration
+#                             file.
+#  [*client_config_file*] - The full path to the MCollective client
+#                             configuration file.
+#  [*pkg_provider*]       - The package provider resource to use.
+#  [*stomp_server*]       - The hostname of the stomp server.
+#  [*stomp_ip*]           - The IP address of the stomp server.
+#  [*stomp_aliases*]      - Host aliases for the stomp server.
 #
 # Actions:
 #
 # Requires:
 #
+#   Class['stdlib::stages']
+#   Class['java']
+#   Class['activemq']
+#
 # Sample Usage:
 #
-#  class { 'mcollective':
-#    version => '1.0.1',
-#    config  => template('site_data/mcollective/server.cfg')
-#  }
+# The module works with sensible defaults:
 #
-# [Remember: No empty lines between comments and class definition]
+# node default {
+#   include mcollective
+# }
+#
+# These defaults are:
+#
+# node default {
+#   class { 'mcollective':
+#     version             => 'present',
+#     server              => true,
+#     server_config       => template('mcollective/server.cfg.erb'),
+#     server_config_file  => '/etc/mcollective/server.cfg',
+#     client              => true,
+#     client_config       => template('mcollective/client.cfg.erb'),
+#     client_config_file  => '/home/mcollective/.mcollective',
+#     pkg_provider        => 'yum',
+#     stomp_server        => 'stomp',
+#   }
+# }
+#
 class mcollective(
   $version       = 'UNSET',
   $server        = true,
