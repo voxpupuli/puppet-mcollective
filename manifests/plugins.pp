@@ -17,25 +17,57 @@
 #   This class is intended to be declared in the mcollective class.
 #
 class mcollective::plugins(
-  $purge = true
+  $plugin_base = $mcollective::params::plugin_base,
+  $plugin_subs = $mcollective::params::plugin_subs
 ) inherits mcollective::params {
 
-  $v_bool = [ '^true$', '^false$' ]
-  validate_re("$purge", $v_bool)
-  $purge_real = $purge
-
-  File {
-    owner => '0',
-    group => '0',
-    mode  => '0644',
+  file { $plugin_base:
+    ensure  => directory,
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root',
+    require => Class['mcollective::server::pkg'],
   }
 
-  file { "${plugin_dir}":
-    ensure  => directory,
-    source  => "puppet:///modules/${module_name}/plugins",
-    recurse => true,
-    purge   => $purge_real,
-    notify  => Class['mcollective::service'],
+  file { $plugin_subs:
+    ensure => directory,
+    mode   => '0644',
+    owner  => 'root',
+    group  => 'root',
+    notify => Class['mcollective::server::service'],
+  }
+
+  mcollective::plugins::plugin { 'registration':
+    ensure      => present,
+    type        => 'agent',
+    ddl         => false,
+    application => false,
+  }
+  mcollective::plugins::plugin { 'facter_facts':
+    ensure => present,
+    type   => 'facts',
+  }
+  mcollective::plugins::plugin { 'yaml_facts':
+    ensure => present,
+    type   => 'facts',
+  }
+  mcollective::plugins::plugin { 'service':
+    ensure      => present,
+    type        => 'agent',
+    ddl         => true,
+    application => true,
+  }
+  mcollective::plugins::plugin { 'package':
+    ensure      => present,
+    type        => 'agent',
+    ddl         => true,
+    application => true,
+  }
+  mcollective::plugins::plugin { 'meta':
+    ensure      => present,
+    type        => 'registration',
+    ddl         => false,
+    application => false,
   }
 
 }
