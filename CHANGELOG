@@ -1,3 +1,6 @@
+2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.8
+* Fix nrpe.d path with MCollective
+
 2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.7
 * Add nrpe agent
 
