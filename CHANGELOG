@@ -1,3 +1,6 @@
+2011-05-27 Jeff McCune <jeff@puppetlabs.com> - 0.0.9
+* Enable registration by default
+
 2011-05-26 Jeff McCune <jeff@puppetlabs.com> - 0.0.8
 * Fix nrpe.d path with MCollective
 
