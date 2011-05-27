@@ -9,3 +9,18 @@
     add:
     libdir=/usr/libexec/mcollective:/var/lib/puppet/spool/mcollective/plugins
 
+
+
+# GDL #
+
+1. Add run stages instead of requires
+2. Figure out Client Config Path --> config file default paths per distro.
+3. OS X Package Support
+4. Do we need to validate $config and others in init.pp?
+5. Set Config and Config File in Params and Init to point to it.
+6. Document that it's for 1.2.0
+
+
+# TO REMOVE #
+
+Host entry in init.pp
