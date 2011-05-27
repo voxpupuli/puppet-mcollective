@@ -99,52 +99,23 @@ class mcollective(
   }
 
   if $server_real {
-    # Manage the package
-    mcollective::pkg { 'mcollective':
-      ensure  => present,
-      version => $version_real,
-      require => Mcollective::Pkg['mcollective-common'],
-    }
-    # Manage the configuration file
-    file { '/etc/mcollective/server.cfg':
-      ensure  => file,
-      owner   => '0',
-      group   => '0',
-      mode    => '0640',
-      content => $server_config_real,
-      require => Mcollective::Pkg['mcollective'],
-      notify  => Class['mcollective::service'],
-    }
-    # Manage the service
-    class { 'mcollective::service':
-      stage => 'deploy_infra',
+    class { 'mcollective::server::base':
+      version        => $version_real,
+      pkg_provider   => $pkg_provider,
+      config         => $server_config_real,
+      config_file    => $server_config_file_real,
     }
   }
 
   if $client_real {
-    # Manage the package
-    mcollective::pkg { 'mcollective-client':
-      ensure  => present,
-      version => $version_real,
-      require => Mcollective::Pkg['mcollective-common'],
-    }
-    # Manage the configuration file
-    file { '/etc/mcollective/client.cfg':
-      ensure  => file,
-      owner   => '0',
-      group   => '0',
-      mode    => '0640',
-      content => $client_config_real,
-      require => Mcollective::Pkg['mcollective-client'],
+    class { 'mcollective::client::base':
+      version        => $version_real,
+      pkg_provider   => $pkg_provider,
+      config         => $client_config_real,
+      config_file    => $client_config_file_real,
     }
   }
 
-  # If the client OR the server is managed, we need to manage
-  # all of the plugins as well.
-  if $server_real or $client_real {
-    class { 'mcollective::plugins':
-      stage => 'setup_infra',
-    }
   }
 
 }
