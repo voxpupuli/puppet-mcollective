@@ -56,45 +56,42 @@
 # }
 #
 class mcollective(
-  $version       = 'UNSET',
-  $server        = true,
-  $server_config = 'UNSET',
-  $client        = true,
-  $client_config = 'UNSET'
+  $version               = 'UNSET',
+  $server                = true,
+  $server_config         = template('mcollective/server.cfg.erb'),
+  $server_config_file    = '/etc/mcollective/server.cfg',
+  $client                = false,
+  $client_config         = template('mcollective/client.cfg.erb'),
+  $client_config_file    = "/home/${mcollective::params::client_config_owner}/.mcollective",
+  $pkg_provider          = $mcollective::params::pkg_provider,
+  $stomp_server          = $mcollective::params::stomp_server,
+  $stomp_ip              = $mcollective::params::stomp_ip,
+  $stomp_aliases         = $mcollective::params::stomp_aliases
 ) inherits mcollective::params {
 
-  ## Input Validation
-
   $v_bool = [ '^true$', '^false$' ]
+  $provider_ensure = [ '^yum$', '^aptitude$', '^pkgdmg$', '^appdmg$' ]
+  validate_re($server_config_file, '^/')
+  validate_re($client_config_file, '^/')
   validate_re("$server", $v_bool)
   validate_re("$client", $v_bool)
-  $server_real = $server
-  $client_real = $client
+  validate_re($pkg_provider, $provider_ensure)
+  validate_re($version, '^[._0-9a-zA-Z:-]+$')
 
-  if $version == 'UNSET' {
-    $version_real = 'present'
-  } else {
-    $version_real = $version
-  }
 
-  # JJM The configuration should be last in case variables are interpolated in
-  # the template shipped with this module.
-  if $server_config == 'UNSET' {
-    $server_config_real = template("${module_name}/server.cfg")
-  } else {
-    $server_config_real = $server_config
-  }
-  if $client_config == 'UNSET' {
-    $client_config_real = template("${module_name}/client.cfg")
-  } else {
-    $client_config_real = $client_config
-  }
+  $server_real               = $server
+  $client_real               = $client
+  $client_config_file_real   = $client_config_file
+  $server_config_file_real   = $server_config_file
+  $server_config_real        = $server_config
+  $client_config_real        = $client_config
+  $pkg_provider_real         = $pkg_provider
+  $stomp_server_real         = $stomp_server
+  $stomp_ip_real             = $stomp_ip
+  $stomp_aliases_real        = $stomp_aliases
 
-  ## Resource Declarations
 
-  mcollective::pkg { 'mcollective-common':
-    version => $version_real,
-    ensure  => present,
+
   }
 
   if $server_real {
