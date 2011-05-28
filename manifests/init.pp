@@ -57,9 +57,9 @@ class mcollective(
   $server                = true,
   $server_config         = template('mcollective/server.cfg.erb'),
   $server_config_file    = '/etc/mcollective/server.cfg',
-  $client                = false,
+  $client                = true,
   $client_config         = template('mcollective/client.cfg.erb'),
-  $client_config_file    = "/home/${mcollective::params::client_config_owner}/.mcollective",
+  $client_config_file    = '/etc/mcollective/client.cfg',
   $pkg_provider          = $mcollective::params::pkg_provider,
   $stomp_server          = $mcollective::params::stomp_server
 ) inherits mcollective::params {

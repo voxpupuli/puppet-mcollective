@@ -12,7 +12,7 @@ class mcollective::client::base(
   class { 'mcollective::client::pkg':
     version      => $version,
     pkg_provider => $pkg_provider,
-    require      => Class['mcollective::class::config'],
+    require      => Class['mcollective::client::config'],
   }
 
 }
