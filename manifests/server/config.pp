@@ -8,7 +8,7 @@ class mcollective::server::config(
   file { 'server_config':
     path    => $config_file,
     content => $config,
-    mode    => '0600',
+    mode    => '0640',
     owner   => $server_config_owner,
     group   => $server_config_group,
   }
