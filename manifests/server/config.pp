@@ -11,6 +11,7 @@ class mcollective::server::config(
     mode    => '0640',
     owner   => $server_config_owner,
     group   => $server_config_group,
+    notify  => Class['mcollective::server::service'],
   }
 
 }
