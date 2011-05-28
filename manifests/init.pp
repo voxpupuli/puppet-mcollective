@@ -27,7 +27,6 @@
 #
 # Requires:
 #
-#   Class['stdlib::stages']
 #   Class['java']
 #   Class['activemq']
 #

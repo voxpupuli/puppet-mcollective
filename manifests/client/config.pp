@@ -11,7 +11,6 @@ class mcollective::client::config(
     mode    => '0600',
     owner   => $client_config_owner,
     group   => $client_config_group,
-    require => Class['mcollective::client::pkg'],
   }
 
 }
