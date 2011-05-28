@@ -21,7 +21,6 @@
 #  [*pkg_provider*]       - The package provider resource to use.
 #  [*stomp_server*]       - The hostname of the stomp server.
 #  [*stomp_ip*]           - The IP address of the stomp server.
-#  [*stomp_aliases*]      - Host aliases for the stomp server.
 #
 # Actions:
 #
@@ -65,7 +64,6 @@ class mcollective(
   $pkg_provider          = $mcollective::params::pkg_provider,
   $stomp_server          = $mcollective::params::stomp_server,
   $stomp_ip              = $mcollective::params::stomp_ip,
-  $stomp_aliases         = $mcollective::params::stomp_aliases
 ) inherits mcollective::params {
 
   $v_bool = [ '^true$', '^false$' ]
@@ -87,9 +85,6 @@ class mcollective(
   $pkg_provider_real         = $pkg_provider
   $stomp_server_real         = $stomp_server
   $stomp_ip_real             = $stomp_ip
-  $stomp_aliases_real        = $stomp_aliases
-
-
 
   if $version == 'UNSET' {
       $version_real = 'present'

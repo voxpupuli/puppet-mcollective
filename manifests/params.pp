@@ -55,21 +55,15 @@ class mcollective::params {
     "${plugin_base}/util",
   ]
 
-  $client_config_owner  = 'vagrant'
-  $client_config_group  = 'vagrant'
-  $server_config_owner  = 'vagrant'
-  $server_config_group  = 'vagrant'
+  $client_config_owner  = '0'
+  $client_config_group  = '0'
+  $server_config_owner  = '0'
+  $server_config_group  = '0'
 
   $stomp_user    = 'mcollective'
   $stomp_passwd  = 'marionette'
   $stomp_server  = 'stomp'
-  $stomp_ip      = '192.168.56.10'
-  $stomp_port    = '61613'
-  $stomp_aliases = [
-    'stomp.vagrant.internal',
-    'aserver.vagrant.internal',
-    'aserver',
-  ]
+  $stomp_port    = '6163'
 
   $pkg_provider = $operatingsystem ? {
     /(?i-mx:ubuntu|debian)/ => 'aptitude',
