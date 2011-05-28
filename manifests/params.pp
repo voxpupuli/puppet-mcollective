@@ -20,7 +20,7 @@ class mcollective::params {
   $mc_loglevel          = 'log'
   $mc_daemonize         = '1'
   $mc_security_provider = 'psk'
-  $mc_security_psk      = 'vagrant_mcollective_demo'
+  $mc_security_psk      = 'changemeplease'
 
   $mc_service_name = $operatingsystem ? {
     /(?i-mx:darwin)/ => 'com.puppetlabs.mcollective',
