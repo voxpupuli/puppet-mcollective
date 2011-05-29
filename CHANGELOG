@@ -1,3 +1,6 @@
+2011-05-29 Jeff McCune <jeff@puppetlabs.com> - 0.1.1
+* Make the provider and psk a top level class param
+
 2011-05-28 Jeff McCune <jeff@puppetlabs.com> - 0.1.0
 * Merge Gary and Cody's work
 
