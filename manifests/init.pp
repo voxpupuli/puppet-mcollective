@@ -20,6 +20,8 @@
 #                             configuration file.
 #  [*pkg_provider*]       - The package provider resource to use.
 #  [*stomp_server*]       - The hostname of the stomp server.
+#  [*mc_security_provider*] - The MCollective security provider
+#  [*mc_security_psk*]    - The MCollective pre shared key
 #
 # Actions:
 #
@@ -55,13 +57,15 @@
 class mcollective(
   $version               = 'UNSET',
   $server                = true,
-  $server_config         = template('mcollective/server.cfg.erb'),
+  $server_config         = 'UNSET',
   $server_config_file    = '/etc/mcollective/server.cfg',
   $client                = true,
-  $client_config         = template('mcollective/client.cfg.erb'),
+  $client_config         = 'UNSET',
   $client_config_file    = '/etc/mcollective/client.cfg',
   $pkg_provider          = $mcollective::params::pkg_provider,
-  $stomp_server          = $mcollective::params::stomp_server
+  $stomp_server          = $mcollective::params::stomp_server,
+  $mc_security_provider  = $mcollective::params::mc_security_provider,
+  $mc_security_psk       = $mcollective::params::mc_security_psk
 ) inherits mcollective::params {
 
   $v_bool = [ '^true$', '^false$' ]
@@ -72,21 +76,33 @@ class mcollective(
   validate_re("$client", $v_bool)
   validate_re($pkg_provider, $provider_ensure)
   validate_re($version, '^[._0-9a-zA-Z:-]+$')
-
+  validate_re($mc_security_provider, '^[a-zA-Z0-9_]+$')
+  validate_re($mc_security_psk, '^[^ \t]+$')
 
   $server_real               = $server
   $client_real               = $client
   $client_config_file_real   = $client_config_file
   $server_config_file_real   = $server_config_file
-  $server_config_real        = $server_config
-  $client_config_real        = $client_config
   $pkg_provider_real         = $pkg_provider
   $stomp_server_real         = $stomp_server
+  $mc_security_provider_real = $mc_security_provider
+  $mc_security_psk_real      = $mc_security_psk
 
   if $version == 'UNSET' {
       $version_real = 'present'
   } else {
       $version_real = $version
+  }
+
+  if $client_config == 'UNSET' {
+    $client_config_real = template('mcollective/client.cfg.erb')
+  } else {
+    $client_config_real = $client_config
+  }
+  if $server_config == 'UNSET' {
+    $server_config_real = template('mcollective/server.cfg.erb')
+  } else {
+    $server_config_real = $server_config
   }
 
   if $server_real {
