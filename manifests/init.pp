@@ -112,6 +112,10 @@ class mcollective(
       config         => $server_config_real,
       config_file    => $server_config_file_real,
     }
+    # Also manage the plugins
+    class { 'mcollective::plugins':
+      require => Class['mcollective::server::base'],
+    }
   }
 
   if $client_real {
