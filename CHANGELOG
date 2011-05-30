@@ -1,3 +1,6 @@
+2011-05-30 Jeff McCune <jeff@puppetlabs.com> - 0.1.2
+* Manage the package before the configuration
+
 2011-05-29 Jeff McCune <jeff@puppetlabs.com> - 0.1.1
 * Make the provider and psk a top level class param
 

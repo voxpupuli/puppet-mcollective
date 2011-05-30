@@ -8,7 +8,7 @@
     instead recursively purge a second plugin directory.  e.g. in server.cfg
     add:
     libdir=/usr/libexec/mcollective:/var/lib/puppet/spool/mcollective/plugins
-
+ 6. Add nrpe agent to the default configuration of mcollective
 
 
 # GDL #

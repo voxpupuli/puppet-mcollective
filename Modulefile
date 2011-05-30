@@ -1,5 +1,5 @@
 name    'puppetlabs-mcollective'
-version '0.1.1'
+version '0.1.2'
 source 'git://github.com/puppetlabs/puppetlabs-mcollective.git'
 author 'puppetlabs'
 license 'Apache'
