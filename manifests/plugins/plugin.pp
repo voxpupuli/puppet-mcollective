@@ -1,3 +1,22 @@
+# Define: mcollective::plugins::plugin
+#
+#   Manage the files for MCollective plugins.
+#
+# Parameters:
+#
+# Actions:
+#
+# Requires:
+#
+# Sample Usage:
+#
+#     mcollective::plugins::plugin { 'package':
+#       ensure      => present,
+#       type        => 'agent',
+#       ddl         => true,
+#       application => false,
+#     }
+#
 define mcollective::plugins::plugin(
   $type,
   $ensure      = present,
