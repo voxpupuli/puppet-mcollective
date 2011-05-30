@@ -6,20 +6,20 @@ This module manages MCollective from within Puppet.
 
 # Quick Start
 
-    class site_mcollective {
-      class { 'mcollective': version => 'latest' }
-      class { 'mcollective::service': }
+Manage both the mcollective server and client.  Connect to the stomp server
+named "stomp."
+
+    node default {
+      class { 'mcollective': }
     }
-    include site_mcollective
 
-# TODO
+Change the pre-shared key for both the client and the server:
 
- - MCollective Client Management
- - Plugin Management (Facter integration)
- - Agent Management (puppetd)
-
-Also, I plan to use git-subtree merge to pull in the upstream
-mcollective-plugins directory.
+    node default {
+      class { 'mcollective':
+        mc_security_psk => 'abc123',
+      }
+    }
 
 # Registration #
 
