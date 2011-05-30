@@ -27,6 +27,12 @@ define mcollective::plugins::plugin(
 
   include mcollective::params
 
+  File {
+    owner => '0',
+    group => '0',
+    mode  => '0644',
+  }
+
   if $plugin_base == '' {
     $plugin_base_real = $mcollective::params::plugin_base
   } else {
@@ -40,9 +46,6 @@ define mcollective::plugins::plugin(
   file { "${plugin_base_real}/${type}/${name}.rb":
     ensure => $ensure,
     source => "puppet:///modules/mcollective/plugins/${type}/${name}.rb",
-    mode   => '0644',
-    owner  => 'root',
-    group  => 'root',
     notify => Class['mcollective::server::service'],
   }
 
@@ -50,19 +53,13 @@ define mcollective::plugins::plugin(
     file { "${plugin_base_real}/${type}/${name}.ddl":
       ensure => $ensure,
       source => "puppet:///modules/mcollective/plugins/${type}/${name}.ddl",
-      mode   => '0644',
-      owner  => 'root',
-      group  => 'root',
     }
   }
 
   if $application {
     file { "${plugin_base_real}/application/${name}.rb":
       ensure => $ensure,
-      source => "puppet:///modules/mcollective/plugins/${type}/application/${name}.rb",
-      mode   => '0644',
-      owner  => 'root',
-      group  => 'root',
+      source => "puppet:///modules/mcollective/plugins/application/${name}.rb",
     }
   }
 

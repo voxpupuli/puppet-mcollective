@@ -21,19 +21,19 @@ class mcollective::plugins(
   $plugin_subs = $mcollective::params::plugin_subs
 ) inherits mcollective::params {
 
-  file { $plugin_base:
-    ensure  => directory,
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    require => Class['mcollective::server::pkg'],
+  File {
+    owner => '0',
+    group => '0',
+    mode  => '0644',
   }
 
+  # $plugin_base and $plugin_subs are meant to be arrays.
+  file { $plugin_base:
+    ensure  => directory,
+    require => Class['mcollective::server::pkg'],
+  }
   file { $plugin_subs:
     ensure => directory,
-    mode   => '0644',
-    owner  => 'root',
-    group  => 'root',
     notify => Class['mcollective::server::service'],
   }
 
