@@ -69,5 +69,12 @@ class mcollective::plugins(
     ddl         => false,
     application => false,
   }
+  # Add the NRPE Agent by default
+  mcollective::plugins::plugin { 'nrpe':
+    ensure      => present,
+    type        => 'agent',
+    ddl         => true,
+    application => true,
+  }
 
 }
