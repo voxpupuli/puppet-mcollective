@@ -19,8 +19,16 @@ class mcollective::server::package(
 
   case $operatingsystem {
     debian,ubuntu: {
-      class { 'mcollective::package::debian': }
+      class { 'mcollective::server::package::debian':
+        version => $version,
+      }
+    }
+    rhel,centos,oel: {
+      class { 'mcollective::server::package::redhat':
+        version => $version,
+      }
     }
   }
 
 }
+
