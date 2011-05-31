@@ -1,3 +1,22 @@
+# Class: mcollective::server::config
+#
+#   This class installs the MCollective configuration files.
+#
+# Parameters:
+#
+#  [*config*]               - The content of the MCollective client
+#                             configuration file.
+#  [*config_file*]          - The full path to the MCollective client
+#                             configuration file.
+#  [*server_config_owner*]  - The owner of the server configuration file.
+#  [*server_config_group*]  - The group for the server configuration file.
+#
+# Actions:
+#
+# Requires:
+#
+# Sample Usage:
+#
 class mcollective::server::config(
   $config_file,
   $config,

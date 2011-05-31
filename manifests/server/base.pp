@@ -1,3 +1,23 @@
+# Class: mcollective::server::base
+#
+#   This class installs the MCollective server component for your nodes.
+#
+# Parameters:
+#
+#  [*version*]            - The version of the MCollective package(s) to
+#                             be installed.
+#  [*config*]             - The content of the MCollective client configuration
+#                             file.
+#  [*config_file*]        - The full path to the MCollective client
+#                             configuration file.
+#  [*pkg_provider*]       - The package provider resource to use.
+#
+# Actions:
+#
+# Requires:
+#
+# Sample Usage:
+#
 class mcollective::server::base(
   $version,
   $config,
