@@ -6,7 +6,6 @@
 #
 #  [*version*]            - The version of the MCollective package(s) to
 #                             be installed.
-#  [*pkg_provider*]       - The package provider resource to use.
 #
 # Actions:
 #
@@ -15,16 +14,8 @@
 # Sample Usage:
 #
 class mcollective::server::package(
-  $version,
-  $pkg_provider
+  $version
 ) {
-
-  #include 'mcollective::package'
-
-  package { 'mcollective':
-    ensure	  => $version,
-    provider  => $pkg_provider,
-  }
 
   case $operatingsystem {
     debian,ubuntu: {

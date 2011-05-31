@@ -1,13 +1,11 @@
 class mcollective::client::base(
   $version,
   $config,
-  $config_file,
-  $pkg_provider = $mcollective::params::pkg_provider
+  $config_file
 ) inherits mcollective::params {
 
   class { 'mcollective::client::package':
     version      => $version,
-    pkg_provider => $pkg_provider,
   }
   class { 'mcollective::client::config':
     config      => $config,
@@ -16,3 +14,4 @@ class mcollective::client::base(
   }
 
 }
+

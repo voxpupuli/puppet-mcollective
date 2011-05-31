@@ -10,8 +10,6 @@
 #                             file.
 #  [*config_file*]        - The full path to the MCollective client
 #                             configuration file.
-#  [*pkg_provider*]       - The package provider resource to use.
-#
 # Actions:
 #
 # Requires:
@@ -21,13 +19,11 @@
 class mcollective::server::base(
   $version,
   $config,
-  $config_file,
-  $pkg_provider = $mcollective::params::pkg_provider
+  $config_file
 ) inherits mcollective::params {
 
   class { 'mcollective::server::package':
     version      => $version,
-    pkg_provider => $pkg_provider,
   }
   class { 'mcollective::server::config':
     config      => $config,
@@ -40,3 +36,4 @@ class mcollective::server::base(
   }
 
 }
+

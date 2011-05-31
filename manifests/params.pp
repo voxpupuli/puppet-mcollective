@@ -69,12 +69,6 @@ class mcollective::params {
   $stomp_server  = 'stomp'
   $stomp_port    = '6163'
 
-  $pkg_provider = $operatingsystem ? {
-    /(?i-mx:ubuntu|debian)/ => 'aptitude',
-    /(?i-mx:rhel|centos)/   => 'yum',
-    default                 => undef,
-  }
-
   $pkg_state = 'present'
 
 }
