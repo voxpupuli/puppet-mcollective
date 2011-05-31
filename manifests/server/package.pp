@@ -1,4 +1,4 @@
-# Class: mcollective::server::pkg
+# Class: mcollective::server::package
 #
 #   This class installs the MCollective server package and all dependencies.
 #
@@ -14,22 +14,22 @@
 #
 # Sample Usage:
 #
-class mcollective::server::pkg(
+class mcollective::server::package(
   $version,
   $pkg_provider
 ) {
 
-  #include 'mcollective::pkg'
+  #include 'mcollective::package'
 
   package { 'mcollective':
     ensure	  => $version,
     provider  => $pkg_provider,
   }
-  
+
   case $operatingsystem {
     debian,ubuntu: {
-      class { 'mcollective::pkg::debian': }
+      class { 'mcollective::package::debian': }
     }
   }
-  
+
 }

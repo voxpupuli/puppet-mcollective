@@ -25,18 +25,18 @@ class mcollective::server::base(
   $pkg_provider = $mcollective::params::pkg_provider
 ) inherits mcollective::params {
 
-  class { 'mcollective::server::pkg':
+  class { 'mcollective::server::package':
     version      => $version,
     pkg_provider => $pkg_provider,
   }
   class { 'mcollective::server::config':
     config      => $config,
     config_file => $config_file,
-    require     => Class['mcollective::server::pkg'],
+    require     => Class['mcollective::server::package'],
   }
   class { 'mcollective::server::service':
     require => [ Class['mcollective::server::config'],
-                 Class['mcollective::server::pkg'], ],
+                 Class['mcollective::server::package'], ],
   }
 
 }

@@ -1,9 +1,9 @@
-class mcollective::client::pkg(
+class mcollective::client::package(
   $version,
   $pkg_provider
 ) {
 
-  #include 'mcollective::pkg'
+  #include 'mcollective::package'
 
   package { 'mcollective-client':
     ensure	  => $version,
