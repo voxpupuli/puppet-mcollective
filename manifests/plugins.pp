@@ -78,3 +78,4 @@ class mcollective::plugins(
   }
 
 }
+

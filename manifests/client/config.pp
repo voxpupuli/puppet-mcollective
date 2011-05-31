@@ -14,3 +14,4 @@ class mcollective::client::config(
   }
 
 }
+
