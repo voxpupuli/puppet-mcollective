@@ -1,3 +1,6 @@
+2011-05-31 Jeff McCune <jeff@puppetlabs.com> - 0.1.3
+* Add nrpe agent to the default set
+
 2011-05-30 Jeff McCune <jeff@puppetlabs.com> - 0.1.2
 * Manage the package before the configuration
 
