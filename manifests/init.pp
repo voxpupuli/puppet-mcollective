@@ -18,7 +18,6 @@
 #                             file.
 #  [*client_config_file*] - The full path to the MCollective client
 #                             configuration file.
-#  [*pkg_provider*]       - The package provider resource to use.
 #  [*stomp_server*]       - The hostname of the stomp server.
 #  [*mc_security_provider*] - The MCollective security provider
 #  [*mc_security_psk*]    - The MCollective pre shared key
@@ -49,7 +48,6 @@
 #     client              => true,
 #     client_config       => template('mcollective/client.cfg.erb'),
 #     client_config_file  => '/home/mcollective/.mcollective',
-#     pkg_provider        => 'yum',
 #     stomp_server        => 'stomp',
 #   }
 # }
@@ -62,19 +60,16 @@ class mcollective(
   $client                = true,
   $client_config         = 'UNSET',
   $client_config_file    = '/etc/mcollective/client.cfg',
-  $pkg_provider          = $mcollective::params::pkg_provider,
   $stomp_server          = $mcollective::params::stomp_server,
   $mc_security_provider  = $mcollective::params::mc_security_provider,
   $mc_security_psk       = $mcollective::params::mc_security_psk
 ) inherits mcollective::params {
 
   $v_bool = [ '^true$', '^false$' ]
-  $provider_ensure = [ '^yum$', '^aptitude$', '^pkgdmg$', '^appdmg$' ]
   validate_re($server_config_file, '^/')
   validate_re($client_config_file, '^/')
   validate_re("$server", $v_bool)
   validate_re("$client", $v_bool)
-  validate_re($pkg_provider, $provider_ensure)
   validate_re($version, '^[._0-9a-zA-Z:-]+$')
   validate_re($mc_security_provider, '^[a-zA-Z0-9_]+$')
   validate_re($mc_security_psk, '^[^ \t]+$')
@@ -83,7 +78,6 @@ class mcollective(
   $client_real               = $client
   $client_config_file_real   = $client_config_file
   $server_config_file_real   = $server_config_file
-  $pkg_provider_real         = $pkg_provider
   $stomp_server_real         = $stomp_server
   $mc_security_provider_real = $mc_security_provider
   $mc_security_psk_real      = $mc_security_psk
@@ -108,7 +102,6 @@ class mcollective(
   if $server_real {
     class { 'mcollective::server::base':
       version        => $version_real,
-      pkg_provider   => $pkg_provider,
       config         => $server_config_real,
       config_file    => $server_config_file_real,
     }
@@ -121,10 +114,10 @@ class mcollective(
   if $client_real {
     class { 'mcollective::client::base':
       version        => $version_real,
-      pkg_provider   => $pkg_provider,
       config         => $client_config_real,
       config_file    => $client_config_file_real,
     }
   }
 
 }
+
