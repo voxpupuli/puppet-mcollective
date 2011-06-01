@@ -17,15 +17,19 @@ class mcollective::server::package(
   $version
 ) {
 
+  # The relationship to this class is required because other classes, e.g.
+  # Class['mcollective::config'] requires the mcollective::server:package class.
   case $operatingsystem {
     debian,ubuntu: {
       class { 'mcollective::server::package::debian':
         version => $version,
+        before  => Class['mcollective::server::package'],
       }
     }
     rhel,centos,oel: {
       class { 'mcollective::server::package::redhat':
         version => $version,
+        before  => Class['mcollective::server::package'],
       }
     }
   }
