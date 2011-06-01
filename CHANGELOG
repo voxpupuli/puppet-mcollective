@@ -1,3 +1,6 @@
+2011-06-01 Jeff McCune <jeff@puppetlabs.com> - 0.1.5
+* Add better test examples and only install server by default
+
 2011-05-31 Jeff McCune <jeff@puppetlabs.com> - 0.1.4
 * Add debian and ubuntu support
 
