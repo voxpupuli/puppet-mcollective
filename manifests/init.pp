@@ -57,7 +57,7 @@ class mcollective(
   $server                = true,
   $server_config         = 'UNSET',
   $server_config_file    = '/etc/mcollective/server.cfg',
-  $client                = true,
+  $client                = false,
   $client_config         = 'UNSET',
   $client_config_file    = '/etc/mcollective/client.cfg',
   $stomp_server          = $mcollective::params::stomp_server,
