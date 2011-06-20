@@ -24,6 +24,7 @@ class mcollective::server::base(
 
   class { 'mcollective::server::package':
     version      => $version,
+    require => Anchor['mcollective::begin'],
   }
   class { 'mcollective::server::config':
     config      => $config,
@@ -31,8 +32,9 @@ class mcollective::server::base(
     require     => Class['mcollective::server::package'],
   }
   class { 'mcollective::server::service':
-    require => [ Class['mcollective::server::config'],
-                 Class['mcollective::server::package'], ],
+    subscribe => [ Class['mcollective::server::config'],
+                   Class['mcollective::server::package'], ],
+    before    => Anchor['mcollective::end'],
   }
 
 }

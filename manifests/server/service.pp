@@ -26,7 +26,6 @@ class mcollective::server::service(
     hasstatus  => true,
     start      => $mc_service_start,
     stop       => $mc_service_stop,
-    subscribe  => Class['mcollective'],
   }
 
 }
