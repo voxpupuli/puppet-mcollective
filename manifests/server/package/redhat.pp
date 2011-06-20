@@ -14,7 +14,7 @@ class mcollective::server::package::redhat(
   $version ) {
 
   package { 'mcollective':
-    ensure	  => $version,
+    ensure => $version,
   }
 
 }

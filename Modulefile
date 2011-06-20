@@ -8,4 +8,4 @@ description 'Manage MCollective client and service'
 project_page 'https://github.com/puppetlabs/puppetlabs-mcollective'
 
 ## Add dependencies, if any:
-dependency 'puppetlabs/stdlib', '>= 0.1.4'
+dependency 'puppetlabs/stdlib', '>= 0.1.6'
