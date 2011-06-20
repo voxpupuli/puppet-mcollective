@@ -22,13 +22,18 @@ class mcollective::client::base(
   $config_file
 ) inherits mcollective::params {
 
+  anchor { "mcollective::client::base::begin": }
+  anchor { "mcollective::client::base::end": }
+
   class { 'mcollective::client::package':
-    version      => $version,
+    version => $version,
+    require => Anchor['mcollective::client::base::begin'],
   }
   class { 'mcollective::client::config':
     config      => $config,
     config_file => $config_file,
     require     => Class['mcollective::client::package'],
+    before      => Anchor['mcollective::client::base::end'],
   }
 
 }

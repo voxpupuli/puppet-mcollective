@@ -20,8 +20,8 @@
 class mcollective::server::config(
   $config_file,
   $config,
-  $server_config_owner   = $mcollective::params::server_config_owner,
-  $server_config_group   = $mcollective::params::server_config_group
+  $server_config_owner = $mcollective::params::server_config_owner,
+  $server_config_group = $mcollective::params::server_config_group
 ) inherits mcollective::params {
 
   file { 'server_config':
