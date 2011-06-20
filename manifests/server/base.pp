@@ -23,7 +23,7 @@ class mcollective::server::base(
 ) inherits mcollective::params {
 
   class { 'mcollective::server::package':
-    version      => $version,
+    version => $version,
     require => Anchor['mcollective::begin'],
   }
   class { 'mcollective::server::config':

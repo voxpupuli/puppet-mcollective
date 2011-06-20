@@ -11,14 +11,17 @@
 # Sample Usage:
 #
 class mcollective::server::package::debian(
-  $version ) {
-
-  package { 'mcollective':
-    ensure	  => $version,
-  }
+  $version
+) {
 
   package { 'libstomp-ruby':
-    ensure    => present,
+    ensure => present,
   }
+
+  package { 'mcollective':
+    ensure  => $version,
+    require => Package['libstomp-ruby'],
+  }
+
 }
 

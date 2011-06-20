@@ -105,9 +105,9 @@ class mcollective(
 
   if $server_real {
     class { 'mcollective::server::base':
-      version        => $version_real,
-      config         => $server_config_real,
-      config_file    => $server_config_file_real,
+      version     => $version_real,
+      config      => $server_config_real,
+      config_file => $server_config_file_real,
       require     => Anchor['mcollective::begin'],
     }
     # Also manage the plugins
@@ -119,9 +119,9 @@ class mcollective(
 
   if $client_real {
     class { 'mcollective::client::base':
-      version        => $version_real,
-      config         => $client_config_real,
-      config_file    => $client_config_file_real,
+      version     => $version_real,
+      config      => $client_config_real,
+      config_file => $client_config_file_real,
       require     => Anchor['mcollective::begin'],
       before      => Anchor['mcollective::end'],
     }

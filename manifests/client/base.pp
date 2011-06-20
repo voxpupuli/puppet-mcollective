@@ -26,7 +26,7 @@ class mcollective::client::base(
   anchor { "mcollective::client::base::end": }
 
   class { 'mcollective::client::package':
-    version      => $version,
+    version => $version,
     require => Anchor['mcollective::client::base::begin'],
   }
   class { 'mcollective::client::config':
