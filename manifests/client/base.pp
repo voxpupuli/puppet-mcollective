@@ -19,20 +19,24 @@
 class mcollective::client::base(
   $version,
   $config,
+  $manage_packages,
   $config_file
 ) inherits mcollective::params {
 
   anchor { "mcollective::client::base::begin": }
   anchor { "mcollective::client::base::end": }
 
-  class { 'mcollective::client::package':
-    version => $version,
-    require => Anchor['mcollective::client::base::begin'],
+  if $manage_packages {
+    class { 'mcollective::client::package':
+      version => $version,
+      require => Anchor['mcollective::client::base::begin'],
+      before  => Class['mcollective::client::config']
+    }
   }
   class { 'mcollective::client::config':
     config      => $config,
     config_file => $config_file,
-    require     => Class['mcollective::client::package'],
+    require     => Anchor['mcollective::client::base::begin'],
     before      => Anchor['mcollective::client::base::end'],
   }
 

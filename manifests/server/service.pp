@@ -16,16 +16,27 @@
 #
 class mcollective::server::service(
   $mc_service_name     = $mcollective::params::mc_service_name,
-  $mc_service_stop     = $mcollective::params::mc_service_stop,
-  $mc_service_start    = $mcollective::params::mc_service_start
+  $mc_service_stop     = 'UNSET',
+  $mc_service_start    = 'UNSET'
 ) {
 
-  service { $mc_service_name:
+  $mc_service_stop_real = $mc_service_stop ? {
+    'UNSET' => $mcollective::params::mc_service_stop,
+    false   => undef,
+    default => $mc_service_stop,
+  }
+  $mc_service_start_real = $mc_service_start ? {
+    'UNSET' => $mcollective::params::mc_service_start,
+    false   => undef,
+    default => $mc_service_start,
+  }
+
+  service { 'mcollective':
     ensure    => running,
-    enable    => false,
+    name      => $mc_service_name,
     hasstatus => true,
-    start     => $mc_service_start,
-    stop      => $mc_service_stop,
+    start     => $mc_service_start_real,
+    stop      => $mc_service_stop_real,
   }
 
 }
