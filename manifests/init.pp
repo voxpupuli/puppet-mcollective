@@ -137,11 +137,12 @@ class mcollective(
 
   if $client_real {
     class { 'mcollective::client::base':
-      version     => $version_real,
-      config      => $client_config_real,
-      config_file => $client_config_file_real,
-      require     => Anchor['mcollective::begin'],
-      before      => Anchor['mcollective::end'],
+      version         => $version_real,
+      config          => $client_config_real,
+      config_file     => $client_config_file_real,
+      require         => Anchor['mcollective::begin'],
+      before          => Anchor['mcollective::end'],
+      manage_packages => $manage_packages,
     }
   }
 
