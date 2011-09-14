@@ -22,7 +22,8 @@ define mcollective::plugins::plugin(
   $ensure      = present,
   $ddl         = false,
   $application = false,
-  $plugin_base = $mcollective::params::plugin_base
+  $plugin_base = $mcollective::params::plugin_base,
+  $module_source = 'puppet:///modules/mcollective/plugins'
 ) {
 
   include mcollective::params
@@ -45,21 +46,21 @@ define mcollective::plugins::plugin(
 
   file { "${plugin_base_real}/${type}/${name}.rb":
     ensure => $ensure,
-    source => "puppet:///modules/mcollective/plugins/${type}/${name}.rb",
+    source => "${module_source}/${type}/${name}.rb",
     notify => Class['mcollective::server::service'],
   }
 
   if $ddl {
     file { "${plugin_base_real}/${type}/${name}.ddl":
       ensure => $ensure,
-      source => "puppet:///modules/mcollective/plugins/${type}/${name}.ddl",
+      source => "${module_source}/${type}/${name}.ddl",
     }
   }
 
   if $application {
     file { "${plugin_base_real}/application/${name}.rb":
       ensure => $ensure,
-      source => "puppet:///modules/mcollective/plugins/application/${name}.rb",
+      source => "${module_source}/application/${name}.rb",
     }
   }
 
