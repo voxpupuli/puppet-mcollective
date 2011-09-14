@@ -82,6 +82,7 @@ class mcollective(
   validate_re($version, '^[._0-9a-zA-Z:-]+$')
   validate_re($mc_security_provider, '^[a-zA-Z0-9_]+$')
   validate_re($mc_security_psk, '^[^ \t]+$')
+  validate_re($fact_source, '^facter$|^yaml$')
 
   $server_real               = $server
   $client_real               = $client
