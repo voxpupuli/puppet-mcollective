@@ -66,7 +66,9 @@ class mcollective(
   $stomp_server         = $mcollective::params::stomp_server,
   $stomp_port           = '61613',
   $mc_security_provider = $mcollective::params::mc_security_provider,
-  $mc_security_psk      = $mcollective::params::mc_security_psk
+  $mc_security_psk      = $mcollective::params::mc_security_psk,
+  $fact_source          = 'facter',
+  $yaml_facter_source   = '/etc/mcollective/facts.yaml'
 ) inherits mcollective::params {
 
   $v_bool = [ '^true$', '^false$' ]
