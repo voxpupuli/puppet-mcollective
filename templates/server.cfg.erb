@@ -24,4 +24,7 @@ plugin.stomp.password = <%= stomp_passwd %>
 plugin.nrpe.conf_dir  = <%= nrpe_dir_real %>
 
 # Facts
-factsource = facter
+factsource = <%= fact_source %>
+<% if fact_source == 'yaml' -%>
+plugin.yaml = <%= yaml_facter_source %>
+<% end -%>
