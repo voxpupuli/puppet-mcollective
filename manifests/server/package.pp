@@ -31,7 +31,7 @@ class mcollective::server::package(
         before  => Anchor['mcollective::server::package::end'],
       }
     }
-    rhel,centos,oel: {
+    redhat,centos,oel: {
       class { 'mcollective::server::package::redhat':
         version => $version,
         require => Anchor['mcollective::server::package::begin'],
