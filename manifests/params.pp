@@ -23,8 +23,8 @@ class mcollective::params {
   $mc_security_psk      = 'changemeplease'
 
   $nrpe_dir_real = $operatingsystem ? {
-    /(?i-mx:centos|fedora|redhat|oel)/ => '/etc/nrpe.d',
-    default                            => '/etc/nagios/nrpe.d',
+    /(?i-mx:centos|fedora|redhat|oel|OracleLinux)/ => '/etc/nrpe.d',
+    default                                        => '/etc/nagios/nrpe.d',
   }
   $mc_service_name = $operatingsystem ? {
     /(?i-mx:darwin)/ => 'com.puppetlabs.mcollective',
