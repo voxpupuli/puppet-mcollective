@@ -32,18 +32,18 @@ class mcollective::params {
   }
 
   $mc_libdir = $operatingsystem ? {
-    /(?i-mx:ubuntu|debian)/        => '/usr/share/mcollective/plugins',
-    /(?i-mx:centos|fedora|redhat)/ => '/usr/libexec/mcollective',
+    /(?i-mx:ubuntu|debian)/                    => '/usr/share/mcollective/plugins',
+    /(?i-mx:centos|fedora|redhat|OracleLinux)/ => '/usr/libexec/mcollective',
   }
 
   $mc_service_start = $operatingsystem ? {
-    /(?i-mx:ubuntu|debian)/        => '/etc/init.d/mcollective start',
-    /(?i-mx:centos|fedora|redhat)/ => '/sbin/service mcollective start',
+    /(?i-mx:ubuntu|debian)/                    => '/etc/init.d/mcollective start',
+    /(?i-mx:centos|fedora|redhat|OracleLinux)/ => '/sbin/service mcollective start',
   }
 
   $mc_service_stop = $operatingsystem ? {
-    /(?i-mx:ubuntu|debian)/        => '/etc/init.d/mcollective stop',
-    /(?i-mx:centos|fedora|redhat)/ => '/sbin/service mcollective stop',
+    /(?i-mx:ubuntu|debian)/                    => '/etc/init.d/mcollective stop',
+    /(?i-mx:centos|fedora|redhat|OracleLinux)/ => '/sbin/service mcollective stop',
   }
 
   $plugin_base = "${mc_libdir}/mcollective"
