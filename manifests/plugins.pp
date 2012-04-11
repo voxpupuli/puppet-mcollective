@@ -38,7 +38,7 @@ class mcollective::plugins(
   }
 
   mcollective::plugins::plugin { 'registration':
-    ensure      => present,
+    ensure      => absent,
     type        => 'agent',
     ddl         => false,
     application => false,
