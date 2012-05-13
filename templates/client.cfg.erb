@@ -1,16 +1,19 @@
 # Basic stuff
-topicprefix = <%= mc_topicprefix %>
-libdir      = <%= mc_libdir %>
-loglevel    = <%= mc_loglevel %>
+topicprefix     = <%= mc_topicprefix %>
+main_collective = <%= main_collective %>
+collectives     = <%= collectives %>
+libdir          = <%= mc_libdir %>
+loglevel        = <%= mc_loglevel %>
 
 # Plugins
 securityprovider = <%= mc_security_provider_real %>
 plugin.psk       = <%= mc_security_psk_real %>
 
 # Middleware
-connector = stomp
-plugin.stomp.host     = <%= stomp_server %>
-plugin.stomp.port     = <%= stomp_port %>
-plugin.stomp.user     = <%= stomp_user %>
-plugin.stomp.password = <%= stomp_passwd %>
-
+connector              = <%= connector %>
+plugin.stomp.pool.size = <%= stomp_pool_size %>
+<% stomp_pool_real.each do |pool,configs| -%>
+<% configs.each do |key,value| -%>
+plugin.stomp.pool.<%= key -%> = <%= value %>
+<% end -%>
+<% end -%>
