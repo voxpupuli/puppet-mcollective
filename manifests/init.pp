@@ -64,7 +64,7 @@ class mcollective(
   $client_config        = 'UNSET',
   $client_config_file   = '/etc/mcollective/client.cfg',
   $stomp_server         = $mcollective::params::stomp_server,
-  $stomp_port           = '61613',
+  $stomp_port           = '6163',
   $mc_security_provider = $mcollective::params::mc_security_provider,
   $mc_security_psk      = $mcollective::params::mc_security_psk,
   $fact_source          = 'facter',
