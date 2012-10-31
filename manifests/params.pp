@@ -22,28 +22,28 @@ class mcollective::params {
   $mc_security_provider = 'psk'
   $mc_security_psk      = 'changemeplease'
 
-  $nrpe_dir_real = $operatingsystem ? {
-    /(?i-mx:centos|fedora|redhat|oel)/ => '/etc/nrpe.d',
-    default                            => '/etc/nagios/nrpe.d',
+  $nrpe_dir_real = $osfamily ? {
+    redhat  => '/etc/nrpe.d',
+    default => '/etc/nagios/nrpe.d',
   }
-  $mc_service_name = $operatingsystem ? {
+  $mc_service_name = $osfamily ? {
     /(?i-mx:darwin)/ => 'com.puppetlabs.mcollective',
     default          => 'mcollective',
   }
 
-  $mc_libdir = $operatingsystem ? {
-    /(?i-mx:ubuntu|debian)/        => '/usr/share/mcollective/plugins',
-    /(?i-mx:centos|fedora|redhat)/ => '/usr/libexec/mcollective',
+  $mc_libdir = $osfamily ? {
+    debian  => '/usr/share/mcollective/plugins',
+    redhat  => '/usr/libexec/mcollective',
   }
 
-  $mc_service_start = $operatingsystem ? {
-    /(?i-mx:ubuntu|debian)/        => '/etc/init.d/mcollective start',
-    /(?i-mx:centos|fedora|redhat)/ => '/sbin/service mcollective start',
+  $mc_service_start = $osfamily ? {
+    debian  => '/etc/init.d/mcollective start',
+    redhat  => '/sbin/service mcollective start',
   }
 
-  $mc_service_stop = $operatingsystem ? {
-    /(?i-mx:ubuntu|debian)/        => '/etc/init.d/mcollective stop',
-    /(?i-mx:centos|fedora|redhat)/ => '/sbin/service mcollective stop',
+  $mc_service_stop = $osfamily ? {
+    debian  => '/etc/init.d/mcollective stop',
+    redhat  => '/sbin/service mcollective stop',
   }
 
   $plugin_base = "${mc_libdir}/mcollective"
