@@ -151,7 +151,7 @@ class mcollective(
   if $stomp_pool == 'UNSET' {
     $stomp_pool_real = {
       pool1 => { host1 => $stomp_server, port1 => $stomp_port, user1 => $stomp_user,
-                 passwd1 => $stomp_passwd  }
+                 password1 => $stomp_passwd  }
     }
   }
   else {
