@@ -39,6 +39,10 @@
 #  [*fact_source]         - The type of fact source. Currently only facter and yaml
 #                           are recognized
 #  [*yaml_facter_source]  - List of colon separated yaml files used by yaml fact source
+#  [*manage_yaml_facter_source*] - Manage the yaml facts by dumping all Facter facts into 
+#                             the facts.yaml file, excluding those that are highly dynamic
+#                             such as uptime. This is taken from 
+#                             http://projects.puppetlabs.com/projects/mcollective-plugins/wiki/FactsFacterYAML
 #  [*plugin_params]       - Hash of parameters passed to mcollective plugins
 #
 # Actions:
@@ -86,30 +90,31 @@
 # }
 #
 class mcollective(
-  $version              = 'UNSET',
-  $enterprise           = false,
-  $manage_packages      = true,
-  $manage_plugins       = false,
-  $server               = true,
-  $server_config        = 'UNSET',
-  $server_config_file   = '/etc/mcollective/server.cfg',
-  $client               = false,
-  $client_config        = 'UNSET',
-  $client_config_file   = '/etc/mcollective/client.cfg',
-  $main_collective      = 'mcollective',
-  $collectives          = 'mcollective',
-  $connector            = 'stomp',
-  $classesfile          = '/var/lib/puppet/state/classes.txt',
-  $stomp_pool           = {},
-  $stomp_server         = $mcollective::params::stomp_server,
-  $stomp_port           = $mcollective::params::stomp_port,
-  $stomp_user           = $mcollective::params::stomp_user,
-  $stomp_passwd         = $mcollective::params::stomp_passwd,
-  $mc_security_provider = $mcollective::params::mc_security_provider,
-  $mc_security_psk      = $mcollective::params::mc_security_psk,
-  $fact_source          = 'facter',
-  $yaml_facter_source   = '/etc/mcollective/facts.yaml',
-  $plugin_params        = {}
+  $version                   = 'UNSET',
+  $enterprise                = false,
+  $manage_packages           = true,
+  $manage_plugins            = false,
+  $server                    = true,
+  $server_config             = 'UNSET',
+  $server_config_file        = '/etc/mcollective/server.cfg',
+  $client                    = false,
+  $client_config             = 'UNSET',
+  $client_config_file        = '/etc/mcollective/client.cfg',
+  $main_collective           = 'mcollective',
+  $collectives               = 'mcollective',
+  $connector                 = 'stomp',
+  $classesfile               = '/var/lib/puppet/state/classes.txt',
+  $stomp_pool                = {},
+  $stomp_server              = $mcollective::params::stomp_server,
+  $stomp_port                = $mcollective::params::stomp_port,
+  $stomp_user                = $mcollective::params::stomp_user,
+  $stomp_passwd              = $mcollective::params::stomp_passwd,
+  $mc_security_provider      = $mcollective::params::mc_security_provider,
+  $mc_security_psk           = $mcollective::params::mc_security_psk,
+  $fact_source               = 'facter',
+  $yaml_facter_source        = '/etc/mcollective/facts.yaml',
+  $manage_yaml_facter_source = true
+  $plugin_params             = {}
 ) inherits mcollective::params
 {
   $v_bool = [ '^true$', '^false$' ]

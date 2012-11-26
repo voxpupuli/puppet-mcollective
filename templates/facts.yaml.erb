@@ -1,0 +1,17 @@
+# This is from http://projects.puppetlabs.com/projects/mcollective-plugins/wiki/FactsFacterYAML
+# but extended to exclude more dynamic facts.
+<%=
+  def sort_yaml(obj)
+    arr = obj.sort
+    out = "---\n"
+    arr.each do |element|
+      entry = {element[0] => element[1]}
+      out += entry.to_yaml.to_a[1..-1].join + "\n"
+    end
+    out
+  end
+
+  sort_yaml(scope.to_hash.reject {|k,v| k.to_s =~ /^(uptime.*|rubysitedir|_timestamp|memoryfree|extlookup_precedence|extlookup_datadir|swapfree|title|name|caller_module_name|module_name|path)$/ })
+%>
+
+# vi:tabstop=4:expandtab:ai:filetype=eruby
