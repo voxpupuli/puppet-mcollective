@@ -28,22 +28,26 @@ class mcollective::params {
   }
   $mc_service_name = $osfamily ? {
     /(?i-mx:darwin)/ => 'com.puppetlabs.mcollective',
+    Linux            => 'mcollectived',
     default          => 'mcollective',
   }
 
   $mc_libdir = $osfamily ? {
     debian  => '/usr/share/mcollective/plugins',
     redhat  => '/usr/libexec/mcollective',
+    default => '/usr/share/mcollective/plugins',
   }
 
   $mc_service_start = $osfamily ? {
     debian  => '/etc/init.d/mcollective start',
     redhat  => '/sbin/service mcollective start',
+    default => '/etc/init.d/mcollectived start',
   }
 
   $mc_service_stop = $osfamily ? {
     debian  => '/etc/init.d/mcollective stop',
     redhat  => '/sbin/service mcollective stop',
+    default => '/etc/init.d/mcollectived stop',
   }
 
   $plugin_base = "${mc_libdir}/mcollective"
