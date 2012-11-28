@@ -40,6 +40,8 @@
 #                           are recognized
 #  [*yaml_facter_source]  - List of colon separated yaml files used by yaml fact source
 #  [*plugin_params]       - Hash of parameters passed to mcollective plugins
+#  [*registration]        - Boolean determining wether mcollective server should
+#                           enable registration
 #
 # Actions:
 #
@@ -109,7 +111,8 @@ class mcollective(
   $mc_security_psk      = $mcollective::params::mc_security_psk,
   $fact_source          = 'facter',
   $yaml_facter_source   = '/etc/mcollective/facts.yaml',
-  $plugin_params        = {}
+  $plugin_params        = {},
+  $registration         = true
 ) inherits mcollective::params
 {
   $v_bool = [ '^true$', '^false$' ]

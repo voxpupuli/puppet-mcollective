@@ -12,9 +12,11 @@ classesfile     = <%= classesfile %>
 securityprovider = <%= mc_security_provider_real %>
 plugin.psk       = <%= mc_security_psk_real %>
 
+<% if registration %>
 # Registration
 registerinterval = 300
 registration     = Meta
+<% end %>
 
 # Middleware
 connector              = <%= connector %>
