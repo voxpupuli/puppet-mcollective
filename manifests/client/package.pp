@@ -16,9 +16,15 @@
 class mcollective::client::package(
   $version
 ) {
+  $mc_client_package = $osfamily ? {
+    Linux   => undef,
+    default => 'mcollective'
+  }
 
-  package { 'mcollective-client':
-    ensure	  => $version,
+  if $mc_client_package != undef {
+    package { $mc_client_package:
+      ensure	  => $version,
+    }
   }
 }
 
