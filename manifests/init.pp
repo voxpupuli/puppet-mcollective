@@ -113,7 +113,7 @@ class mcollective(
   $mc_security_psk           = $mcollective::params::mc_security_psk,
   $fact_source               = 'facter',
   $yaml_facter_source        = '/etc/mcollective/facts.yaml',
-  $manage_yaml_facter_source = true
+  $manage_yaml_facter_source = true,
   $plugin_params             = {}
 ) inherits mcollective::params
 {
