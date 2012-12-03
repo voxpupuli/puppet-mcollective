@@ -33,6 +33,7 @@ class mcollective::server::service(
 
   service { 'mcollective':
     ensure    => running,
+    enable    => true,
     name      => $mc_service_name,
     hasstatus => true,
     start     => $mc_service_start_real,
