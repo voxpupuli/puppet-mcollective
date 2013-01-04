@@ -109,7 +109,8 @@ class mcollective(
   $mc_security_psk      = $mcollective::params::mc_security_psk,
   $fact_source          = 'facter',
   $yaml_facter_source   = '/etc/mcollective/facts.yaml',
-  $plugin_params        = {}
+  $plugin_params        = {},
+  $identity             = 'UNSET'
 ) inherits mcollective::params
 {
   $v_bool = [ '^true$', '^false$' ]
