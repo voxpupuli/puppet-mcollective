@@ -100,7 +100,7 @@ class mcollective(
   $collectives          = 'mcollective',
   $connector            = 'stomp',
   $classesfile          = '/var/lib/puppet/state/classes.txt',
-  $stomp_pool           = {},
+  $stomp_pool           = 'UNSET',
   $stomp_server         = $mcollective::params::stomp_server,
   $stomp_port           = $mcollective::params::stomp_port,
   $stomp_user           = $mcollective::params::stomp_user,
@@ -109,7 +109,8 @@ class mcollective(
   $mc_security_psk      = $mcollective::params::mc_security_psk,
   $fact_source          = 'facter',
   $yaml_facter_source   = '/etc/mcollective/facts.yaml',
-  $plugin_params        = {}
+  $plugin_params        = {},
+  $identity             = 'UNSET'
 ) inherits mcollective::params
 {
   $v_bool = [ '^true$', '^false$' ]

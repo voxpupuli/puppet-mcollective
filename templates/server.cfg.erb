@@ -7,6 +7,9 @@ logfile         = <%= mc_logfile %>
 loglevel        = <%= mc_loglevel %>
 daemonize       = <%= mc_daemonize %>
 classesfile     = <%= classesfile %>
+<% if identity != 'UNSET' -%>
+identity        = <%= identity %>
+<% end -%>
 
 # Plugins
 securityprovider = <%= mc_security_provider_real %>
