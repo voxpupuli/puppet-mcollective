@@ -35,6 +35,13 @@ class mcollective::server::service(
     ensure    => running,
     name      => $mc_service_name,
     hasstatus => true,
+    enable    => $osfamily ? {
+        base    => false,
+        init    => false,
+        service => false,
+        src     => false,
+        default => true,
+    },
     start     => $mc_service_start_real,
     stop      => $mc_service_stop_real,
   }
