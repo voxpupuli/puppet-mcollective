@@ -105,6 +105,7 @@ class mcollective(
   $stomp_port           = $mcollective::params::stomp_port,
   $stomp_user           = $mcollective::params::stomp_user,
   $stomp_passwd         = $mcollective::params::stomp_passwd,
+  $mc_topicprefix       = '/topic/',
   $mc_security_provider = $mcollective::params::mc_security_provider,
   $mc_security_psk      = $mcollective::params::mc_security_psk,
   $fact_source          = 'facter',
