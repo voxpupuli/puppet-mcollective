@@ -156,7 +156,7 @@ class mcollective(
   }
   else {
     validate_hash( $stomp_pool )
-    validate_hash( $stomp_pool['pool1'] )
+    validate_hash( $stomp_pool['1'] )
     $stomp_pool_real = $stomp_pool
   }
   $stomp_pool_size = size(keys($stomp_pool_real))
