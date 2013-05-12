@@ -10,7 +10,7 @@
 #                             file.
 #  [*config_file*]        - The full path to the MCollective client
 #                             configuration file.
-# Actions:
+#  [*init_pattern*]       - Pattern used for init service.
 #
 # Requires:
 #
@@ -22,7 +22,8 @@ class mcollective::server::base(
   $enterprise,
   $manage_packages,
   $service_name,
-  $config_file
+  $config_file,
+  $init_pattern
 ) inherits mcollective::params {
 
   if $manage_packages {
@@ -43,11 +44,13 @@ class mcollective::server::base(
       mc_service_name  => $service_name,
       mc_service_stop  => false,
       mc_service_start => false,
+      init_pattern     => $init_pattern,
       subscribe        => Class['mcollective::server::config'],
       before           => Anchor['mcollective::end'],
     }
   } else {
     class { 'mcollective::server::service':
+      init_pattern => $init_pattern,
       subscribe    => Class['mcollective::server::config'],
       before       => Anchor['mcollective::end'],
     }

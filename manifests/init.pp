@@ -36,6 +36,7 @@
 #  [*stomp_pool]          - A hash used to supply all parameters needed for advanced
 #                           features like failover pools and ssl
 #  [*classesfile]         - Path to the classes file written by puppet
+#  [*init_pattern]        - Pattern used for service declaration
 #  [*fact_source]         - The type of fact source. Currently only facter and yaml
 #                           are recognized
 #  [*yaml_facter_source]  - List of colon separated yaml files used by yaml fact source
@@ -100,6 +101,7 @@ class mcollective(
   $collectives          = 'mcollective',
   $connector            = 'stomp',
   $classesfile          = '/var/lib/puppet/state/classes.txt',
+  $init_pattern         = 'UNSET',
   $stomp_pool           = {},
   $stomp_server         = $mcollective::params::stomp_server,
   $stomp_port           = $mcollective::params::stomp_port,
@@ -184,6 +186,7 @@ class mcollective(
       service_name    => $service_name,
       config          => $server_config_real,
       config_file     => $server_config_file_real,
+      init_pattern    => $init_pattern,
       require         => Anchor['mcollective::begin'],
     }
     # Also manage the plugins
