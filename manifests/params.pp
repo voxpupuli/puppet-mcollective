@@ -57,6 +57,7 @@ class mcollective::params {
     'registration',
     'security',
     'util',
+    'validator',
   ]
 
   $plugin_client_subs = [
