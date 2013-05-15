@@ -22,41 +22,47 @@ class mcollective::params {
   $mc_security_provider = 'psk'
   $mc_security_psk      = 'changemeplease'
 
-  $nrpe_dir_real = $osfamily ? {
+  $nrpe_dir_real = $::osfamily ? {
     redhat  => '/etc/nrpe.d',
     default => '/etc/nagios/nrpe.d',
   }
-  $mc_service_name = $osfamily ? {
+  $mc_service_name = $::osfamily ? {
     /(?i-mx:darwin)/ => 'com.puppetlabs.mcollective',
     default          => 'mcollective',
   }
 
-  $mc_libdir = $osfamily ? {
+  $mc_libdir = $::osfamily ? {
     debian  => '/usr/share/mcollective/plugins',
     redhat  => '/usr/libexec/mcollective',
   }
 
-  $mc_service_start = $osfamily ? {
+  $mc_service_start = $::osfamily ? {
     debian  => '/etc/init.d/mcollective start',
     redhat  => '/sbin/service mcollective start',
   }
 
-  $mc_service_stop = $osfamily ? {
+  $mc_service_stop = $::osfamily ? {
     debian  => '/etc/init.d/mcollective stop',
     redhat  => '/sbin/service mcollective stop',
   }
 
   $plugin_base = "${mc_libdir}/mcollective"
 
-  $plugin_subs = [
-    "${plugin_base}/agent",
-    "${plugin_base}/application",
-    "${plugin_base}/audit",
-    "${plugin_base}/connector",
-    "${plugin_base}/facts",
-    "${plugin_base}/registration",
-    "${plugin_base}/security",
-    "${plugin_base}/util",
+  $plugin_server_subs = [
+    'agent',
+    'application',
+    'audit',
+    'connector',
+    'facts',
+    'registration',
+    'security',
+    'util',
+  ]
+
+  $plugin_client_subs = [
+    'application',
+    'aggregate',
+    'sbin',
   ]
 
   $client_config_owner  = '0'
