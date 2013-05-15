@@ -39,6 +39,10 @@ class mcollective::plugins(
   mcollective::plugins::plugin_dir {$mcollective::params::plugin_server_subs: }
 
   # client directories
-  mcollective::plugins::plugin_dir {$mcollective::params::plugin_client_subs: }
+  if $client {
+    mcollective::plugins::plugin_dir {
+      $mcollective::params::plugin_client_subs:
+    }
+  }
 }
 
