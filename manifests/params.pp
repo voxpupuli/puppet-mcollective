@@ -60,7 +60,6 @@ class mcollective::params {
   ]
 
   $plugin_client_subs = [
-    'application',
     'aggregate',
     'sbin',
   ]
