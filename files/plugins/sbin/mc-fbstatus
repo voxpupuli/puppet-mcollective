@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+require 'mcollective'
+include MCollective::RPC
+
+options = rpcoptions do |parser, options|
+    parser.define_head "Fundbutter mon.jsp interface"
+    parser.banner = "\n\nUsage:  #{$0} [options] [filters] [--monitor monitor]\n"
+
+    parser.separator "If --monitor is not sepcified, the status action is assumed."
+    parser.separator ""
+    parser.separator "This agent only applies to Fundbutter servers, and the -W filter is enforced to /fb/."
+    parser.separator ""
+
+    parser.on('-m', '--monitor MONITOR', 'Monitor to check') do |v|
+        options[:monitor] = v
+    end
+end
+
+mc = rpcclient("fbstatus", :options => options)
+# This agent only applies to FB servers.  Force the filter.
+mc.class_filter /fb/
+
+if MCollective::Util.empty_filter?(options[:filter])
+    print "\n\nYour filters are currently empty.\n"
+    print "This agent is only supported on FB servers.  Continue with empty filters? (y/n): "
+    STDOUT.flush
+
+    exit unless STDIN.gets.chomp =~ /^y$/
+end
+
+if options.include?(:monitor)
+    printrpc mc.monitor(:monitor => options[:monitor])
+else
+    printrpc mc.status(), :verbose => options[:verbose]
+end
+
+
+printrpcstats
+
+mc.disconnect
