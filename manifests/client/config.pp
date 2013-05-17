@@ -27,7 +27,7 @@ class mcollective::client::config(
   file { 'client_config':
     path    => $config_file,
     content => $config,
-    mode    => '0600',
+    mode    => '0644',
     owner   => $client_config_owner,
     group   => $client_config_group,
   }
