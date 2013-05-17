@@ -63,6 +63,7 @@ class mcollective::params {
   $plugin_client_subs = [
     'aggregate',
     'sbin',
+    'inventory',
   ]
 
   $client_config_owner  = '0'
