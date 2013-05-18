@@ -3,7 +3,7 @@ metadata    :name           => "SimpleRPC Fundbutter mon.jsp Agent.",
             :author         => "Kevin Wolf",
             :license        => "Apache v.2",
             :url            => "",
-            :version        => "0.1",
+            :version        => "0.5",
             :timeout        => 2
 
 action "status", :description => "Displays the status of Fundbutter based on mon.jsp" do

@@ -4,14 +4,6 @@ require 'uri'
 module MCollective
     module Agent
         class Fbstatus<RPC::Agent
-            metadata    :name           => "SimpleRPC Fundbutter mon.jsp Agent.",
-                        :description    => "Interface to Fundbutter's mon.jsp monitoring page",
-                        :author         => "Kevin Wolf",
-                        :license        => "Apache v.2",
-                        :url            => "",
-                        :version        => "0.1",
-                        :timeout        => 2
-
             action "status" do
                 response = get_monjsp
                 reply.fail! unless response =~ /I am alive. Thank you for asking./
@@ -27,7 +19,7 @@ module MCollective
             end
 
             def scrub_response str
-                str.match /^.*=(.*)/
+                str.match(/^.*=(.*)/)
                 str = $1
                 str.gsub!("\\/","/")
                 str.gsub!("\^", " ")
