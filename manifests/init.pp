@@ -15,6 +15,8 @@
 #                             file.
 #  [*server_config_file*] - The full path to the MCollective server
 #                             configuration file.
+#  [*direct_addressing*]  - Boolean determining wwhether to use direct
+#                             addressing.  Default => fals
 #  [*client*]             - Boolean determining whether you would like to
 #                             install the client component.
 #  [*client_config*]      - The content of the MCollective client configuration
@@ -94,6 +96,7 @@ class mcollective(
   $server               = true,
   $server_config        = 'UNSET',
   $server_config_file   = '/etc/mcollective/server.cfg',
+  $direct_addressing    = false,
   $client               = false,
   $client_config        = 'UNSET',
   $client_config_file   = '/etc/mcollective/client.cfg',

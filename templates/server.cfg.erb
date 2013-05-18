@@ -1,20 +1,23 @@
 # Basic stuff
-topicprefix     = <%= mc_topicprefix %>
-main_collective = <%= main_collective %>
-collectives     = <%= collectives %>
-libdir          = <%= mc_libdir %>
-logfile         = <%= mc_logfile %>
-loglevel        = <%= mc_loglevel %>
-daemonize       = <%= mc_daemonize %>
-classesfile     = <%= classesfile %>
+topicprefix       = <%= mc_topicprefix %>
+main_collective   = <%= main_collective %>
+collectives       = <%= collectives %>
+libdir            = <%= mc_libdir %>
+logfile           = <%= mc_logfile %>
+loglevel          = <%= mc_loglevel %>
+daemonize         = <%= mc_daemonize %>
+classesfile       = <%= classesfile %>
+<% if direct_addressing -%>
+direct_addressing = 1
+<% end -%>
 
 # Plugins
-securityprovider = <%= mc_security_provider_real %>
-plugin.psk       = <%= mc_security_psk_real %>
+securityprovider  = <%= mc_security_provider_real %>
+plugin.psk        = <%= mc_security_psk_real %>
 
 # Registration
-registerinterval = 300
-registration     = Meta
+registerinterval  = 300
+registration      = Meta
 
 # Middleware
 connector              = <%= connector %>
