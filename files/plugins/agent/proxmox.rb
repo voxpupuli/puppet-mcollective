@@ -31,7 +31,7 @@ module MCollective
 
             def calcmemused(total, used)
                 used = Float(used) / Float(total)
-                "%.2f" % used 
+                "%.2f%%" % (used * 100)
             end
 
             def getallocprocessors

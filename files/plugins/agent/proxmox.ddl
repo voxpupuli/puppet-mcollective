@@ -2,7 +2,7 @@ metadata    :name        => "proxmox",
             :description => "Display information about VM's",
             :author      => "Kevin Wolf",
             :license     => "",
-            :version     => "0.1",
+            :version     => "0.2",
             :url         => "",
             :timeout     => 10
 
