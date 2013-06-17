@@ -33,7 +33,7 @@
 #  [*stomp_port]          - Port on stomp server to connect to
 #  [*stomp_user]          - Username used to authenticate on stomp server
 #  [*stomp_passwd]        - Password used to authenticate on stomp server
-#  [*stomp_pool]          - A hash used to supply all parameters needed for advanced
+#  [*connection_pool]          - A hash used to supply all parameters needed for advanced
 #                           features like failover pools and ssl
 #  [*classesfile]         - Path to the classes file written by puppet
 #  [*fact_source]         - The type of fact source. Currently only facter and yaml
@@ -80,7 +80,7 @@
 #
 #   class {
 #     mcollective:
-#       stomp_pool => { pool1 => $stomp_server1, pool2 => $stomp_server2 },
+#       connection_pool => { pool1 => $stomp_server1, pool2 => $stomp_server2 },
 #       plugin_params => { 'puppetd.puppetd' => '/usr/bin/puppet agent' }
 #   }
 # }
@@ -98,15 +98,17 @@ class mcollective(
   $client_config_file   = '/etc/mcollective/client.cfg',
   $main_collective      = 'mcollective',
   $collectives          = 'mcollective',
+  $rabbitmq_vhost       = '/mcollective',
   $connector            = 'stomp',
   $classesfile          = '/var/lib/puppet/state/classes.txt',
-  $stomp_pool           = {},
+  $connection_pool      = {},
   $stomp_server         = $mcollective::params::stomp_server,
   $stomp_port           = $mcollective::params::stomp_port,
   $stomp_user           = $mcollective::params::stomp_user,
   $stomp_passwd         = $mcollective::params::stomp_passwd,
   $mc_security_provider = $mcollective::params::mc_security_provider,
   $mc_security_psk      = $mcollective::params::mc_security_psk,
+  $registration_plugin  = 'Agentlist',
   $fact_source          = 'facter',
   $yaml_facter_source   = '/etc/mcollective/facts.yaml',
   $plugin_params        = {}
@@ -124,7 +126,7 @@ class mcollective(
   validate_re($mc_security_provider, '^[a-zA-Z0-9_]+$')
   validate_re($mc_security_psk, '^[^ \t]+$')
   validate_re($fact_source, '^facter$|^yaml$')
-  validate_re($connector, '^stomp$|^activemq$')
+  validate_re($connector, '^stomp$|^activemq$|^rabbitmq$')
   validate_hash($plugin_params)
 
   $server_real               = $server
@@ -148,18 +150,18 @@ class mcollective(
   }
 
   # if no pool hash is provided, create a single pool using defaults
-  if $stomp_pool == 'UNSET' {
-    $stomp_pool_real = {
-      pool1 => { host1 => $stomp_server, port1 => $stomp_port, user1 => $stomp_user,
+  if $connection_pool == 'UNSET' {
+    $connection_pool_real = {
+      1 => { host1 => $stomp_server, port1 => $stomp_port, user1 => $stomp_user,
                  password1 => $stomp_passwd  }
     }
   }
   else {
-    validate_hash( $stomp_pool )
-    validate_hash( $stomp_pool['pool1'] )
-    $stomp_pool_real = $stomp_pool
+    validate_hash( $connection_pool )
+    validate_hash( $connection_pool['1'] )
+    $connection_pool_real = $connection_pool
   }
-  $stomp_pool_size = size(keys($stomp_pool_real))
+  $connection_pool_size = size(keys($connection_pool_real))
 
   if $client_config == 'UNSET' {
     $client_config_real = template('mcollective/client.cfg.erb')
