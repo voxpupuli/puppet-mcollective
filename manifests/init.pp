@@ -124,7 +124,7 @@ class mcollective(
   validate_re($mc_security_provider, '^[a-zA-Z0-9_]+$')
   validate_re($mc_security_psk, '^[^ \t]+$')
   validate_re($fact_source, '^facter$|^yaml$')
-  validate_re($connector, '^stomp$|^activemq$')
+  validate_re($connector, '^stomp$|^activemq$|^rabbitmq$')
   validate_hash($plugin_params)
 
   $server_real               = $server
