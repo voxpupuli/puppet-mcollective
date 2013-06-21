@@ -18,8 +18,8 @@ registration     = Meta
 
 # Middleware
 connector              = <%= connector %>
-plugin.<%= connector %>.pool.size = <%= stomp_pool_size %>
-<% stomp_pool_real.sort.each do |pool,configs| -%>
+plugin.<%= connector %>.pool.size = <%= mw_pool_size %>
+<% mw_pool_real.sort.each do |pool,configs| -%>
 <% configs.sort.each do |key,value| -%>
 plugin.<%= connector %>.pool.<%= key -%> = <%= value %>
 <% end -%>

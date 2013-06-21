@@ -21,7 +21,7 @@
 #                             file.
 #  [*client_config_file*] - The full path to the MCollective client
 #                             configuration file.
-#  [*stomp_server*]       - The hostname of the stomp server.
+#  [*mw_server*]       - The hostname of the stomp server.
 #  [*mc_security_provider*] - The MCollective security provider
 #  [*mc_security_psk*]    - The MCollective pre shared key
 #  [*main_collective]     - Sets the default collective
@@ -29,11 +29,11 @@
 #  [*connector]           - The stomp connector to use. Currently only stomp and
 #                           activemq are recognized. Note activemq only supported
 #                           on version 1.3.2+
-#  [*stomp_server]        - Name or ip of stomp server
-#  [*stomp_port]          - Port on stomp server to connect to
-#  [*stomp_user]          - Username used to authenticate on stomp server
-#  [*stomp_passwd]        - Password used to authenticate on stomp server
-#  [*stomp_pool]          - A hash used to supply all parameters needed for advanced
+#  [*mw_server]        - Name or ip of stomp server
+#  [*mw_port]          - Port on stomp server to connect to
+#  [*mw_user]          - Username used to authenticate on stomp server
+#  [*mw_passwd]        - Password used to authenticate on stomp server
+#  [*mw_pool]          - A hash used to supply all parameters needed for advanced
 #                           features like failover pools and ssl
 #  [*classesfile]         - Path to the classes file written by puppet
 #  [*fact_source]         - The type of fact source. Currently only facter and yaml
@@ -68,20 +68,20 @@
 #     client              => true,
 #     client_config       => template('mcollective/client.cfg.erb'),
 #     client_config_file  => '/home/mcollective/.mcollective',
-#     stomp_server        => 'stomp',
+#     mw_server        => 'stomp',
 #   }
 # }
 #
 # To setup stomp failover pools, ssl and plugin parameters:
 # node default {
-#   $stomp_server1 = { host1 => 'stomp1', port1 => '61612', user1 => 'mcollective',
+#   $mw_server1 = { host1 => 'stomp1', port1 => '61612', user1 => 'mcollective',
 #     password1 => 'marionette'}
-#   $stomp_server2 = { host2 => 'stomp2', port2 => '6163', user2 => 'mcollective',
+#   $mw_server2 = { host2 => 'stomp2', port2 => '6163', user2 => 'mcollective',
 #     password2 => 'marionette', ssl2 => 'true' }
 #
 #   class {
 #     mcollective:
-#       stomp_pool => { pool1 => $stomp_server1, pool2 => $stomp_server2 },
+#       mw_pool => { pool1 => $mw_server1, pool2 => $mw_server2 },
 #       plugin_params => { 'puppetd.puppetd' => '/usr/bin/puppet agent' }
 #   }
 # }
@@ -101,11 +101,11 @@ class mcollective(
   $collectives          = 'mcollective',
   $connector            = 'stomp',
   $classesfile          = '/var/lib/puppet/state/classes.txt',
-  $stomp_pool           = {},
-  $stomp_server         = $mcollective::params::stomp_server,
-  $stomp_port           = $mcollective::params::stomp_port,
-  $stomp_user           = $mcollective::params::stomp_user,
-  $stomp_passwd         = $mcollective::params::stomp_passwd,
+  $mw_pool           = {},
+  $mw_server         = $mcollective::params::mw_server,
+  $mw_port           = $mcollective::params::mw_port,
+  $mw_user           = $mcollective::params::mw_user,
+  $mw_passwd         = $mcollective::params::mw_passwd,
   $mc_security_provider = $mcollective::params::mc_security_provider,
   $mc_security_psk      = $mcollective::params::mc_security_psk,
   $fact_source          = 'facter',
@@ -132,7 +132,7 @@ class mcollective(
   $client_real               = $client
   $client_config_file_real   = $client_config_file
   $server_config_file_real   = $server_config_file
-  $stomp_server_real         = $stomp_server
+  $mw_server_real         = $mw_server
   $mc_security_provider_real = $mc_security_provider
   $mc_security_psk_real      = $mc_security_psk
 
@@ -149,18 +149,18 @@ class mcollective(
   }
 
   # if no pool hash is provided, create a single pool using defaults
-  if empty($stomp_pool) {
-    $stomp_pool_real = {
-      pool1 => { host1 => $stomp_server, port1 => $stomp_port, user1 => $stomp_user,
-                 password1 => $stomp_passwd  }
+  if empty($mw_pool) {
+    $mw_pool_real = {
+      pool1 => { host1 => $mw_server, port1 => $mw_port, user1 => $mw_user,
+                 password1 => $mw_passwd  }
     }
   }
   else {
-    validate_hash( $stomp_pool )
-    validate_hash( $stomp_pool['pool1'] )
-    $stomp_pool_real = $stomp_pool
+    validate_hash( $mw_pool )
+    validate_hash( $mw_pool['pool1'] )
+    $mw_pool_real = $mw_pool
   }
-  $stomp_pool_size = size(keys($stomp_pool_real))
+  $mw_pool_size = size(keys($mw_pool_real))
 
   if $client_config == 'UNSET' {
     $client_config_real = template('mcollective/client.cfg.erb')

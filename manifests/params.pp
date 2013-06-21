@@ -64,10 +64,10 @@ class mcollective::params {
   $server_config_owner  = '0'
   $server_config_group  = '0'
 
-  $stomp_user    = 'mcollective'
-  $stomp_passwd  = 'marionette'
-  $stomp_server  = 'stomp'
-  $stomp_port    = '6163'
+  $mw_user    = 'mcollective'
+  $mw_passwd  = 'marionette'
+  $mw_server  = 'stomp'
+  $mw_port    = '6163'
 
   $pkg_state = 'present'
 
