@@ -45,6 +45,7 @@
 #
 # Requires:
 #
+#   class['stdlib']
 #   Class['java']
 #   Class['activemq']
 #
@@ -148,7 +149,7 @@ class mcollective(
   }
 
   # if no pool hash is provided, create a single pool using defaults
-  if $stomp_pool == 'UNSET' {
+  if empty($stomp_pool) {
     $stomp_pool_real = {
       pool1 => { host1 => $stomp_server, port1 => $stomp_port, user1 => $stomp_user,
                  password1 => $stomp_passwd  }
