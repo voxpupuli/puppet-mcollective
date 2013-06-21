@@ -24,6 +24,7 @@
 #  [*mw_server*]       - The hostname of the stomp server.
 #  [*mc_security_provider*] - The MCollective security provider
 #  [*mc_security_psk*]    - The MCollective pre shared key
+#  [*registration*]       - Registration plugin to be used
 #  [*main_collective]     - Sets the default collective
 #  [*collectives]         - Sets the collectives a server node belongs to
 #  [*connector]           - The stomp connector to use. Currently only stomp and
@@ -108,6 +109,7 @@ class mcollective(
   $mw_passwd         = $mcollective::params::mw_passwd,
   $mc_security_provider = $mcollective::params::mc_security_provider,
   $mc_security_psk      = $mcollective::params::mc_security_psk,
+  $registration         = $mcollective::params::registration,
   $fact_source          = 'facter',
   $yaml_facter_source   = '/etc/mcollective/facts.yaml',
   $plugin_params        = {}
