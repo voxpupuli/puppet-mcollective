@@ -23,7 +23,7 @@ direct_addressing      = <%= direct_addressing_real %>
 plugin.<%= connector %>.pool.size = <%= mw_pool_size %>
 <% mw_pool_real.sort.each do |pool,configs| -%>
 <% configs.sort.each do |key,value| -%>
-plugin.<%= connector %>.pool.<%= key -%> = <%= value %>
+plugin.<%= connector %>.pool.<% if connector != 'stomp' %><%= pool %>.<% end %><%= key -%> = <%= value %>
 <% end -%>
 <% end -%>
 

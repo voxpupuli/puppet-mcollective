@@ -156,9 +156,16 @@ class mcollective(
 
   # if no pool hash is provided, create a single pool using defaults
   if empty($mw_pool) {
-    $mw_pool_real = {
-      pool1 => { host1 => $mw_server, port1 => $mw_port, user1 => $mw_user,
-                 password1 => $mw_passwd  }
+    if $connector == 'stomp' {
+      $mw_pool_real = {
+        1 => { host1 => $mw_server, port1 => $mw_port, user1 => $mw_user,
+                   password1 => $mw_passwd  }
+      }
+    } else {
+      $mw_pool_real = {
+        1 => { host => $mw_server, port => $mw_port, user => $mw_user,
+                   password => $mw_passwd  }
+      }
     }
   }
   else {
