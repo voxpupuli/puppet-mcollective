@@ -23,3 +23,8 @@ plugin.<%= connector %>.pool.<% if connector != 'stomp' %><%= pool %>.<% end %><
 plugin.<%= param -%> = <%= value %>
 <% end -%>
 
+# Facts
+factsource = <%= fact_source %>
+<% if fact_source == 'yaml' -%>
+plugin.yaml = <%= yaml_facter_source %>
+<% end -%>
