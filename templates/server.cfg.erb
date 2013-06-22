@@ -20,6 +20,7 @@ registration     = <%= registration %>
 # Middleware
 connector              = <%= connector %>
 direct_addressing      = <%= direct_addressing_real %>
+<% if connector == 'rabbitmq' %>plugin.rabbitmq.vhost	= <%= rabbitmq_vhost %><% end %>
 plugin.<%= connector %>.pool.size = <%= mw_pool_size %>
 <% mw_pool_real.sort.each do |pool,configs| -%>
 <% configs.sort.each do |key,value| -%>

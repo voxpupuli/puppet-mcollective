@@ -105,6 +105,7 @@ class mcollective(
   $collectives          = 'mcollective',
   $connector            = 'stomp',
   $direct_addressing    = 'UNSET',
+  $rabbitmq_vhost       = '/mcollective',
   $classesfile          = '/var/lib/puppet/state/classes.txt',
   $mw_pool           = {},
   $mw_server         = $mcollective::params::mw_server,
