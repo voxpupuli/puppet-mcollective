@@ -30,6 +30,9 @@
 #  [*connector]           - The stomp connector to use. Currently only stomp and
 #                           activemq are recognized. Note activemq only supported
 #                           on version 1.3.2+
+#  [*direct_addressing*]  - Enable or disable direct addressing. If not set
+#                           then defaults to 0 when using stomp connector and 1
+#                           when using other connectors.
 #  [*mw_server]        - Name or ip of stomp server
 #  [*mw_port]          - Port on stomp server to connect to
 #  [*mw_user]          - Username used to authenticate on stomp server
@@ -101,6 +104,7 @@ class mcollective(
   $main_collective      = 'mcollective',
   $collectives          = 'mcollective',
   $connector            = 'stomp',
+  $direct_addressing    = 'UNSET',
   $classesfile          = '/var/lib/puppet/state/classes.txt',
   $mw_pool           = {},
   $mw_server         = $mcollective::params::mw_server,
@@ -163,6 +167,16 @@ class mcollective(
     $mw_pool_real = $mw_pool
   }
   $mw_pool_size = size(keys($mw_pool_real))
+
+  if $direct_addressing == 'UNSET' {
+    if $connector == 'stomp' {
+      $direct_addressing_real = 0
+    } else {
+      $direct_addressing_real = 1
+    }
+  } else {
+    $direct_addressing_real = $direct_addressing
+  }
 
   if $client_config == 'UNSET' {
     $client_config_real = template('mcollective/client.cfg.erb')
