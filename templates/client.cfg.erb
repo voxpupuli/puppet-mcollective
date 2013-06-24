@@ -11,9 +11,16 @@ plugin.psk       = <%= mc_security_psk_real %>
 
 # Middleware
 connector              = <%= connector %>
-plugin.stomp.pool.size = <%= stomp_pool_size %>
-<% stomp_pool_real.sort.each do |pool,configs| -%>
+<% if connector == 'rabbitmq' -%>
+plugin.<%= connector %>.vhost = <%= rabbitmq_vhost %>
+<% end -%>
+plugin.<%= connector %>.pool.size = <%= connection_pool_size %>
+<% connection_pool_real.sort.each do |pool,configs| -%>
 <% configs.sort.each do |key,value| -%>
-plugin.stomp.pool.<%= key -%> = <%= value %>
+<%
+	realKey = "#{pool}.#{key}"
+	realKey = "#{key}#{pool}" unless connector != 'stomp'
+-%>
+plugin.<%= connector %>.pool.<%= realKey -%> = <%= value %>
 <% end -%>
 <% end -%>
