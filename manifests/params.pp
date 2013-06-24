@@ -71,4 +71,8 @@ class mcollective::params {
 
   $pkg_state = 'present'
 
+  # Add anchor resources for containment
+  anchor { 'mcollective::begin': }
+  anchor { 'mcollective::end': }
+
 }

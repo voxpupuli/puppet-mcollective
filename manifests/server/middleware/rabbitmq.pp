@@ -19,7 +19,8 @@ class mcollective::server::middleware::rabbitmq (
 	$delete_guest_user	= true,
 	$mcollective_vhost	= '/mcollective',
 	$mcollective_user	= 'mcollective',
-	$mcollective_pass	= 'UNSET'
+	$mcollective_pass	= 'UNSET',
+	$collectives		= [ 'mcollective' ]
 ) {
 
 	package { 'amqp' :
@@ -61,18 +62,27 @@ class mcollective::server::middleware::rabbitmq (
 		require					=> [ Rabbitmq_vhost[$mcollective_vhost], Rabbitmq_user[$mcollective_user] ]
 	}
 
-	rabbitmq_exchange { "moria_broadcast@${mcollective_vhost}" :
-		exchange_type	=> topic,
-		user			=> $mcollective_user,
-		pass			=> $mcollective_pass,
-		require			=> Rabbitmq_user_permissions["${mcollective_user}@${mcollective_vhost}"]
+	# Create required excahnges for each collective
+	define exchanges ( $collective = $title, $mcollective_user, $mcollective_pass, $mcollective_vhost ) {
+		rabbitmq_exchange { "${collective}_broadcast@${mcollective_vhost}" :
+			exchange_type	=> topic,
+			user			=> $mcollective_user,
+			password		=> $mcollective_pass,
+			require			=> Rabbitmq_user_permissions["${mcollective_user}@${mcollective_vhost}"]
+		}
+
+		rabbitmq_exchange { "${collective}_directed@${mcollective_vhost}" :
+			exchange_type	=> direct,
+			user			=> $mcollective_user,
+			password		=> $mcollective_pass,
+			require			=> Rabbitmq_user_permissions["${mcollective_user}@${mcollective_vhost}"]
+		}
 	}
 
-	rabbitmq_exchange { "moria_directed@${mcollective_vhost}" :
-		exchange_type	=> direct,
-		user			=> $mcollective_user,
-		pass			=> $mcollective_pass,
-		require			=> Rabbitmq_user_permissions["${mcollective_user}@${mcollective_vhost}"]
+	exchanges { $collectives :
+		mcollective_user	=> $mcollective_user,
+		mcollective_vhost	=> $mcollective_vhost,
+		mcollective_pass	=> $mcollective_pass
 	}
 
 }

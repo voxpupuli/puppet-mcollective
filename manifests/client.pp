@@ -1,4 +1,4 @@
-# Class: mcollective
+# Class: mcollective::client
 #
 # This module manages MCollective.
 #
@@ -6,17 +6,8 @@
 #
 #  [*version*]            - The version of the MCollective package(s) to
 #                             be installed.
-#  [*server*]             - Boolean determining whether you would like to
-#                             install the server component.
 #  [*manage_packages]     - Boolean determining whether module should install
 #                           required packages
-#  [*manage_plugins]      - Boolean controlling installation of plugins in module
-#  [*server_config*]      - The content of the MCollective server configuration
-#                             file.
-#  [*server_config_file*] - The full path to the MCollective server
-#                             configuration file.
-#  [*client*]             - Boolean determining whether you would like to
-#                             install the client component.
 #  [*client_config*]      - The content of the MCollective client configuration
 #                             file.
 #  [*client_config_file*] - The full path to the MCollective client
@@ -53,18 +44,14 @@
 # The module works with sensible defaults:
 #
 # node default {
-#   include mcollective
+#   include mcollective::client
 # }
 #
 # These defaults are:
 #
 # node default {
-#   class { 'mcollective':
+#   class { 'mcollective::client':
 #     version             => 'present',
-#     server              => true,
-#     server_config       => template('mcollective/server.cfg.erb'),
-#     server_config_file  => '/etc/mcollective/server.cfg',
-#     client              => true,
 #     client_config       => template('mcollective/client.cfg.erb'),
 #     client_config_file  => '/home/mcollective/.mcollective',
 #     stomp_server        => 'stomp',
@@ -85,15 +72,10 @@
 #   }
 # }
 #
-class mcollective(
+class mcollective::client (
   $version              = 'UNSET',
   $enterprise           = false,
   $manage_packages      = true,
-  $manage_plugins       = false,
-  $server               = true,
-  $server_config        = 'UNSET',
-  $server_config_file   = '/etc/mcollective/server.cfg',
-  $client               = false,
   $client_config        = 'UNSET',
   $client_config_file   = '/etc/mcollective/client.cfg',
   $main_collective      = 'mcollective',
@@ -117,10 +99,7 @@ class mcollective(
   $v_bool = [ '^true$', '^false$' ]
   validate_bool($manage_packages)
   validate_bool($enterprise)
-  validate_bool($manage_plugins)
-  validate_re($server_config_file, '^/')
-  validate_re("$server", $v_bool)
-  validate_re("$client", $v_bool)
+  validate_re($client_config_file, '^/')
   validate_re($version, '^[._0-9a-zA-Z:-]+$')
   validate_re($mc_security_provider, '^[a-zA-Z0-9_]+$')
   validate_re($mc_security_psk, '^[^ \t]+$')
@@ -128,8 +107,7 @@ class mcollective(
   validate_re($connector, '^stomp$|^activemq$|^rabbitmq$')
   validate_hash($plugin_params)
 
-  $server_real               = $server
-  $server_config_file_real   = $server_config_file
+  $client_config_file_real   = $client_config_file
   $stomp_server_real         = $stomp_server
   $mc_security_provider_real = $mc_security_provider
   $mc_security_psk_real      = $mc_security_psk
@@ -160,56 +138,19 @@ class mcollective(
   }
   $connection_pool_size = size(keys($connection_pool_real))
 
-  if $server_config == 'UNSET' {
-    $server_config_real = template('mcollective/server.cfg.erb')
+  if $client_config == 'UNSET' {
+    $client_config_real = template('mcollective/client.cfg.erb')
   } else {
-    $server_config_real = $server_config
+    $client_config_real = $client_config
   }
 
-  if $server_real {
-    class { 'mcollective::server::base':
-      version         => $version_real,
-      enterprise      => $enterprise,
-      manage_packages => $manage_packages,
-      service_name    => $service_name,
-      config          => $server_config_real,
-      config_file     => $server_config_file_real,
-      require         => Anchor['mcollective::begin'],
-    }
-    # Also manage the plugins
-    if $manage_plugins {
-      class { 'mcollective::plugins':
-        require => Class['mcollective::server::base'],
-        before  => Anchor['mcollective::end'],
-      }
-    }
-  }
-
-  if $client {
-    class { 'mcollective::client' :
-      version              => $version,
-      enterprise           => $enterprise,
-      manage_packages      => $manage_packages,
-      client_config        => $client_config,
-      client_config_file   => $client_config_file,
-      main_collective      => $main_collective,
-      collectives          => $collectives,
-      rabbitmq_vhost       => $rabbitmq_vhost,
-      connector            => $connector,
-      classesfile          => $classesfile,
-      connection_pool      => $connection_pool,
-      stomp_server         => $stomp_server,
-      stomp_port           => $stomp_port,
-      stomp_user           => $stomp_user,
-      stomp_passwd         => $stomp_passwd,
-      mc_security_provider => $mc_security_provider,
-      mc_security_psk      => $mc_security_psk,
-      registration_plugin  => $registration_plugin,
-      fact_source          => $fact_source,
-      yaml_facter_source   => $yaml_facter_source,
-      plugin_params        => $plugin_params
-    }
+  class { 'mcollective::client::base':
+    version         => $version_real,
+    config          => $client_config_real,
+    config_file     => $client_config_file_real,
+    manage_packages => $manage_packages,
+    require         => Anchor['mcollective::begin'],
+    before          => Anchor['mcollective::end'],
   }
 
 }
-
