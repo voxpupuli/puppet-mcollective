@@ -26,6 +26,7 @@
 #  [*stomp_server*]       - The hostname of the stomp server.
 #  [*mc_security_provider*] - The MCollective security provider
 #  [*mc_security_psk*]    - The MCollective pre shared key
+#  [*mc_loglevel*]        - The log level for mcollective - default: log
 #  [*main_collective]     - Sets the default collective
 #  [*collectives]         - Sets the collectives a server node belongs to
 #  [*connector]           - The stomp connector to use. Currently only stomp and
@@ -112,6 +113,7 @@ class mcollective(
   $stomp_passwd         = $mcollective::params::stomp_passwd,
   $mc_security_provider = $mcollective::params::mc_security_provider,
   $mc_security_psk      = $mcollective::params::mc_security_psk,
+  $mc_loglevel          = $mcollective::params::log_level,
   $fact_source          = 'facter',
   $yaml_facter_source   = '/etc/mcollective/facts.yaml',
   $plugin_params        = {}
