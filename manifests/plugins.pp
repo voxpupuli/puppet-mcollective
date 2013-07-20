@@ -18,13 +18,15 @@
 #
 class mcollective::plugins(
   $plugin_base = $mcollective::params::plugin_base,
-  $plugin_subs = $mcollective::params::plugin_subs
+  $plugin_subs = $mcollective::params::plugin_subs,
+  $client = false
 ) inherits mcollective::params {
 
   File {
-    owner => '0',
-    group => '0',
-    mode  => '0644',
+    owner  => '0',
+    group  => '0',
+    mode   => '0644',
+    ignore => '.svn',
   }
 
   # $plugin_base and $plugin_subs are meant to be arrays.
@@ -32,50 +34,15 @@ class mcollective::plugins(
     ensure  => directory,
     require => Class['mcollective::server::package'],
   }
-  file { $plugin_subs:
-    ensure => directory,
-    notify => Class['mcollective::server::service'],
-  }
 
-  mcollective::plugins::plugin { 'registration':
-    ensure      => present,
-    type        => 'agent',
-    ddl         => false,
-    application => false,
-  }
-  mcollective::plugins::plugin { 'facter_facts':
-    ensure => present,
-    type   => 'facts',
-  }
-  mcollective::plugins::plugin { 'yaml_facts':
-    ensure => present,
-    type   => 'facts',
-  }
-  mcollective::plugins::plugin { 'service':
-    ensure      => present,
-    type        => 'agent',
-    ddl         => true,
-    application => false,
-  }
-  mcollective::plugins::plugin { 'package':
-    ensure      => present,
-    type        => 'agent',
-    ddl         => true,
-    application => false,
-  }
-  mcollective::plugins::plugin { 'meta':
-    ensure      => present,
-    type        => 'registration',
-    ddl         => false,
-    application => false,
-  }
-  # Add the NRPE Agent by default
-  mcollective::plugins::plugin { 'nrpe':
-    ensure      => present,
-    type        => 'agent',
-    ddl         => true,
-    application => true,
-  }
+  # common directories
+  mcollective::plugins::plugin_dir {$mcollective::params::plugin_server_subs: }
 
+  # client directories
+  if $client {
+    mcollective::plugins::plugin_dir {
+      $mcollective::params::plugin_client_subs:
+    }
+  }
 }
 

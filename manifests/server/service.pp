@@ -7,6 +7,7 @@
 #  [*mc_service_name*]  - The name of the mcollective service
 #  [*mc_service_stop*]  - The command used to stop the mcollective service
 #  [*mc_service_start*] - The command used to start the mcollective service
+#  [*init_pattern*]     - The pattern used for the init service.
 #
 # Actions:
 #
@@ -17,7 +18,8 @@
 class mcollective::server::service(
   $mc_service_name     = $mcollective::params::mc_service_name,
   $mc_service_stop     = 'UNSET',
-  $mc_service_start    = 'UNSET'
+  $mc_service_start    = 'UNSET',
+  $init_pattern        = 'UNSET'
 ) {
 
   $mc_service_stop_real = $mc_service_stop ? {
@@ -31,10 +33,19 @@ class mcollective::server::service(
     default => $mc_service_start,
   }
 
+  if $init_pattern != 'UNSET' {
+    $hasstatus = undef
+    $pattern   = $init_pattern
+  } else {
+    $hasstatus = true
+    $pattern   = undef
+  }
+
   service { 'mcollective':
     ensure    => running,
     name      => $mc_service_name,
-    hasstatus => true,
+    pattern   => $pattern,
+    hasstatus => $hasstatus,
     start     => $mc_service_start_real,
     stop      => $mc_service_stop_real,
   }

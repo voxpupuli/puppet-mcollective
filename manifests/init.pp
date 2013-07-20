@@ -15,6 +15,8 @@
 #                             file.
 #  [*server_config_file*] - The full path to the MCollective server
 #                             configuration file.
+#  [*direct_addressing*]  - Boolean determining wwhether to use direct
+#                             addressing.  Default => fals
 #  [*client*]             - Boolean determining whether you would like to
 #                             install the client component.
 #  [*client_config*]      - The content of the MCollective client configuration
@@ -24,6 +26,7 @@
 #  [*stomp_server*]       - The hostname of the stomp server.
 #  [*mc_security_provider*] - The MCollective security provider
 #  [*mc_security_psk*]    - The MCollective pre shared key
+#  [*mc_loglevel*]        - The log level for mcollective - default: log
 #  [*main_collective]     - Sets the default collective
 #  [*collectives]         - Sets the collectives a server node belongs to
 #  [*connector]           - The stomp connector to use. Currently only stomp and
@@ -36,6 +39,7 @@
 #  [*stomp_pool]          - A hash used to supply all parameters needed for advanced
 #                           features like failover pools and ssl
 #  [*classesfile]         - Path to the classes file written by puppet
+#  [*init_pattern]        - Pattern used for service declaration
 #  [*fact_source]         - The type of fact source. Currently only facter and yaml
 #                           are recognized
 #  [*yaml_facter_source]  - List of colon separated yaml files used by yaml fact source
@@ -93,6 +97,7 @@ class mcollective(
   $server               = true,
   $server_config        = 'UNSET',
   $server_config_file   = '/etc/mcollective/server.cfg',
+  $direct_addressing    = false,
   $client               = false,
   $client_config        = 'UNSET',
   $client_config_file   = '/etc/mcollective/client.cfg',
@@ -100,6 +105,7 @@ class mcollective(
   $collectives          = 'mcollective',
   $connector            = 'stomp',
   $classesfile          = '/var/lib/puppet/state/classes.txt',
+  $init_pattern         = 'UNSET',
   $stomp_pool           = {},
   $stomp_server         = $mcollective::params::stomp_server,
   $stomp_port           = $mcollective::params::stomp_port,
@@ -107,6 +113,7 @@ class mcollective(
   $stomp_passwd         = $mcollective::params::stomp_passwd,
   $mc_security_provider = $mcollective::params::mc_security_provider,
   $mc_security_psk      = $mcollective::params::mc_security_psk,
+  $mc_loglevel          = $mcollective::params::log_level,
   $fact_source          = 'facter',
   $yaml_facter_source   = '/etc/mcollective/facts.yaml',
   $plugin_params        = {}
@@ -150,13 +157,13 @@ class mcollective(
   # if no pool hash is provided, create a single pool using defaults
   if $stomp_pool == 'UNSET' {
     $stomp_pool_real = {
-      pool1 => { host1 => $stomp_server, port1 => $stomp_port, user1 => $stomp_user,
-                 password1 => $stomp_passwd  }
+      1 => { host => $stomp_server, port => $stomp_port, user => $stomp_user,
+        password => $stomp_passwd  }
     }
   }
   else {
     validate_hash( $stomp_pool )
-    validate_hash( $stomp_pool['pool1'] )
+    validate_hash( $stomp_pool['1'] )
     $stomp_pool_real = $stomp_pool
   }
   $stomp_pool_size = size(keys($stomp_pool_real))
@@ -184,11 +191,13 @@ class mcollective(
       service_name    => $service_name,
       config          => $server_config_real,
       config_file     => $server_config_file_real,
+      init_pattern    => $init_pattern,
       require         => Anchor['mcollective::begin'],
     }
     # Also manage the plugins
     if $manage_plugins {
       class { 'mcollective::plugins':
+        client  => $client_real,
         require => Class['mcollective::server::base'],
         before  => Anchor['mcollective::end'],
       }

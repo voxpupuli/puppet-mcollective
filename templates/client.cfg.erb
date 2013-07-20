@@ -1,19 +1,23 @@
 # Basic stuff
-topicprefix     = <%= mc_topicprefix %>
-main_collective = <%= main_collective %>
-collectives     = <%= collectives %>
-libdir          = <%= mc_libdir %>
-loglevel        = <%= mc_loglevel %>
+topicprefix       = <%= mc_topicprefix %>
+main_collective   = <%= main_collective %>
+collectives       = <%= collectives %>
+libdir            = <%= mc_libdir %>
+loglevel          = <%= mc_loglevel %>
+<% if direct_addressing -%>
+direct_addressing = 1
+<% end -%>
+
 
 # Plugins
-securityprovider = <%= mc_security_provider_real %>
-plugin.psk       = <%= mc_security_psk_real %>
+securityprovider  = <%= mc_security_provider_real %>
+plugin.psk        = <%= mc_security_psk_real %>
 
 # Middleware
 connector              = <%= connector %>
-plugin.stomp.pool.size = <%= stomp_pool_size %>
+plugin.<%= connector %>.pool.size = <%= stomp_pool_size %>
 <% stomp_pool_real.sort.each do |pool,configs| -%>
 <% configs.sort.each do |key,value| -%>
-plugin.stomp.pool.<%= key -%> = <%= value %>
+plugin.<%= connector %>.pool.<%= pool %>.<%= key -%> = <%= value %>
 <% end -%>
 <% end -%>
