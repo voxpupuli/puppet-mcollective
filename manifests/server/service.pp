@@ -7,6 +7,7 @@
 #  [*mc_service_name*]  - The name of the mcollective service
 #  [*mc_service_stop*]  - The command used to stop the mcollective service
 #  [*mc_service_start*] - The command used to start the mcollective service
+#  [*mc_service_enable*] - Automatically start the mcollective server on boot (set to true or false)
 #
 # Actions:
 #
@@ -17,7 +18,8 @@
 class mcollective::server::service(
   $mc_service_name     = $mcollective::params::mc_service_name,
   $mc_service_stop     = 'UNSET',
-  $mc_service_start    = 'UNSET'
+  $mc_service_start    = 'UNSET',
+  $mc_service_enable   = false
 ) {
 
   $mc_service_stop_real = $mc_service_stop ? {
@@ -33,6 +35,7 @@ class mcollective::server::service(
 
   service { 'mcollective':
     ensure    => running,
+    enable    => $mc_service_enable,
     name      => $mc_service_name,
     hasstatus => true,
     start     => $mc_service_start_real,
