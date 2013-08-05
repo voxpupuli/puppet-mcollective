@@ -29,6 +29,22 @@ module MCollective
                 reply.fail! "Yum clean failed, exit code was #{reply[:exitcode]}" unless reply[:exitcode] == 0
             end
 
+            action "yum_update" do
+                reply.fail! "Cannot find yum at /usr/bin/yum" unless File.exist?("/usr/bin/yum")
+                reply[:output] = %x[/usr/bin/yum -y update]
+                reply[:exitcode] = $?.exitstatus
+
+                reply.fail! "Yum update failed, exit code was #{reply[:exitcode]}" unless reply[:exitcode] == 0
+            end
+
+            action "yum_upgrade" do
+                reply.fail! "Cannot find yum at /usr/bin/yum" unless File.exist?("/usr/bin/yum")
+                reply[:output] = %x[/usr/bin/yum -y upgrade]
+                reply[:exitcode] = $?.exitstatus
+
+                reply.fail! "Yum upgrade failed, exit code was #{reply[:exitcode]}" unless reply[:exitcode] == 0
+            end
+
             action "apt_update" do
                 reply.fail! "Cannot find apt-get at /usr/bin/apt-get" unless File.exist?("/usr/bin/apt-get")
                 reply[:output] = %x[/usr/bin/apt-get update]

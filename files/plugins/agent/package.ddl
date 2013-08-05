@@ -56,6 +56,26 @@ action "yum_clean", :description => "Clean the YUM cache" do
            :display_as => "Exit Code"
 end
 
+action "yum_update", :description => "Update all packages using YUM" do
+    output :output,
+           :description => "Output from YUM",
+           :display_as  => "Output"
+
+    output :exitcode,
+           :description => "The exitcode from the yum command",
+           :display_as => "Exit Code"
+end
+
+action "yum_upgrade", :description => "Update all packages using YUM taking obsoletes into account" do
+    output :output,
+           :description => "Output from YUM",
+           :display_as  => "Output"
+
+    output :exitcode,
+           :description => "The exitcode from the yum command",
+           :display_as => "Exit Code"
+end
+
 action "apt_update", :description => "Updated the apt cache" do
     output :output,
            :description => "Output from apt-get",
