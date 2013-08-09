@@ -21,7 +21,7 @@ class mcollective::params {
   $mc_daemonize         = '1'
   $mc_security_provider = 'psk'
   $mc_security_psk      = 'changemeplease'
-  $registration      = 'agentlist'
+  $registration         = 'agentlist'
 
   $nrpe_dir_real = $osfamily ? {
     redhat  => '/etc/nrpe.d',

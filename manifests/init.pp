@@ -72,7 +72,7 @@
 #     client              => true,
 #     client_config       => template('mcollective/client.cfg.erb'),
 #     client_config_file  => '/home/mcollective/.mcollective',
-#     mw_server        => 'stomp',
+#     mw_server           => 'stomp',
 #   }
 # }
 #
@@ -107,11 +107,11 @@ class mcollective(
   $direct_addressing    = 'UNSET',
   $rabbitmq_vhost       = '/mcollective',
   $classesfile          = '/var/lib/puppet/state/classes.txt',
-  $mw_pool           = {},
-  $mw_server         = $mcollective::params::mw_server,
-  $mw_port           = $mcollective::params::mw_port,
-  $mw_user           = $mcollective::params::mw_user,
-  $mw_passwd         = $mcollective::params::mw_passwd,
+  $mw_pool              = {},
+  $mw_server            = $mcollective::params::mw_server,
+  $mw_port              = $mcollective::params::mw_port,
+  $mw_user              = $mcollective::params::mw_user,
+  $mw_passwd            = $mcollective::params::mw_passwd,
   $mc_security_provider = $mcollective::params::mc_security_provider,
   $mc_security_psk      = $mcollective::params::mc_security_psk,
   $registration         = $mcollective::params::registration,
@@ -159,13 +159,17 @@ class mcollective(
   if empty($mw_pool) {
     if $connector == 'stomp' {
       $mw_pool_real = {
-        1 => { host1 => $mw_server, port1 => $mw_port, user1 => $mw_user,
-                   password1 => $mw_passwd  }
+        1 => { host1     => $mw_server,
+               port1     => $mw_port,
+               user1     => $mw_user,
+               password1 => $mw_passwd }
       }
     } else {
       $mw_pool_real = {
-        1 => { host => $mw_server, port => $mw_port, user => $mw_user,
-                   password => $mw_passwd  }
+        1 => { host     => $mw_server,
+               port     => $mw_port,
+               user     => $mw_user,
+               password => $mw_passwd }
       }
     }
   }
@@ -230,6 +234,5 @@ class mcollective(
       before          => Anchor['mcollective::end'],
     }
   }
-
 }
 

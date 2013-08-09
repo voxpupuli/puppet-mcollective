@@ -13,7 +13,7 @@ node default {
   ->
   class { 'mcollective':
     mc_security_psk => 'changemeplease',
-    mw_server    => 'stomp',
+    mw_server       => 'stomp',
     server          => true,
     client          => true,
   }
