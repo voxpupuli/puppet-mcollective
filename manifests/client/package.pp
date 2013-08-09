@@ -18,7 +18,7 @@ class mcollective::client::package(
 ) {
 
   package { 'mcollective-client':
-    ensure	  => $version,
+    ensure => $version,
   }
 }
 

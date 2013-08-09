@@ -23,7 +23,7 @@ class mcollective::server::package(
 
   # The relationship to this class is required because other classes, e.g.
   # Class['mcollective::config'] requires the mcollective::server:package class.
-  case $osfamily {
+  case $::osfamily {
     debian: {
       class { 'mcollective::server::package::debian':
         version => $version,
