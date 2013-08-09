@@ -1,9 +1,8 @@
 # Basic stuff
-topicprefix     = <%= mc_topicprefix %>
 main_collective = <%= main_collective %>
 collectives     = <%= collectives %>
-libdir          = <%= mc_libdir %>
 loglevel        = <%= mc_loglevel %>
+libdir          = <%= mc_libdir %>
 
 # Plugins
 securityprovider = <%= mc_security_provider_real %>
@@ -11,9 +10,21 @@ plugin.psk       = <%= mc_security_psk_real %>
 
 # Middleware
 connector              = <%= connector %>
-plugin.stomp.pool.size = <%= stomp_pool_size %>
-<% stomp_pool_real.sort.each do |pool,configs| -%>
+direct_addressing      = <%= direct_addressing_real %>
+<% if connector == 'rabbitmq' %>plugin.rabbitmq.vhost	= <%= rabbitmq_vhost %><% end %>
+plugin.<%= connector %>.pool.size = <%= mw_pool_size %>
+<% mw_pool_real.sort.each do |pool,configs| -%>
 <% configs.sort.each do |key,value| -%>
-plugin.stomp.pool.<%= key -%> = <%= value %>
+plugin.<%= connector %>.pool.<% if connector != 'stomp' %><%= pool %>.<% end %><%= key -%> = <%= value %>
 <% end -%>
+<% end -%>
+
+<% plugin_params.sort.each do |param,value| -%>
+plugin.<%= param -%> = <%= value %>
+<% end -%>
+
+# Facts
+factsource = <%= fact_source %>
+<% if fact_source == 'yaml' -%>
+plugin.yaml = <%= yaml_facter_source %>
 <% end -%>

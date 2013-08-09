@@ -5,7 +5,7 @@ node default {
   # (Note, the client packages default to "false" while the server
   # configuration defaults to "true")
   class { 'mcollective':
-    stomp_server         => 'stomp.puppetlabs.lan',
+    mw_server            => 'stomp.puppetlabs.lan',
     server               => true,
     client               => true,
     mc_security_provider => 'psk',

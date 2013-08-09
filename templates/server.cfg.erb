@@ -1,4 +1,5 @@
 # Basic stuff
+identity	= <%= @fqdn %>
 topicprefix     = <%= mc_topicprefix %>
 main_collective = <%= main_collective %>
 collectives     = <%= collectives %>
@@ -14,14 +15,16 @@ plugin.psk       = <%= mc_security_psk_real %>
 
 # Registration
 registerinterval = 300
-registration     = Meta
+registration     = <%= registration %>
 
 # Middleware
 connector              = <%= connector %>
-plugin.stomp.pool.size = <%= stomp_pool_size %>
-<% stomp_pool_real.sort.each do |pool,configs| -%>
+direct_addressing      = <%= direct_addressing_real %>
+<% if connector == 'rabbitmq' %>plugin.rabbitmq.vhost	= <%= rabbitmq_vhost %><% end %>
+plugin.<%= connector %>.pool.size = <%= mw_pool_size %>
+<% mw_pool_real.sort.each do |pool,configs| -%>
 <% configs.sort.each do |key,value| -%>
-plugin.stomp.pool.<%= key -%> = <%= value %>
+plugin.<%= connector %>.pool.<% if connector != 'stomp' %><%= pool %>.<% end %><%= key -%> = <%= value %>
 <% end -%>
 <% end -%>
 
