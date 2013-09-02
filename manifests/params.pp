@@ -18,7 +18,6 @@ class mcollective::params {
   $mc_collectives       = ''
   $mc_logfile           = '/var/log/mcollective.log'
   $mc_loglevel          = 'log'
-  $mc_daemonize         = '1'
   $mc_security_provider = 'psk'
   $mc_security_psk      = 'changemeplease'
 
@@ -44,6 +43,11 @@ class mcollective::params {
   $mc_service_stop = $osfamily ? {
     debian  => '/etc/init.d/mcollective stop',
     redhat  => '/sbin/service mcollective stop',
+  }
+  
+  $mc_daemonize = $operatingsystem ? {
+    Ubuntu  => 0,
+    default => 1,
   }
 
   $plugin_base = "${mc_libdir}/mcollective"
