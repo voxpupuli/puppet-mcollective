@@ -23,9 +23,15 @@ class mcollective::server::middleware::rabbitmq (
 	$collectives		= [ 'mcollective' ]
 ) {
 
-	package { 'amqp' :
+	package { 'eventmachine' :
 		ensure		=> installed,
 		provider	=> 'gem'
+	}
+
+	package { 'amqp' :
+		ensure		=> installed,
+		provider	=> 'gem',
+		require		=> Package['eventmachine']
 	}
 
 	class { 'rabbitmq::server' :
@@ -68,6 +74,7 @@ class mcollective::server::middleware::rabbitmq (
 			exchange_type	=> topic,
 			user			=> $mcollective_user,
 			password		=> $mcollective_pass,
+			provider		=> 'amqp',
 			require			=> Rabbitmq_user_permissions["${mcollective_user}@${mcollective_vhost}"]
 		}
 
@@ -75,6 +82,7 @@ class mcollective::server::middleware::rabbitmq (
 			exchange_type	=> direct,
 			user			=> $mcollective_user,
 			password		=> $mcollective_pass,
+			provider		=> 'amqp',
 			require			=> Rabbitmq_user_permissions["${mcollective_user}@${mcollective_vhost}"]
 		}
 	}
