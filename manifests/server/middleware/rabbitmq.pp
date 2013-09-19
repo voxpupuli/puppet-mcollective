@@ -35,6 +35,7 @@ class mcollective::server::middleware::rabbitmq (
 	}
 
 	class { 'rabbitmq::server' :
+		package_name		=> $package_name,
 		version				=> $package_version,
 		config_stomp		=> true,
 		delete_guest_user	=> $delete_guest_user,
