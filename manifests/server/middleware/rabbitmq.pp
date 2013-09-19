@@ -23,15 +23,32 @@ class mcollective::server::middleware::rabbitmq (
 	$collectives		= [ 'mcollective' ]
 ) {
 
-	package { 'eventmachine' :
-		ensure		=> installed,
-		provider	=> 'gem'
+	if ! defined(Package['gcc-c++']) {
+		package { 'gcc-c++' :
+			ensure		=> installed
+		}
 	}
 
-	package { 'amqp' :
-		ensure		=> installed,
-		provider	=> 'gem',
-		require		=> Package['eventmachine']
+	if ! defined(Package['ruby-devel']) {
+		package { 'ruby-devel' :
+			ensure		=> installed
+		}
+	}
+
+	if ! defined(Package['eventmachine']) {
+		package { 'eventmachine' :
+			ensure		=> installed,
+			provider	=> 'gem',
+			require		=> Package[ 'gcc-c++', 'ruby-devel' ]
+		}
+	}
+
+	if ! defined(Package['amqp']) {
+		package { 'amqp' :
+			ensure		=> installed,
+			provider	=> 'gem',
+			require		=> Package[ 'gcc-c++', 'ruby-devel' ]
+		}
 	}
 
 	class { 'rabbitmq::server' :
