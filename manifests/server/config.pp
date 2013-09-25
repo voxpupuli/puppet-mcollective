@@ -1,36 +1,75 @@
-# Class: mcollective::server::config
-#
-#   This class installs the MCollective configuration files.
-#
-# Parameters:
-#
-#  [*config*]               - The content of the MCollective client
-#                             configuration file.
-#  [*config_file*]          - The full path to the MCollective client
-#                             configuration file.
-#  [*server_config_owner*]  - The owner of the server configuration file.
-#  [*server_config_group*]  - The group for the server configuration file.
-#
-# Actions:
-#
-# Requires:
-#
-# Sample Usage:
-#
-class mcollective::server::config(
-  $config_file,
-  $config,
-  $server_config_owner = $mcollective::params::server_config_owner,
-  $server_config_group = $mcollective::params::server_config_group
-) inherits mcollective::params {
-
-  file { 'server_config':
-    path    => $config_file,
-    content => $config,
-    mode    => '0640',
-    owner   => $server_config_owner,
-    group   => $server_config_group,
-    notify  => Class['mcollective::server::service'],
+# private class
+class mcollective::server::config {
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
   }
 
+  datacat { 'mcollective::server':
+    owner    => 'root',
+    group    => 'root',
+    mode     => '0400',
+    path     => $mcollective::server_config_file,
+    template => 'mcollective/settings.cfg.erb',
+  }
+
+  mcollective::server::setting { 'classesfile':
+    value => $mcollective::classesfile,
+  }
+
+  mcollective::server::setting { 'daemonize':
+    value => $mcollective::server_daemonize,
+  }
+
+  mcollective::server::setting { 'logfile':
+    value => $mcollective::server_logfile,
+  }
+
+  mcollective::server::setting { 'loglevel':
+    value => $mcollective::server_loglevel,
+  }
+
+  file { '/etc/mcollective/policies':
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0700',
+  }
+
+  if $mcollective::middleware_ssl or $mcollective::securityprovider == 'ssl' {
+    file { '/etc/mcollective/ca.pem':
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0444',
+      source => $mcollective::ssl_ca_cert,
+    }
+
+    file { '/etc/mcollective/server_public.pem':
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0444',
+      source => $mcollective::ssl_server_public,
+    }
+
+    file { '/etc/mcollective/server_private.pem':
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0400',
+      source => $mcollective::ssl_server_private,
+    }
+  }
+
+  mcollective::soft_include { [
+    "::mcollective::server::config::connector::${mcollective::connector}",
+    "::mcollective::server::config::securityprovider::${mcollective::securityprovider}",
+    "::mcollective::server::config::factsource::${mcollective::factsource}",
+    "::mcollective::server::config::registration::${mcollective::registration}",
+    "::mcollective::server::config::rpcauditprovider::${mcollective::rpcauditprovider}",
+    "::mcollective::server::config::rpcauthprovider::${mcollective::rpcauthprovider}",
+  ]:
+    start => Anchor['mcollective::server::config::begin'],
+    end   => Anchor['mcollective::server::config::end'],
+  }
+
+  anchor { 'mcollective::server::config::begin': }
+  anchor { 'mcollective::server::config::end': }
 }

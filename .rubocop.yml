@@ -1,0 +1,21 @@
+---
+AllCops:
+  Excludes:
+    - files/**
+    - spec/fixtures/**
+
+# Lines should be as short as they can be, but no shorter
+LineLength:
+  Enabled: false
+
+# Methods should be as short as they can be, but no shorter
+MethodLength:
+  Enabled: false
+
+# require magic encoding comment for 1.9
+Encoding:
+  Enabled: false
+
+# 1.8 hash syntax - we believe in 1.8
+HashSyntax:
+  Enabled: false

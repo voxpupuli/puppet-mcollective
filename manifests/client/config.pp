@@ -1,36 +1,33 @@
-# Class: mcollective::client::config
-#
-#   This class installs the MCollective client configuration files.
-#
-# Parameters:
-#
-#  [*config*]               - The content of the MCollective client
-#                             configuration file.
-#  [*config_file*]          - The full path to the MCollective client
-#                             configuration file.
-#  [*client_config_owner*]  - The owner of the server configuration file.
-#  [*client_config_group*]  - The group for the server configuration file.
-#
-# Actions:
-#
-# Requires:
-#
-# Sample Usage:
-#
-class mcollective::client::config(
-  $config_file,
-  $config,
-  $client_config_owner   = $mcollective::params::client_config_owner,
-  $client_config_group   = $mcollective::params::client_config_group
-) inherits mcollective::params {
-
-  file { 'client_config':
-    path    => $config_file,
-    content => $config,
-    mode    => '0600',
-    owner   => $client_config_owner,
-    group   => $client_config_group,
+# private class
+class mcollective::client::config {
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-}
+  datacat { 'mcollective::client':
+    owner    => 'root',
+    group    => 'root',
+    mode     => '0444',
+    path     => $mcollective::client_config_file,
+    template => 'mcollective/settings.cfg.erb',
+  }
 
+  mcollective::client::setting { 'loglevel':
+    value => $mcollective::client_loglevel,
+  }
+
+  mcollective::client::setting { 'logger_type':
+    value => $mcollective::client_logger_type,
+  }
+
+  mcollective::soft_include { [
+    "::mcollective::client::config::connector::${mcollective::connector}",
+    "::mcollective::client::config::securityprovider::${mcollective::securityprovider}",
+  ]:
+    start => Anchor['mcollective::client::config::begin'],
+    end   => Anchor['mcollective::client::config::end'],
+  }
+
+  anchor { 'mcollective::client::config::begin': }
+  anchor { 'mcollective::client::config::end': }
+}
