@@ -1,2 +1,14 @@
-pkg/
-metadata.json
+Gemfile.lock
+spec/fixtures/manifests/site.pp
+spec/fixtures/modules/activemq
+spec/fixtures/modules/datacat
+spec/fixtures/modules/erlang
+spec/fixtures/modules/java_ks
+spec/fixtures/modules/mcollective
+spec/fixtures/modules/rabbitmq
+spec/fixtures/modules/stdlib
+.ruby-version
+.ruby-gemset
+.rspec_system
+.bundle
+/bin/*
