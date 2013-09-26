@@ -199,7 +199,6 @@ application on this node.
 Boolean: defaults to false.  Whether to install middleware that matches
 `$mcollective::connector` on this node.
 
-Currently supported are `activemq`, `rabbitmq`, and `redis`
 
 ##### `activemq_template`
 
@@ -255,6 +254,8 @@ server should join.
 ##### `connector`
 
 String: defaults to 'activemq'.  Name of the connector plugin to use.
+
+Currently supported are `activemq`, `rabbitmq`, and `redis`
 
 ##### `securityprovider`
 
