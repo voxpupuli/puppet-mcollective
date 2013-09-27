@@ -9,29 +9,29 @@ describe 'single node setup:' do
   end
 
   describe 'root can do what they like' do
-    context shell('mco ping') do
+    context shell('sudo -i mco ping') do
       its(:stdout) { should =~ /main.foo.vm/ }
     end
 
-    context shell('mco rpc rpcutil inventory -j </dev/null') do
+    context shell('sudo -i mco rpc rpcutil inventory -j </dev/null') do
       its(:stdout) { should =~ /discovery/ }
     end
 
-    context shell('mco rpc nrpe runcommand command=hello_world -j </dev/null') do
+    context shell('sudo -i mco rpc nrpe runcommand command=hello_world -j </dev/null') do
       its(:stdout) { should =~ /Hello World!/ }
     end
   end
 
   describe 'nagios user can do limited things' do
-    context shell('sudo -u nagios mco ping') do
+    context shell('sudo -i -u nagios mco ping') do
       its(:stdout) { should =~ /main.foo.vm/ }
     end
 
-    context shell('sudo -u nagios mco rpc rpcutil inventory -j </dev/null') do
+    context shell('sudo -i -u nagios mco rpc rpcutil inventory -j </dev/null') do
       its(:stdout) { should =~ /You are not authorized to call this agent or action/ }
     end
 
-    context shell('sudo -u nagios mco rpc nrpe runcommand command=hello_world -j </dev/null') do
+    context shell('sudo -i -u nagios mco rpc nrpe runcommand command=hello_world -j </dev/null') do
       its(:stdout) { should =~ /Hello World!/ }
     end
   end
