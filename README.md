@@ -29,11 +29,11 @@ standards laid down by the
 
 A quick aside, mcollective's terminology differs a little from what you might
 be used to in puppet.  There are 3 main components, the client (the mco
-commands you run to control your servers), the server (a deamon that runs on
+commands you run to control your servers), the server (a daemon that runs on
 all of your managed nodes and executes the commands), and the middleware (a
-message broker which the servers and agent will connect to).
+message broker the servers and agent connect to).
 
-If it helps to these to puppet concepts you loosely have:
+If it helps to map these to puppet concepts you loosely have:
 
 * Middleware -> Puppet Master
 * MCollective Server -> Puppet Agent
@@ -615,12 +615,13 @@ simply specifying that setting again with a higher order than the default of
 that type, for example to make a server's loglevel be debug (without simply
 setting mcollective::server_loglevel) you could write:
 
-  mcollective::server::setting { 'override loglevel':
-    setting => 'loglevel',
-    value   => 'debug',
-    order   => '50',
-  }
-
+```puppet
+mcollective::server::setting { 'override loglevel':
+  setting => 'loglevel',
+  value   => 'debug',
+  order   => '50',
+}
+```
 
 ## Limitations
 
