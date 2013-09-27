@@ -15,6 +15,11 @@ class mcollective::common::config {
     sourceselect => 'all',
   }
 
+  if $mcollective::server {
+    # if we have a server install, reload when the plugins change
+    File[$mcollective::site_libdir] ~> Class['mcollective::server::service']
+  }
+
   datacat_collector { 'mcollective::site_libdir':
     before          => File[$mcollective::site_libdir],
     target_resource => File[$mcollective::site_libdir],
