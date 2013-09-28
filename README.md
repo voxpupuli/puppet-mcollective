@@ -433,6 +433,16 @@ and by the 'ssl' securityprovider to sign messages as from this user.
 installing from a source uri the plugin will be copied to
 `mcollective::site_libdir`
 
+```puppet
+mcollective::plugin { 'puppet':
+  package => true,
+}
+
+mcollective::plugin { 'myplugin':
+  source => 'puppet:///modules/site_mcollective/plugins',
+}
+```
+
 #### Parameters
 
 ##### `name`
