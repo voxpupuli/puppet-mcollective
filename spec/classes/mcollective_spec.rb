@@ -112,12 +112,12 @@ describe 'mcollective' do
       end
 
       context 'yaml' do
-        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => 42 } }
+        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => "42", :non_string => 69 } }
         it { should contain_file('/etc/mcollective/facts.yaml') }
         it { should contain_file('/etc/mcollective/facts.yaml').with_content(/^  osfamily: RedHat/) }
-        it { should contain_file('/etc/mcollective/facts.yaml').with_content(/^  number_of_cores: 42/) }
+        it { should contain_file('/etc/mcollective/facts.yaml').with_content(/^  number_of_cores: "42"/) }
         it 'should be alpha-sorted' do
-          should contain_file('/etc/mcollective/facts.yaml').with_content(/^  number_of_cores:.*?^  osfamily:/m)
+          should contain_file('/etc/mcollective/facts.yaml').with_content(/^  number_of_cores:.*?^  osfamily: RedHat$/m)
         end
 
         describe '#yaml_fact_path' do
