@@ -1,6 +1,8 @@
 <%=
-    # remove dynamic facts
-    obj = scope.to_hash.reject {|k,v| k.to_s =~ /^(uptime.*|rubysitedir|_timestamp|memoryfree.*|swapfree.*|title|name|caller_module_name|module_name)$/ }
+    # remove dynamic facts and non-string values
+    obj = scope.to_hash.reject { |k,v|
+        (k.to_s =~ /^(uptime.*|rubysitedir|_timestamp|memoryfree.*|swapfree.*|title|name|caller_module_name|module_name)$/i) || (v.class != ::String)
+    }
 
     arr = obj.sort
     out = "---\n"
