@@ -657,5 +657,5 @@ contributors to follow so that we can have a chance of keeping on top of things.
 
 You can read the complete module contribution guide [on the Puppet Labs wiki.](http://projects.puppetlabs.com/projects/module-site/wiki/Module_contributing)
 
-Current build status is: [![Build Status](https://travis-ci.org/richardc/puppet-mcollective.png)](https://travis-ci.org/richardc/puppet-mcollective)
+Current build status is: [![Build Status](https://travis-ci.org/puppetlabs/puppetlabs-mcollective.png)](https://travis-ci.org/puppetlabs/puppetlabs-mcollective)
 
