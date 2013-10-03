@@ -676,6 +676,18 @@ describe 'mcollective' do
           end
         end
       end
+
+      describe '#securityprovider' do
+        context 'ssl' do
+          let(:params) { { :server => false, :client => true, :securityprovider => 'ssl' } }
+          it { should contain_file('mcollective::client').with_ensure('absent') }
+        end
+
+        context 'psk' do
+          let(:params) { { :server => false, :client => true, :securityprovider => 'psk' } }
+          it { should contain_file('mcollective::client').with_content(/datacat/) }
+        end
+      end
     end
 
     describe '#securityprovider' do
