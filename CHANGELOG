@@ -1,3 +1,16 @@
+2013-10-03 Release 1.0.1
+
+Summary:
+
+Bugfixes.
+
+Fixes:
+- Stop puppet internals leaking into facts.yaml.
+- Style fixes.
+- Add plugin example to README.
+- Update .travis.yml to test appropriately.
+
+
 2013-09-27 Release 1.0.0
 
 Summary:
