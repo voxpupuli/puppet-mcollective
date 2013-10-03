@@ -119,6 +119,9 @@ describe 'mcollective' do
         it 'should be alpha-sorted' do
           should contain_file('/etc/mcollective/facts.yaml').with_content(/^  number_of_cores:.*?^  osfamily: RedHat$/m)
         end
+        it 'should not leak' do
+          should_not contain_file('/etc/mcollective/facts.yaml').with_content(/middleware_password/)
+        end
 
         describe '#yaml_fact_path' do
           it 'should default to /etc/mcollective/facts.yaml' do
