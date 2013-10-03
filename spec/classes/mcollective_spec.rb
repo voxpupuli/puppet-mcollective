@@ -52,7 +52,7 @@ describe 'mcollective' do
     end
 
     describe '#collectives' do
-     context 'default' do
+      context 'default' do
         it { should contain_mcollective__common__setting('collectives').with_value('mcollective') }
       end
 
@@ -112,7 +112,7 @@ describe 'mcollective' do
       end
 
       context 'yaml' do
-        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => "42", :non_string => 69 } }
+        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69 } }
         it { should contain_file('/etc/mcollective/facts.yaml') }
         it { should contain_file('/etc/mcollective/facts.yaml').with_content(/^  osfamily: RedHat/) }
         it { should contain_file('/etc/mcollective/facts.yaml').with_content(/^  number_of_cores: "42"/) }
@@ -199,21 +199,21 @@ describe 'mcollective' do
             describe '#ssl_ca_cert' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_ca_cert => 'puppet:///modules/foo/ca_cert.pem' }) }
-                it { should contain_file('/etc/mcollective/ca.pem').with_source('puppet:///modules/foo/ca_cert.pem')}
+                it { should contain_file('/etc/mcollective/ca.pem').with_source('puppet:///modules/foo/ca_cert.pem') }
               end
             end
 
             describe '#ssl_server_public' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_server_public => 'puppet:///modules/foo/server_public.pem' }) }
-                it { should contain_file('/etc/mcollective/server_public.pem').with_source('puppet:///modules/foo/server_public.pem')}
+                it { should contain_file('/etc/mcollective/server_public.pem').with_source('puppet:///modules/foo/server_public.pem') }
               end
             end
 
             describe '#ssl_server_private' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_server_private => 'puppet:///modules/foo/server_private.pem' }) }
-                it { should contain_file('/etc/mcollective/server_private.pem').with_source('puppet:///modules/foo/server_private.pem')}
+                it { should contain_file('/etc/mcollective/server_private.pem').with_source('puppet:///modules/foo/server_private.pem') }
               end
             end
           end
@@ -490,21 +490,21 @@ describe 'mcollective' do
             describe '#ssl_ca_cert' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_ca_cert => 'puppet:///modules/foo/ca_cert.pem' }) }
-                it { should contain_file('/etc/activemq/ca.pem').with_source('puppet:///modules/foo/ca_cert.pem')}
+                it { should contain_file('/etc/activemq/ca.pem').with_source('puppet:///modules/foo/ca_cert.pem') }
               end
             end
 
             describe '#ssl_server_public' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_server_public => 'puppet:///modules/foo/server_public.pem' }) }
-                it { should contain_file('/etc/activemq/server_public.pem').with_source('puppet:///modules/foo/server_public.pem')}
+                it { should contain_file('/etc/activemq/server_public.pem').with_source('puppet:///modules/foo/server_public.pem') }
               end
             end
 
             describe '#ssl_server_private' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_server_private => 'puppet:///modules/foo/server_private.pem' }) }
-                it { should contain_file('/etc/activemq/server_private.pem').with_source('puppet:///modules/foo/server_private.pem')}
+                it { should contain_file('/etc/activemq/server_private.pem').with_source('puppet:///modules/foo/server_private.pem') }
               end
             end
           end
