@@ -3,11 +3,11 @@
 define mcollective::server::config::connector::activemq::hosts_iteration {
   if $mcollective::middleware_ssl {
     mcollective::server::setting { "plugin.activemq.pool.${name}.ssl.cert":
-      value => '/etc/mcollective/server_public.pem',
+      value => $mcollective::server_ssl_cert,
     }
 
     mcollective::server::setting { "plugin.activemq.pool.${name}.ssl.key":
-      value => '/etc/mcollective/server_private.pem',
+      value => $mcollective::server_ssl_key,
     }
   }
 }

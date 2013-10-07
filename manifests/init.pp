@@ -45,6 +45,8 @@ class mcollective (
   $server_logfile   = '/var/log/mcollective.log',
   $server_loglevel  = 'info',
   $server_daemonize = 1,
+  $server_ssl_cert  = "${::puppet_vardir}/certs/${::fqdn}.pem",
+  $server_ssl_key   = "${::puppet_vardir}/private_keys/${::fqdn}.pem",
 
   # client-specific
   $client_config_file = '/etc/mcollective/client.cfg',
