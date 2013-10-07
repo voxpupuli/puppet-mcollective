@@ -42,12 +42,13 @@ class mcollective (
   $middleware_ssl = false,
 
   # server-specific
-  $server_config_file = '/etc/mcollective/server.cfg',
-  $server_logfile   = '/var/log/mcollective.log',
-  $server_loglevel  = 'info',
-  $server_daemonize = 1,
-  $server_ssl_cert  = "${::puppet_vardir}/ssl/certs/${::fqdn}.pem",
-  $server_ssl_key   = "${::puppet_vardir}/ssl/private_keys/${::fqdn}.pem",
+  $server_config_file   = '/etc/mcollective/server.cfg',
+  $server_logfile       = '/var/log/mcollective.log',
+  $server_loglevel      = 'info',
+  $server_daemonize     = 1,
+  $server_use_agent_ssl = false,
+  $server_ssl_cert      = "${::puppet_vardir}/ssl/certs/${::fqdn}.pem",
+  $server_ssl_key       = "${::puppet_vardir}/ssl/private_keys/${::fqdn}.pem",
 
   # client-specific
   $client_config_file = '/etc/mcollective/client.cfg',
