@@ -7,8 +7,8 @@ define mcollective::server::config::connector::activemq::hosts_iteration {
       $key  = $mcollective::server_ssl_key
     }
     else {
-      $cert = $mcollective::ssl_server_public
-      $key  = $mcollective::ssl_server_private
+      $cert = '/etc/mcollective/server_public.pem'
+      $key  = '/etc/mcollective/server_private.pem'
     }
     mcollective::server::setting { "plugin.activemq.pool.${name}.ssl.cert":
       value => $cert,
