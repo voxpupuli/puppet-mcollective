@@ -9,6 +9,7 @@ class mcollective (
   $activemq_template = 'mcollective/activemq.xml.erb',
   $activemq_console = false, # ubuntu why you no jetty.xml!
   $activemq_config = undef,
+  $activemq_base64 = true,
   $activemq_confdir = $mcollective::defaults::activemq_confdir,
   $rabbitmq_confdir = '/etc/rabbitmq',
   $rabbitmq_vhost = '/mcollective', # used by rabbitmq
