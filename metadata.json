@@ -22,7 +22,7 @@
     ],
     "dependencies": [
         {
-            "name": "puppetlabs/stdlib",
+            "name": "puppetlabs/stdlib"
         },
         {
             "name": "puppetlabs/activemq",
@@ -33,13 +33,13 @@
             "version_requirement": "0.4.x"
         },
         {
-            "name": "garethr/erlang",
+            "name": "garethr/erlang"
         },
         {
-            "name": "puppetlabs/rabbitmq",
+            "name": "puppetlabs/rabbitmq"
         },
         {
-            "name": "puppetlabs/java_ks",
+            "name": "puppetlabs/java_ks"
         }
     ]
 }
