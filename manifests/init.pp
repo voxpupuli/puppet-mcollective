@@ -24,8 +24,8 @@ class mcollective (
   $securityprovider = 'psk',
   $psk = 'changemeplease',
   $factsource = 'yaml',
-  $yaml_fact_path = '/etc/mcollective/facts.yaml',
-  $classesfile = '/var/lib/puppet/state/classes.txt',
+  $yaml_fact_path = $mcollective::defaults::yaml_fact_path,
+  $classesfile = $mcollective::defaults::classesfile,
   $rpcauthprovider = 'action_policy',
   $rpcauditprovider = 'logfile',
   $registration = undef,
@@ -41,13 +41,13 @@ class mcollective (
   $middleware_ssl = false,
 
   # server-specific
-  $server_config_file = '/etc/mcollective/server.cfg',
-  $server_logfile   = '/var/log/mcollective.log',
+  $server_config_file = "$mcollective::defaults::config_path/server.cfg",
+  $server_logfile   = $mcollective::defaults::logfile,
   $server_loglevel  = 'info',
   $server_daemonize = 1,
 
   # client-specific
-  $client_config_file = '/etc/mcollective/client.cfg',
+  $client_config_file = "$mcollective::defaults::config_path/client.cfg",
   $client_logger_type = 'console',
   $client_loglevel = 'warn',
 
