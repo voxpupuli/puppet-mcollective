@@ -7,6 +7,7 @@
 class mcollective::defaults {
   $core_libdir = $::osfamily ? {
     'Debian' => '/usr/share/mcollective/plugins',
+    'windows' => 'c:\marionette-collective\plugins',
     default  => '/usr/libexec/mcollective',
   }
 
@@ -16,6 +17,7 @@ class mcollective::defaults {
   # library paths.
   $site_libdir = $::osfamily ? {
     'Debian' => '/usr/local/share/mcollective',
+    'windows' => 'c:\marionette-collective\plugins',
     default  => '/usr/local/libexec/mcollective',
   }
 
@@ -23,4 +25,25 @@ class mcollective::defaults {
     'Debian' => '/etc/activemq/instances-available/mcollective',
     default  => '/etc/activemq',
   }
+  
+  $yaml_fact_path = $::osfamily ? {
+	'windows'	=> 'c:\marionette-collective\etc\facts.yaml',
+    default 	=> '/etc/mcollective/facts.yaml',
+  }
+
+  $classesfile = $::osfamily ? {
+	'windows'	=> 'C:\ProgramData\PuppetLabs\puppet\var\state\classes.txt',
+    default 	=> '/var/lib/puppet/state/classes.txt',
+  }
+
+  $config_path = $::osfamily ? {
+	'windows'	=> 'C:\marionette-collective\etc',
+    default 	=> '/etc/mcollective',
+  }
+
+  $logfile = $::osfamily ? {
+	'windows'	=> 'C:\marionette-collective\mcollective.log',
+    default 	=> '/var/log/mcollective.log',
+  }
+
 }
