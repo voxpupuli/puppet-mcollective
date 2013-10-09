@@ -35,6 +35,8 @@ class mcollective (
 
   # networking
   $middleware_hosts = [],
+  $middleware_admin_user = 'admin',
+  $middleware_admin_password = 'ChangeMePlease',
   $middleware_user = 'mcollective',
   $middleware_password = 'marionette',
   $middleware_port = '61613',

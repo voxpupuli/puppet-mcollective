@@ -57,9 +57,7 @@
           <simpleAuthenticationPlugin>
             <users>
               <authenticationUser username="<%= scope["mcollective::middleware_user"] %>" password="<%= scope["mcollective::middleware_password"] %>" groups="mcollective,everyone"/>
-<% if !@delete_guest_user -%>
-              <authenticationUser username="admin" password="secret" groups="mcollective,admins,everyone"/>
-<%- end -%>
+              <authenticationUser username="<%= scope["mcollective::middleware_admin_user"] %>" password="<%= scope["mcollective::middleware_admin_password"] %>" groups="mcollective,admins,everyone"/>
             </users>
           </simpleAuthenticationPlugin>
 
