@@ -12,6 +12,7 @@ class mcollective (
   $activemq_confdir = $mcollective::defaults::activemq_confdir,
   $rabbitmq_confdir = '/etc/rabbitmq',
   $rabbitmq_vhost = '/mcollective', # used by rabbitmq
+  $delete_guest_user = false,
 
   # installing packages
   $manage_packages = true,
