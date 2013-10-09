@@ -12,6 +12,7 @@ class mcollective (
   $activemq_confdir = $mcollective::defaults::activemq_confdir,
   $rabbitmq_confdir = '/etc/rabbitmq',
   $rabbitmq_vhost = '/mcollective', # used by rabbitmq
+  $delete_guest_user = false,
 
   # installing packages
   $manage_packages = true,
@@ -34,6 +35,8 @@ class mcollective (
 
   # networking
   $middleware_hosts = [],
+  $middleware_admin_user = 'admin',
+  $middleware_admin_password = 'ChangeMePlease',
   $middleware_user = 'mcollective',
   $middleware_password = 'marionette',
   $middleware_port = '61613',

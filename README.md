@@ -310,6 +310,15 @@ the `mcollective::plugin` type will install with its `source` parameter.
 This path will be managed and purged by puppet, so don't point it at
 core_libdir or any other non-dedicated path.
 
+##### `middleware_admin_user`
+
+String: defaults to 'admin'.  Username for the middleware admin user.
+
+##### `middleware_admin_password`
+
+String: defaults to 'ChangeMePlease'.  Password to for the middleware 
+admin user.
+
 ##### `middleware_hosts`
 
 Array of strings: defaults to [].  Where the middleware servers this
