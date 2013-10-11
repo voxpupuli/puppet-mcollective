@@ -1,3 +1,21 @@
+2013-10-11 Release 1.1.0
+
+Summary:
+
+This release adds `delete_guest_user` for RabbitMQ so that you don't have an
+admin guest user left enabled.  It also adds `middleware_admin_user` and
+`middleware_admin_password` so that you can control the user that's created in
+the middleware appropriately.  The README has been updated with further
+information.
+
+Features:
+- Add $delete_guest_user functionality.
+- Add middleware_admin_user and middleware_admin_password parameters.
+- Don't supply a client.cfg when securityprovider is 'ssl'
+
+Fixes:
+- Use hash to build anonymous hash (in order to not require future parser)
+
 2013-10-03 Release 1.0.1
 
 Summary:
