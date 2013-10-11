@@ -4,12 +4,22 @@ class mcollective::client::config {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  datacat { 'mcollective::client':
-    owner    => 'root',
-    group    => 'root',
-    mode     => '0444',
-    path     => $mcollective::client_config_file,
-    template => 'mcollective/settings.cfg.erb',
+  if $mcollective::securityprovider == 'ssl' {
+    # if securityprovider == ssl each user will want their own ~/.mcollective
+    # with their own identity in, so don't publish the global client.cfg
+    file { 'mcollective::client':
+      ensure => 'absent',
+      path   => $mcollective::client_config_file,
+    }
+  }
+  else {
+    datacat { 'mcollective::client':
+      owner    => 'root',
+      group    => 'root',
+      mode     => '0444',
+      path     => $mcollective::client_config_file,
+      template => 'mcollective/settings.cfg.erb',
+    }
   }
 
   mcollective::client::setting { 'loglevel':
