@@ -470,6 +470,30 @@ describe 'mcollective' do
           end
         end
 
+        describe '#middleware_admin_user' do
+          let(:params) { { :server => false, :middleware => true } }
+          it 'should default to admin' do
+            should contain_file('activemq.xml').with_content(/authenticationUser username="admin"/)
+          end
+
+          context 'bob' do
+            let(:params) { { :server => false, :middleware => true, :middleware_admin_user => 'bob' } }
+            it { should contain_file('activemq.xml').with_content(/authenticationUser username="bob"/) }
+          end
+        end
+
+        describe '#middleware_admin_password' do
+          let(:params) { { :server => false, :middleware => true } }
+          it 'should default to secret' do
+            should contain_file('activemq.xml').with_content(/authenticationUser username="admin" password="secret"/)
+          end
+
+          context 'thereichangedit' do
+            let(:params) { { :server => false, :middleware => true, :middleware_admin_password => 'thereichangedit' } }
+            it { should contain_file('activemq.xml').with_content(/authenticationUser username="admin" password="thereichangedit"/) }
+          end
+        end
+
         describe '#middleware_ssl' do
           let(:params) { { :server => false, :middleware => true } }
           it 'should default to false' do
@@ -584,6 +608,28 @@ describe 'mcollective' do
           context 'set' do
             let(:params) { common_params.merge({ :rabbitmq_vhost => '/pies' }) }
             it { should contain_rabbitmq_vhost('/pies') }
+          end
+        end
+
+        describe '#middleware_admin_user' do
+          it 'should default to admin' do
+            should contain_rabbitmq_user('admin').with_admin(true)
+          end
+
+          context 'bob' do
+            let(:params) { common_params.merge({ :middleware_admin_user => 'bob' }) }
+            it { should contain_rabbitmq_user('bob').with_admin(true) }
+          end
+        end
+
+        describe '#middleware_admin_password' do
+          it 'should default to secret' do
+            should contain_rabbitmq_user('admin').with_password('secret')
+          end
+
+          context 'thereichangedit' do
+            let(:params) { common_params.merge({ :middleware_admin_password => 'thereichangedit' }) }
+            it { should contain_rabbitmq_user('admin').with_password('thereichangedit') }
           end
         end
       end
