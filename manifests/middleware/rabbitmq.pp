@@ -29,14 +29,15 @@ class mcollective::middleware::rabbitmq {
 
   anchor { 'mcollective::middleware::rabbitmq::start': }
   class { '::rabbitmq':
-    erlang_manage  => true,
-    config_stomp   => true,
-    ssl            => $mcollective::middleware_ssl,
-    stomp_port     => $mcollective::middleware_port,
-    ssl_stomp_port => $mcollective::middleware_ssl_port,
-    ssl_cacert     => "${mcollective::rabbitmq_confdir}/ca.pem",
-    ssl_cert       => "${mcollective::rabbitmq_confdir}/server_public.pem",
-    ssl_key        => "${mcollective::rabbitmq_confdir}/server_private.pem",
+    erlang_manage     => true,
+    config_stomp      => true,
+    delete_guest_user => $mcollective::delete_guest_user,
+    ssl               => $mcollective::middleware_ssl,
+    stomp_port        => $mcollective::middleware_port,
+    ssl_stomp_port    => $mcollective::middleware_ssl_port,
+    ssl_cacert        => "${mcollective::rabbitmq_confdir}/ca.pem",
+    ssl_cert          => "${mcollective::rabbitmq_confdir}/server_public.pem",
+    ssl_key           => "${mcollective::rabbitmq_confdir}/server_private.pem",
   } ->
 
   rabbitmq_plugin { 'rabbitmq_stomp':

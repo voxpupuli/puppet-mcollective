@@ -543,6 +543,17 @@ describe 'mcollective' do
         let(:params) { common_params }
         it { should contain_class('rabbitmq') }
 
+        describe '#delete_guest_user' do
+          context 'default (false)' do
+            it { should contain_class('rabbitmq').with_delete_guest_user(false) }
+          end
+
+          context 'true' do
+            let(:params) { common_params.merge({ :delete_guest_user => true }) }
+            it { should contain_class('rabbitmq').with_delete_guest_user(true) }
+          end
+        end
+
         describe '#middleware_ssl' do
           context 'false' do
             let(:params) { common_params.merge({ :middleware_ssl => false }) }
