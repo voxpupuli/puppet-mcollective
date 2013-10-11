@@ -347,6 +347,15 @@ protected channel.  Highly recommended.  Requires `mcollective::ssl_ca_cert`,
 `mcollective::ssl_server_public`, `mcollective::ssl_server_private` parameters
 for the server/client install.
 
+##### `middleware_admin_user`
+
+String: defaults to 'admin'.  Username for the middleware admin user.
+
+##### `middleware_admin_password`
+
+String: defaults to 'secret'.  Password to for the middleware 
+admin user.
+
 ##### `server_config_file`
 
 String: default is '/etc/mcollective/server.cfg'.  Path to the server
