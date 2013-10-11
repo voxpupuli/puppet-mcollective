@@ -231,6 +231,11 @@ when configuring rabbitmq middleware with `mcollective::middleware_ssl`.
 String: defaults to '/mcollective'.  The vhost to connect to/manage when using
 rabbitmq middleware.
 
+##### `delete_guest_user`
+
+Boolean: defaults to 'false'.  Whether to delete the rabbitmq guest user when
+setting up rabbitmq middleware.
+
 ##### `manage_packages`
 
 Boolean: defaults to true.  Whether to install mcollective and mcollective-
