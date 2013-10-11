@@ -623,6 +623,23 @@ mcollective::server::setting { 'override loglevel':
 }
 ```
 
+## Troubleshooting
+
+### Why do I have no client.cfg?
+
+I said to install the client, so why when I run `mco ping` am I seeing this:
+
+```shell
+$ mco ping
+Failed to generate application list: RuntimeError: Cannot find config file '/etc/mcollective/client.cfg'
+```
+
+You've enabled the ssl security provider, which implies each user will have
+their own ssl credentials to use in the collective.  In order to avoid
+incomplete configuration of clients in this mode we delete the system-wide
+/etc/mcollective/client.cfg and only generate user configuration files with
+the `mcollective::user` definition.
+
 ## Limitations
 
 This module has been built on and tested against Puppet 3.0 and higher.
