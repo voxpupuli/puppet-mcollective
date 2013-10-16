@@ -29,14 +29,15 @@ class mcollective::middleware::rabbitmq {
 
   anchor { 'mcollective::middleware::rabbitmq::start': }
   class { '::rabbitmq':
-    erlang_manage  => true,
-    config_stomp   => true,
-    ssl            => $mcollective::middleware_ssl,
-    stomp_port     => $mcollective::middleware_port,
-    ssl_stomp_port => $mcollective::middleware_ssl_port,
-    ssl_cacert     => "${mcollective::rabbitmq_confdir}/ca.pem",
-    ssl_cert       => "${mcollective::rabbitmq_confdir}/server_public.pem",
-    ssl_key        => "${mcollective::rabbitmq_confdir}/server_private.pem",
+    erlang_manage     => true,
+    config_stomp      => true,
+    delete_guest_user => $mcollective::delete_guest_user,
+    ssl               => $mcollective::middleware_ssl,
+    stomp_port        => $mcollective::middleware_port,
+    ssl_stomp_port    => $mcollective::middleware_ssl_port,
+    ssl_cacert        => "${mcollective::rabbitmq_confdir}/ca.pem",
+    ssl_cert          => "${mcollective::rabbitmq_confdir}/server_public.pem",
+    ssl_key           => "${mcollective::rabbitmq_confdir}/server_private.pem",
   } ->
 
   rabbitmq_plugin { 'rabbitmq_stomp':
@@ -47,12 +48,16 @@ class mcollective::middleware::rabbitmq {
     ensure => present,
   } ->
 
-  # it's not ideal that this user is an admin, but we need one in order to
-  # create the exchange. XXX maybe add another user for that
   rabbitmq_user { $mcollective::middleware_user:
     ensure   => present,
-    admin    => true,
+    admin    => false,
     password => $mcollective::middleware_password,
+  } ->
+
+  rabbitmq_user { $mcollective::middleware_admin_user:
+    ensure   => present,
+    admin    => true,
+    password => $mcollective::middleware_admin_password,
   } ->
 
   rabbitmq_user_permissions { "${mcollective::middleware_user}@${mcollective::rabbitmq_vhost}":
@@ -64,15 +69,15 @@ class mcollective::middleware::rabbitmq {
   rabbitmq_exchange { "mcollective_broadcast@${mcollective::rabbitmq_vhost}":
     ensure   => present,
     type     => 'topic',
-    user     => $mcollective::middleware_user,
-    password => $mcollective::middleware_password,
+    user     => $mcollective::middleware_admin_user,
+    password => $mcollective::middleware_admin_password,
   } ->
 
   rabbitmq_exchange { "mcollective_directed@${mcollective::rabbitmq_vhost}":
     ensure   => present,
     type     => 'direct',
-    user     => $mcollective::middleware_user,
-    password => $mcollective::middleware_password,
+    user     => $mcollective::middleware_admin_user,
+    password => $mcollective::middleware_admin_password,
   } ->
 
   anchor { 'mcollective::middleware::rabbitmq::end': }

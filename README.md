@@ -231,6 +231,11 @@ when configuring rabbitmq middleware with `mcollective::middleware_ssl`.
 String: defaults to '/mcollective'.  The vhost to connect to/manage when using
 rabbitmq middleware.
 
+##### `delete_guest_user`
+
+Boolean: defaults to 'false'.  Whether to delete the rabbitmq guest user when
+setting up rabbitmq middleware.
+
 ##### `manage_packages`
 
 Boolean: defaults to true.  Whether to install mcollective and mcollective-
@@ -341,6 +346,15 @@ Boolean: defaults to false.  Whether to talk to the middleware over a ssl
 protected channel.  Highly recommended.  Requires `mcollective::ssl_ca_cert`,
 `mcollective::ssl_server_public`, `mcollective::ssl_server_private` parameters
 for the server/client install.
+
+##### `middleware_admin_user`
+
+String: defaults to 'admin'.  Username for the middleware admin user.
+
+##### `middleware_admin_password`
+
+String: defaults to 'secret'.  Password to for the middleware 
+admin user.
 
 ##### `server_config_file`
 
@@ -632,6 +646,23 @@ mcollective::server::setting { 'override loglevel':
   order   => '50',
 }
 ```
+
+## Troubleshooting
+
+### Why do I have no client.cfg?
+
+I said to install the client, so why when I run `mco ping` am I seeing this:
+
+```shell
+$ mco ping
+Failed to generate application list: RuntimeError: Cannot find config file '/etc/mcollective/client.cfg'
+```
+
+You've enabled the ssl security provider, which implies each user will have
+their own ssl credentials to use in the collective.  In order to avoid
+incomplete configuration of clients in this mode we delete the system-wide
+/etc/mcollective/client.cfg and only generate user configuration files with
+the `mcollective::user` definition.
 
 ## Limitations
 
