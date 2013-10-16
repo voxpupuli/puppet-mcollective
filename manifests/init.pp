@@ -9,6 +9,7 @@ class mcollective (
   $activemq_template = 'mcollective/activemq.xml.erb',
   $activemq_console = false, # ubuntu why you no jetty.xml!
   $activemq_config = undef,
+  $activemq_base64 = true,
   $activemq_confdir = $mcollective::defaults::activemq_confdir,
   $rabbitmq_confdir = '/etc/rabbitmq',
   $rabbitmq_vhost = '/mcollective', # used by rabbitmq
@@ -44,10 +45,13 @@ class mcollective (
   $middleware_admin_password = 'secret',
 
   # server-specific
-  $server_config_file = '/etc/mcollective/server.cfg',
-  $server_logfile   = '/var/log/mcollective.log',
-  $server_loglevel  = 'info',
-  $server_daemonize = 1,
+  $server_config_file   = '/etc/mcollective/server.cfg',
+  $server_logfile       = '/var/log/mcollective.log',
+  $server_loglevel      = 'info',
+  $server_daemonize     = 1,
+  $server_use_agent_ssl = false,
+  $server_ssl_cert      = "${::puppet_vardir}/ssl/certs/${::fqdn}.pem",
+  $server_ssl_key       = "${::puppet_vardir}/ssl/private_keys/${::fqdn}.pem",
 
   # client-specific
   $client_config_file = '/etc/mcollective/client.cfg',
