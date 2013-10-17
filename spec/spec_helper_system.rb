@@ -16,6 +16,12 @@ RSpec.configure do |c|
   c.before :suite do
     puppet_install
 
+    rcp(:source_path => proj_root + '/spec/fixtures/hiera.yaml',
+        :destination_path => '/etc/puppet/hiera.yaml')
+
+    rcp(:source_path => proj_root + '/spec/fixtures/data',
+        :destination_path => '/etc/puppet/data')
+
     puppet_module_install(:source => proj_root, :module_name => 'mcollective')
     puppet_module_install(:source => proj_root + '/spec/fixtures/modules/site_mcollective', :module_name => 'site_mcollective')
     puppet_module_install(:source => proj_root + '/spec/fixtures/modules/site_nagios', :module_name => 'site_nagios')
@@ -24,6 +30,7 @@ RSpec.configure do |c|
     #
     shell 'puppet module install puppetlabs/activemq'
     shell 'puppet module install puppetlabs/java_ks'
+    shell 'puppet module install puppetlabs/rabbitmq'
     shell 'puppet module install richardc/datacat'
   end
 end
