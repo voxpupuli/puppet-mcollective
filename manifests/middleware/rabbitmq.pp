@@ -66,6 +66,10 @@ class mcollective::middleware::rabbitmq {
     write_permission     => '.*',
   } ->
 
+  rabbitmq_user_permissions { "${mcollective::middleware_admin_user}@${mcollective::rabbitmq_vhost}":
+    configure_permission => '.*',
+  } ->
+
   rabbitmq_exchange { "mcollective_broadcast@${mcollective::rabbitmq_vhost}":
     ensure   => present,
     type     => 'topic',
