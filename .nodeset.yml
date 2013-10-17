@@ -9,6 +9,10 @@ sets:
     nodes:
       "main.foo.vm":
         prefab: 'centos-64-x64'
+  'centos-64-x64-rabbitmq':
+    nodes:
+      "rabbitmq.foo.vm":
+        prefab: 'centos-64-x64'
   'fedora-18-x64':
     nodes:
       "main.foo.vm":
