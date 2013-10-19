@@ -9,3 +9,4 @@ class mcollective::server::service {
     enable => true,
   }
 }
+

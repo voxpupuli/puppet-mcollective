@@ -9,6 +9,9 @@ class mcollective (
   $version           = 'present',
   $ruby_stomp_ensure = 'installed',
 
+  # Config for the service
+  $service_manage = true,
+
   # core configuration
   $confdir          = '/etc/mcollective',
   $main_collective  = 'mcollective',
