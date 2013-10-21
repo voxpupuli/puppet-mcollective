@@ -123,6 +123,30 @@ describe 'mcollective' do
           should_not contain_file('/etc/mcollective/facts.yaml').with_content(/middleware_password/)
         end
 
+        context 'dynamic fact removal' do
+          let(:facts) do
+            {
+              :last_run       => 'Wed Oct 16 10:16:10 MST 2013',
+              :memoryfree     => '5.78 GB',
+              :memoryfree_mb  => '5915.74',
+              :rubysitedir    => '/usr/lib/ruby/site_ruby/1.8',
+              :swapfree       => '2.00 GB',
+              :swapfree_mb    => '2047.99',
+              :uptime         => '16:20 hours',
+              :uptime_days    => '0',
+              :uptime_hours   => '16',
+              :uptime_seconds => '58838',
+            }
+          end
+
+          it { should contain_file('/etc/mcollective/facts.yaml') }
+          it do
+            facts.keys.each do |k|
+              should_not contain_file('/etc/mcollective/facts.yaml').with_content(/^#{k.to_s}.*/m)
+            end
+          end
+        end
+
         describe '#yaml_fact_path' do
           it 'should default to /etc/mcollective/facts.yaml' do
             should contain_mcollective__server__setting('plugin.yaml').with_value('/etc/mcollective/facts.yaml')
@@ -139,6 +163,7 @@ describe 'mcollective' do
       context 'facter' do
         let(:params) { { :server => true, :factsource => 'facter' } }
         it { should contain_mcollective__server__setting('factsource').with_value('facter') }
+        it { should contain_mcollective__server__setting('fact_cache_time').with_value('300') }
         it { should contain_package('mcollective-facter-facts') }
       end
     end
