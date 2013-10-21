@@ -1,3 +1,16 @@
+2013-10-21 Release 1.1.1
+
+Summary:
+
+This is a bugfix release, primarily to remove metadata.json, as it seems to
+cause errors for some users.  Also exclude last_run from the facts, and grant
+rabbitmq's admin user configure permissions.
+
+Fixes:
+- Remove metadata.json
+- Grant the rabbitmq admin user configure permissions.
+- Add last_run to the list of dynamic facts that are filtered out.
+
 2013-10-11 Release 1.1.0
 
 Summary:

@@ -1,6 +1,6 @@
 #!ruby
 name 'puppetlabs-mcollective'
-version '1.1.0'
+version '1.1.1'
 description 'Module to install and configure mcollective.'
 project_page 'https://github.com/puppetlabs/puppetlabs-mcollective'
 dependency 'puppetlabs/activemq', '0.2.x'
