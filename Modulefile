@@ -1,8 +1,13 @@
-#!ruby
 name 'puppetlabs-mcollective'
 version '1.1.1'
+source 'git://github.com/puppetlabs/puppetlabs-mcollective'
+author 'puppetlabs'
+license 'Apache Version 2.0'
+summary 'MCollective Puppet Module'
 description 'Module to install and configure mcollective.'
 project_page 'https://github.com/puppetlabs/puppetlabs-mcollective'
+
+## Add dependencies, if any:
 dependency 'puppetlabs/activemq', '0.2.x'
 dependency 'richardc/datacat', '0.4.x'
 dependency 'garethr/erlang'
