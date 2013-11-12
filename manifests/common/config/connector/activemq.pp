@@ -13,7 +13,7 @@ class mcollective::common::config::connector::activemq {
       value => 'yes',
     }
   }
-  
+
   mcollective::common::setting { 'plugin.activemq.randomize':
     value => 'true',
   }
