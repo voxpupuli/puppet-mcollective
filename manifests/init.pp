@@ -40,6 +40,7 @@ class mcollective (
   $middleware_port = '61613',
   $middleware_ssl_port = '61614',
   $middleware_ssl = false,
+  $middleware_ssl_fallback = false,
   $middleware_admin_user = 'admin',
   $middleware_admin_password = 'secret',
 
