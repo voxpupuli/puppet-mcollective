@@ -14,7 +14,7 @@ class mcollective::common::config {
   }
 
   file { "${mcollective::site_libdir}/mcollective":
-    require      => File["${mcollective::site_libdir}"],
+    require      => File[$mcollective::site_libdir],
     ensure       => directory,
     owner        => 'root',
     group        => 'root',
