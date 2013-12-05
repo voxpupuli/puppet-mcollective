@@ -4,7 +4,17 @@ class mcollective::common::config {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  file { $mcollective::site_libdir:
+  file { "${mcollective::site_libdir}":
+    ensure       => directory,
+    owner        => 'root',
+    group        => 'root',
+    recurse      => true,
+    purge        => true,
+    force        => true,
+  }
+
+  file { "${mcollective::site_libdir}/mcollective":
+    require      => File["${mcollective::site_libdir}"],
     ensure       => directory,
     owner        => 'root',
     group        => 'root',
@@ -17,12 +27,12 @@ class mcollective::common::config {
 
   if $mcollective::server {
     # if we have a server install, reload when the plugins change
-    File[$mcollective::site_libdir] ~> Class['mcollective::server::service']
+    File["${mcollective::site_libdir}/mcollective"] ~> Class['mcollective::server::service']
   }
 
   datacat_collector { 'mcollective::site_libdir':
-    before          => File[$mcollective::site_libdir],
-    target_resource => File[$mcollective::site_libdir],
+    before          => File["${mcollective::site_libdir}/mcollective"],
+    target_resource => File["${mcollective::site_libdir}/mcollective"],
     target_field    => 'source',
     source_key      => 'source_path',
   }
