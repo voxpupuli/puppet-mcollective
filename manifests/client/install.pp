@@ -21,5 +21,6 @@ class mcollective::client::install {
         match => "#!/usr/bin/env ruby",
       }
 
+  	}
   }
 }
