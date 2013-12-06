@@ -21,7 +21,6 @@ class mcollective::client::install {
         match => "#!/usr/bin/env ruby",
         require => Package['mcollective-client'],
       }
-
     }
   }
 }

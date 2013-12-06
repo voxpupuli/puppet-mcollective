@@ -57,7 +57,6 @@ class mcollective::server::install {
         require => File_line["${name}::mcollectived-shebang"],
         notify => Service['mcollective']
       }
-
     }
   }
 }
