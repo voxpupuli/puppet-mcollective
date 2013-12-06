@@ -10,7 +10,6 @@ description 'Module to install and configure mcollective.'
 project_page 'https://github.com/puppetlabs/puppetlabs-mcollective'
 dependency 'puppetlabs/activemq', '0.2.x'
 dependency 'richardc/datacat', '0.4.x'
-# it is, doesent work with puppet file, guess of its repo-url resolving algorythm
 dependency 'garethr/erlang', 'master'
 dependency 'puppetlabs/rabbitmq', '2.0.x'
 dependency 'puppetlabs/stdlib', 'master'
