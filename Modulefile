@@ -1,4 +1,5 @@
 #!ruby
+forge 'http://forge.puppetlabs.com'
 name 'puppetlabs-mcollective'
 version '1.1.3'
 source 'git://github.com/puppetlabs/puppetlabs-mcollective.git'
@@ -10,7 +11,7 @@ project_page 'https://github.com/puppetlabs/puppetlabs-mcollective'
 dependency 'puppetlabs/activemq', '0.2.x'
 dependency 'richardc/datacat', '0.4.x'
 # it is, doesent work with puppet file, guess of its repo-url resolving algorythm
-#dependency 'garethr/erlang', 'master'
+dependency 'garethr/erlang', 'master'
 dependency 'puppetlabs/rabbitmq', '2.0.x'
 dependency 'puppetlabs/stdlib', 'master'
 dependency 'puppetlabs/java_ks', '1.2.0'
