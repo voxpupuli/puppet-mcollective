@@ -19,6 +19,7 @@ class mcollective::client::install {
         path => "/usr/bin/mco",
         line => "#!/usr/bin/env ruby1.8",
         match => "#!/usr/bin/env ruby",
+        require => Package['mcollective-client'],
       }
 
   	}
