@@ -9,7 +9,7 @@ class mcollective::client::install {
       ensure => $mcollective::version,
     }
 
-	if $::osfamily == 'Debian' {
+    if $::osfamily == 'Debian' {
       # fix for debian wheezy (guess ubuntu > 13.04 at least has the same), since mcollective has to use ruby1.8
       # but newer distros of debian has 1.9 by default.
       # http://projects.puppetlabs.com/issues/16572 - can be removed if fixed in .deb
@@ -22,6 +22,6 @@ class mcollective::client::install {
         require => Package['mcollective-client'],
       }
 
-  	}
+    }
   }
 }
