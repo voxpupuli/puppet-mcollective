@@ -220,6 +220,7 @@ describe 'mcollective' do
             let(:common_params) { { :server => true, :middleware_hosts => %w{ foo }, :middleware_ssl => true } }
             let(:params) { common_params }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
+            it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
 
             describe '#ssl_ca_cert' do
               context 'set' do
@@ -239,6 +240,13 @@ describe 'mcollective' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_server_private => 'puppet:///modules/foo/server_private.pem' }) }
                 it { should contain_file('/etc/mcollective/server_private.pem').with_source('puppet:///modules/foo/server_private.pem') }
+              end
+            end
+
+            describe '#ssl_server_fallback' do
+              context 'set' do
+                let(:params) { common_params.merge({ :middleware_ssl_fallback => true }) }
+                it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
               end
             end
           end
@@ -758,6 +766,14 @@ describe 'mcollective' do
           context 'true' do
             let(:params) { { :server => false, :client => true, :middleware_hosts => %w{ foo }, :middleware_ssl => true } }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
+            it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
+
+            describe '#ssl_server_fallback' do
+              context 'set' do
+                let(:params) { { :server => false, :client => true, :middleware_hosts => %w{ foo }, :middleware_ssl => true, :middleware_ssl_fallback => true } }
+                it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
+              end
+            end
           end
         end
       end
