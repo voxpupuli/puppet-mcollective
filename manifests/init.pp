@@ -30,6 +30,7 @@ class mcollective (
   $rpcauthprovider = 'action_policy',
   $rpcauditprovider = 'logfile',
   $registration = undef,
+  $extra_yaml_paths = undef,
   $core_libdir = $mcollective::defaults::core_libdir,
   $site_libdir = $mcollective::defaults::site_libdir,
 
