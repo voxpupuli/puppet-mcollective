@@ -10,8 +10,10 @@ class mcollective (
   $activemq_console = false, # ubuntu why you no jetty.xml!
   $activemq_config = undef,
   $activemq_confdir = $mcollective::defaults::activemq_confdir,
+  $activemq_user = 'activemq',
   $rabbitmq_confdir = '/etc/rabbitmq',
   $rabbitmq_vhost = '/mcollective', # used by rabbitmq
+  $rabbitmq_user = 'rabbitmq',
   $delete_guest_user = false,
 
   # installing packages
