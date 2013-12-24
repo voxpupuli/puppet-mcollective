@@ -690,6 +690,11 @@ describe 'mcollective' do
         it { should contain_package('mcollective-client') }
       end
 
+      context '#client_package_name' do
+        let(:params) { { :client => true, :manage_packages => true, :client_package_name => 'mco-client' } }
+        it { should contain_package('mco-client') }
+      end
+
       context 'false' do
         let(:params) { { :client => true, :manage_packages => false } }
         it { should_not contain_package('mcollective-client') }

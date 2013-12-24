@@ -54,6 +54,7 @@ class mcollective (
   $client_config_file = '/etc/mcollective/client.cfg',
   $client_logger_type = 'console',
   $client_loglevel = 'warn',
+  $client_package_name = 'mcollective-client',
 
   # ssl certs
   $ssl_ca_cert = undef,

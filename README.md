@@ -241,6 +241,11 @@ setting up rabbitmq middleware.
 Boolean: defaults to true.  Whether to install mcollective and mcollective-
 client packages when installing the server and client components.
 
+#### `client_package_name`
+
+String: defaults to 'mcollective-client'. Name of the package to be
+installed for the client.
+
 ##### `version`
 
 String: defaults to 'present'.  What version of packages to `ensure` when
