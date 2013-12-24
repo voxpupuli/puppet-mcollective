@@ -7,7 +7,7 @@ class mcollective::server::config::securityprovider::ssl {
   file { '/etc/mcollective/clients':
     ensure  => 'directory',
     owner   => 'root',
-    group   => 'root',
+    group   => '0',
     purge   => true,
     recurse => true,
     mode    => '0400',

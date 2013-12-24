@@ -7,7 +7,7 @@ class mcollective::common::config {
   file { $mcollective::site_libdir:
     ensure       => directory,
     owner        => 'root',
-    group        => 'root',
+    group        => '0',
     recurse      => true,
     purge        => true,
     force        => true,
