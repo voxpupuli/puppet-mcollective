@@ -544,6 +544,17 @@ describe 'mcollective' do
             let(:params) { common_params }
             it { should contain_file('activemq.xml').with_content(/transportConnector name="stomp\+ssl" uri="stomp\+ssl:/) }
 
+            describe '#activemq_user' do
+              context 'should default to activemq' do
+                it { should contain_file('/etc/activemq/ca.pem').with_owner('activemq').with_group('activemq') }
+              end
+
+              context '_activemq' do
+                let(:params) { common_params.merge({ :activemq_user => 'activemq' }) }
+                it { should contain_file('/etc/activemq/ca.pem').with_owner('_activemq').with_group('_activemq') }
+              end
+            end
+
             describe '#ssl_ca_cert' do
               context 'set' do
                 let(:params) { common_params.merge({ :ssl_ca_cert => 'puppet:///modules/foo/ca_cert.pem' }) }
@@ -619,6 +630,17 @@ describe 'mcollective' do
 
           context 'true' do
             let(:params) { common_params.merge({ :middleware_ssl => true }) }
+
+            describe '#rabbitmq_user' do
+              context 'should default to rabbitmq' do
+                it { should contain_file('/etc/rabbitmq/ca.pem').with_owner('rabbitmq').with_group('rabbitmq') }
+              end
+
+              context '_rabbitmq' do
+                let(:params) { common_params.merge({ :rabbitmq_user => 'rabbitmq' }) }
+                it { should contain_file('/etc/rabbitmq/ca.pem').with_owner('_rabbitmq').with_group('_rabbitmq') }
+              end
+            end
 
             describe '#rabbitmq_confdir' do
               context 'default' do

@@ -221,10 +221,18 @@ configuration file to use when configuring activemq middleware.  Bypasses
 String: default based on distribution.  The directory to copy ssl certificates
 to when configuring activemq middleware with `mcollective::middleware_ssl`.
 
+#### `activemq_user`
+String: defaults to 'activemq'. The name of the user which owns the
+activemq configuration files.
+
 ##### `rabbitmq_confdir`
 
 String: defaults to '/etc/rabbitmq'. The directory to copy ssl certificates to
 when configuring rabbitmq middleware with `mcollective::middleware_ssl`.
+
+#### `rabbitmq_user`
+String: defaults to 'rabbitmq'. The name of the user which owns the
+rabbitmq configuration files.
 
 ##### `rabbitmq_vhost`
 
