@@ -4,6 +4,7 @@ class mcollective (
   $server = true,
   $client = false,
   $middleware = false,
+  $agents = false,
 
   # middleware tweaking
   $activemq_template = 'mcollective/activemq.xml.erb',
@@ -83,6 +84,11 @@ class mcollective (
   if $middleware {
     Anchor['mcollective::begin'] ->
     class { '::mcollective::middleware': } ->
+    Anchor['mcollective::end']
+  }
+  if $agents {
+    Anchor['mcollective::begin'] ->
+    class { '::mcollective::agents': } ->
     Anchor['mcollective::end']
   }
 }
