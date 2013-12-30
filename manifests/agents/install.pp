@@ -5,8 +5,9 @@ class mcollective::agents::install {
   }
 
   if $mcollective::agents {
-  	package {'mcollective-package-agent':
+  	package { $mcollective::agents_list:
   		ensure => latest,
+  		notify => Class['mcollective::server::service'],
   	}
   }
 }

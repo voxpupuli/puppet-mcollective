@@ -56,6 +56,8 @@ class mcollective (
   $client_logger_type = 'console',
   $client_loglevel = 'warn',
 
+  $agents_list = ['mcollective-service-agent', 'mcollective-package-agent'],
+
   # ssl certs
   $ssl_ca_cert = undef,
   $ssl_server_public = undef,
