@@ -6,6 +6,5 @@ class mcollective::agents {
 
   anchor { 'mcollective::agents::begin': } ->
   class { '::mcollective::agents::install': } ->
-  class { '::mcollective::agents::service': } ->
   anchor { 'mcollective::agents::end': }
 }
