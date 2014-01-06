@@ -6,7 +6,6 @@
 2. [Module Description - What the module does and why it is useful](#module-description)
 3. [Setup - The basics of getting started with mcollective](#setup)
     * [What the mcollective module affects](#what-the-mcollective-module-affects)
-    * [Setup requirements](#setup-requirements)
     * [Beginning with mcollective](#beginning-with-mcollective)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
