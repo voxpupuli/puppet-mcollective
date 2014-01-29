@@ -56,6 +56,7 @@ class mcollective (
   $server_daemonize   = 1,
   $service_name       = 'mcollective',
   $server_package     = 'mcollective',
+  $ruby_stomp_package = 'ruby-stomp',
 
   # client-specific
   $client_config_file  = '/etc/mcollective/client.cfg',
