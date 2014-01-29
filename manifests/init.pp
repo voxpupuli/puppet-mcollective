@@ -68,8 +68,6 @@ class mcollective (
   $ssl_server_private = undef,
   $ssl_client_certs = 'puppet:///modules/mcollective/empty',
 ) inherits mcollective::defaults {
-  anchor { 'mcollective::begin': }
-  anchor { 'mcollective::end': }
 
   validate_string($activemq_memoryUsage)
   validate_re($activemq_memoryUsage, '^[0-9]+ [kmg]b$')
@@ -79,24 +77,15 @@ class mcollective (
   validate_re($activemq_tempUsage, '^[0-9]+ [kmg]b$')
 
   if $client or $server {
-    # We don't want this on middleware roles.
-    Anchor['mcollective::begin'] ->
-    class { '::mcollective::common': } ->
-    Anchor['mcollective::end']
+    contain mcollective::common
   }
   if $client {
-    Anchor['mcollective::begin'] ->
-    class { '::mcollective::client': } ->
-    Anchor['mcollective::end']
+    contain mcollective::client
   }
   if $server {
-    Anchor['mcollective::begin'] ->
-    class { '::mcollective::server': } ->
-    Anchor['mcollective::end']
+    contain mcollective::server
   }
   if $middleware {
-    Anchor['mcollective::begin'] ->
-    class { '::mcollective::middleware': } ->
-    Anchor['mcollective::end']
+    contain mcollective::middleware
   }
 }
