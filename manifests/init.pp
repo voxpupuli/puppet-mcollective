@@ -55,12 +55,13 @@ class mcollective (
   $server_loglevel    = 'info',
   $server_daemonize   = 1,
   $service_name       = 'mcollective',
+  $server_package     = 'mcollective',
 
   # client-specific
   $client_config_file  = '/etc/mcollective/client.cfg',
   $client_logger_type  = 'console',
   $client_loglevel     = 'warn',
-  $client_package_name = 'mcollective-client',
+  $client_package      = 'mcollective-client',
 
   # ssl certs
   $ssl_ca_cert        = undef,
