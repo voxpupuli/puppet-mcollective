@@ -23,13 +23,14 @@ class mcollective (
   $ruby_stomp_ensure = 'installed',
 
   # core configuration
+  $confdir          = '/etc/mcollective',
   $main_collective  = 'mcollective',
   $collectives      = 'mcollective',
   $connector        = 'activemq',
   $securityprovider = 'psk',
   $psk              = 'changemeplease',
   $factsource       = 'yaml',
-  $yaml_fact_path   = '/etc/mcollective/facts.yaml',
+  $yaml_fact_path   = undef,
   $excluded_facts   = [],
   $classesfile      = '/var/lib/puppet/state/classes.txt',
   $rpcauthprovider  = 'action_policy',
@@ -50,7 +51,7 @@ class mcollective (
   $middleware_admin_password = 'secret',
 
   # server-specific
-  $server_config_file = '/etc/mcollective/server.cfg',
+  $server_config_file = undef, # default dependent on $confdir
   $server_logfile     = '/var/log/mcollective.log',
   $server_loglevel    = 'info',
   $server_daemonize   = 1,
@@ -59,7 +60,7 @@ class mcollective (
   $ruby_stomp_package = 'ruby-stomp',
 
   # client-specific
-  $client_config_file  = '/etc/mcollective/client.cfg',
+  $client_config_file  = undef, # default dependent on $confdir
   $client_logger_type  = 'console',
   $client_loglevel     = 'warn',
   $client_package      = 'mcollective-client',
@@ -69,7 +70,7 @@ class mcollective (
   $ssl_server_public    = undef,
   $ssl_server_private   = undef,
   $ssl_client_certs     = 'puppet:///modules/mcollective/empty',
-  $ssl_client_certs_dir = '/etc/mcollective/clients',
+  $ssl_client_certs_dir = undef, # default dependent on $confdir
 ) inherits mcollective::defaults {
 
   validate_string($activemq_memoryUsage)
@@ -78,6 +79,14 @@ class mcollective (
   validate_re($activemq_storeUsage, '^[0-9]+ [kmg]b$')
   validate_string($activemq_tempUsage)
   validate_re($activemq_tempUsage, '^[0-9]+ [kmg]b$')
+
+  # Because the correct default value for several parameters is based on another
+  # configurable parameter, it cannot be set in the parameter defaults above and
+  # _real variables must be set here.
+  $yaml_fact_path_real = pick($yaml_fact_path, "${confdir}/facts.yaml")
+  $server_config_file_real = pick($server_config_file, "${confdir}/server.cfg")
+  $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
+  $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/clients")
 
   if $client or $server {
     contain mcollective::common
