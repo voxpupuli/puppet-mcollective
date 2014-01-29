@@ -4,7 +4,7 @@ class mcollective::server::config::securityprovider::ssl {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  file { '/etc/mcollective/clients':
+  file { $mcollective::ssl_client_certs_dir:
     ensure  => 'directory',
     owner   => 'root',
     group   => '0',
@@ -15,7 +15,7 @@ class mcollective::server::config::securityprovider::ssl {
   }
 
   mcollective::server::setting { 'plugin.ssl_client_cert_dir':
-    value => '/etc/mcollective/clients',
+    value => $mcollective::ssl_client_certs_dir,
   }
 
   mcollective::server::setting { 'plugin.ssl_server_public':

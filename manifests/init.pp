@@ -65,10 +65,11 @@ class mcollective (
   $client_package      = 'mcollective-client',
 
   # ssl certs
-  $ssl_ca_cert        = undef,
-  $ssl_server_public  = undef,
-  $ssl_server_private = undef,
-  $ssl_client_certs   = 'puppet:///modules/mcollective/empty',
+  $ssl_ca_cert          = undef,
+  $ssl_server_public    = undef,
+  $ssl_server_private   = undef,
+  $ssl_client_certs     = 'puppet:///modules/mcollective/empty',
+  $ssl_client_certs_dir = '/etc/mcollective/clients',
 ) inherits mcollective::defaults {
 
   validate_string($activemq_memoryUsage)
