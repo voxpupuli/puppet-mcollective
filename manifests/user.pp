@@ -92,7 +92,7 @@ define mcollective::user(
 
   # This is specific to connector, but refers to the user's certs
   if $connector in [ 'activemq', 'rabbitmq' ] {
-    $pool_size = size( $middleware_hosts )
+    $pool_size = size(flatten([$middleware_hosts]))
     $hosts = range( '1', $pool_size )
     $connectors = prefix( $hosts, "${username}_" )
     mcollective::user::connector { $connectors:
