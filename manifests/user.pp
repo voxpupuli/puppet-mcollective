@@ -1,6 +1,7 @@
 # Define - mcollective::user
 define mcollective::user(
   $username = $name,
+  $callerid = $name,
   $group    = $name,
   $homedir = "/home/${name}",
   $certificate = undef,
@@ -51,7 +52,7 @@ define mcollective::user(
       mode   => '0444',
     }
 
-    $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${username}.pem"
+    $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem"
     file { $private_path:
       source => $private_key,
       owner  => $username,
@@ -61,7 +62,7 @@ define mcollective::user(
   }
 
   if $securityprovider == 'ssl' {
-    file { "${homedir}/.mcollective.d/credentials/certs/${username}.pem":
+    file { "${homedir}/.mcollective.d/credentials/certs/${callerid}.pem":
       source => $certificate,
       owner  => $username,
       group  => $group,
@@ -71,14 +72,14 @@ define mcollective::user(
     mcollective::user::setting { "${username}:plugin.ssl_client_public":
       setting  => 'plugin.ssl_client_public',
       username => $username,
-      value    => "${homedir}/.mcollective.d/credentials/certs/${username}.pem",
+      value    => "${homedir}/.mcollective.d/credentials/certs/${callerid}.pem",
       order    => '60',
     }
 
     mcollective::user::setting { "${username}:plugin.ssl_client_private":
       setting  => 'plugin.ssl_client_private',
       username => $username,
-      value    => "${homedir}/.mcollective.d/credentials/private_keys/${username}.pem",
+      value    => "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem",
       order    => '60',
     }
 
