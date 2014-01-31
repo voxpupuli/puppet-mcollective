@@ -98,6 +98,7 @@ define mcollective::user(
     $connectors = prefix( $hosts, "${username}_" )
     mcollective::user::connector { $connectors:
       username       => $username,
+      callerid       => $callerid,
       homedir        => $homedir,
       connector      => $connector,
       middleware_ssl => $middleware_ssl,
