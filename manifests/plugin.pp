@@ -8,12 +8,13 @@ define mcollective::plugin(
   # parameters
   $client = $mcollective::client,
   $server = $mcollective::server,
+  $version = 'present',
 ) {
   if $package {
     # install from a package named "mcollective-${name}-${type}"
     $package_name = "mcollective-${name}-${type}"
     package { $package_name:
-      ensure => 'present',
+      ensure => $version,
     }
 
     if $server {
@@ -24,7 +25,7 @@ define mcollective::plugin(
     # install the client package if we're installing on a $mcollective::client
     if $client and $has_client {
       package { "mcollective-${name}-client":
-        ensure => 'present',
+        ensure => $version,
       }
     }
   }
