@@ -17,6 +17,7 @@ class mcollective (
   # installing packages
   $manage_packages = true,
   $version = 'present',
+  $ruby_stomp_ensure = 'installed',
 
   # core configuration
   $main_collective = 'mcollective',

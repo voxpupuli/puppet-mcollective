@@ -245,6 +245,12 @@ client packages when installing the server and client components.
 String: defaults to 'present'.  What version of packages to `ensure` when
 `mcollective::manage_packages` is true.
 
+##### `ruby_stomp_ensure`
+
+String: defaults to 'installed'.  What version of the ruby-stomp package to
+`ensure` when `mcollective::manage_packages` is true. Only relevant on the
+Debian OS family.
+
 ##### `main_collective`
 
 String: defaults to 'mcollective'.  The name of the main collective for this

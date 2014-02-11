@@ -40,6 +40,23 @@ describe 'mcollective' do
       end
     end
 
+    describe '#ruby_stomp_ensure' do
+      let(:facts) { { :osfamily => 'Debian' } }
+      it 'should default to installed' do
+        should contain_package('ruby-stomp').with_ensure('installed')
+      end
+      
+      context 'latest' do
+        let(:params) { { :ruby_stomp_ensure => 'latest' } }
+        it { should contain_package('ruby-stomp').with_ensure('latest') }
+      end
+
+      context '1.2.10-1puppetlabs1' do
+        let(:params) { { :ruby_stomp_ensure => '1.2.10-1puppetlabs1' } }
+        it { should contain_package('ruby-stomp').with_ensure('1.2.10-1puppetlabs1') }
+      end
+    end
+
     describe '#main_collective' do
       context 'default' do
         it { should contain_mcollective__common__setting('main_collective').with_value('mcollective') }
