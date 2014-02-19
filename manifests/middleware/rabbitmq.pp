@@ -29,7 +29,6 @@ class mcollective::middleware::rabbitmq {
 
   anchor { 'mcollective::middleware::rabbitmq::start': }
   class { '::rabbitmq':
-    erlang_manage     => true,
     config_stomp      => true,
     delete_guest_user => $mcollective::delete_guest_user,
     ssl               => $mcollective::middleware_ssl,
