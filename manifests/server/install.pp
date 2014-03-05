@@ -13,7 +13,7 @@ class mcollective::server::install {
       # XXX the dependencies my test ubuntu 12.04 system seem to not correctly state
       # ruby-stomp as a dependency of mcollective, so hand specify
       package { 'ruby-stomp':
-        ensure => 'installed',
+        ensure => $mcollective::ruby_stomp_ensure,
         before => Package['mcollective'],
       }
     }
