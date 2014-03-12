@@ -7,11 +7,10 @@ class mcollective::server::install {
   if $mcollective::manage_packages {
     package { 'mcollective': ensure => $mcollective::version, }
 
-    $ruby_stomp_package = undef
-
     case $::osfamily {
       'Debian' : { $ruby_stomp_package = 'ruby-stomp' }
       'Redhat' : { $ruby_stomp_package = 'rubygem-stomp' }
+      default  : { $ruby_stomp_package = undef }
     }
 
     if $ruby_stomp_package {
