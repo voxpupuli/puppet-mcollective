@@ -10,12 +10,14 @@ class mcollective::server::install {
     case $::osfamily {
       'Debian' : { $ruby_stomp_package = 'ruby-stomp' }
       'Redhat' : { $ruby_stomp_package = 'rubygem-stomp' }
-      default  : { $ruby_stomp_package = 'ruby-stomp' }
+      default  : { $ruby_stomp_package = undef }
     }
 
-    package { $ruby_stomp_package:
-      ensure => $mcollective::ruby_stomp_ensure,
-      before => Package['mcollective'],
+    if defined $ruby_stomp_package {
+      package { $ruby_stomp_package:
+        ensure => $mcollective::ruby_stomp_ensure,
+        before => Package['mcollective'],
+      }
     }
   }
 }
