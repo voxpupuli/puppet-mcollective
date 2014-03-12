@@ -16,6 +16,11 @@ class mcollective::server::install {
         ensure => $mcollective::ruby_stomp_ensure,
         before => Package['mcollective'],
       }
+    } elsif $::osfamily == 'Redhat' {
+      package { 'rubygem-stomp':
+        ensure => $mcollective::ruby_stomp_ensure,
+        before => Package['mcollective'],
+      }
     }
   }
 }
