@@ -2,7 +2,7 @@
     # remove dynamic facts and non-string values
     # last_run fact comes from the puppi module
     obj = scope.compiler.topscope.to_hash.reject { |k,v|
-        (k.to_s =~ /^(uptime.*|rubysitedir|_timestamp|memoryfree.*|swapfree.*|last_run)$/i) || (v.class != ::String)
+        (k.to_s =~ /^(uptime.*|rubysitedir|_timestamp|memoryfree.*|swapfree.*|last_run|path)$/i) || (v.class != ::String)
     }
 
     arr = obj.sort
