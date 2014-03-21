@@ -287,6 +287,15 @@ server.
 String: defaults to '/etc/mcollective/facts.yaml'.  Name of the file the
 'yaml' factsource plugin should load facts from.
 
+##### `excluded_facts`
+Array: defaults to []. List of facts to exclude from facts.yaml when
+`factsource` is 'yaml'. This is useful for preventing dynamic facts (that
+change on each Puppet run) from ending up in facts.yaml, which would trigger
+restarts of Mcollective. A default list of facts to ignore is managed
+internally: `uptime.*`, `rubysitedir`, `_timestamp`, `memoryfree.*`,
+`swapfree.*` and `last_run`. Note that the fact names can be Ruby regular
+expressions.
+
 ##### `classesfile`
 
 String: defaults to '/var/lib/puppet/state/classes.txt'.  Name of the file the
