@@ -287,6 +287,11 @@ server.
 String: defaults to '/etc/mcollective/facts.yaml'.  Name of the file the
 'yaml' factsource plugin should load facts from.
 
+##### `yaml_fact_filter`
+
+Array: defaults to ['uptime.*','rubysitedir','_timestamp','memoryfree.*'
+,'swapfree.*','last_run']. List of facts to ignore when creating factsource.
+
 ##### `classesfile`
 
 String: defaults to '/var/lib/puppet/state/classes.txt'.  Name of the file the
