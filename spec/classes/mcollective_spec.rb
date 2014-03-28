@@ -159,7 +159,7 @@ describe 'mcollective' do
           it { should contain_file('/etc/mcollective/facts.yaml') }
           it do
             facts.keys.each do |k|
-              should_not contain_file('/etc/mcollective/facts.yaml').with_content(/^#{k.to_s}.*/m)
+              should_not contain_file('/etc/mcollective/facts.yaml').with_content(/^\s*#{k.to_s}.*/m)
             end
           end
         end
