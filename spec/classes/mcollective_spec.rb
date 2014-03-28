@@ -164,6 +164,55 @@ describe 'mcollective' do
           end
         end
 
+        context 'dynamic fact removal with empty yaml_fact_filter' do
+          let(:facts) do
+            {
+              :last_run       => 'Wed Oct 16 10:16:10 MST 2013',
+              :memoryfree     => '5.78 GB',
+              :memoryfree_mb  => '5915.74',
+              :rubysitedir    => '/usr/lib/ruby/site_ruby/1.8',
+              :swapfree       => '2.00 GB',
+              :swapfree_mb    => '2047.99',
+              :uptime         => '16:20 hours',
+              :uptime_days    => '0',
+              :uptime_hours   => '16',
+              :uptime_seconds => '58838',
+            }
+          end
+          let(:params) { { :yaml_fact_filter => [] } }
+
+          it { should contain_file('/etc/mcollective/facts.yaml') }
+          it do
+            facts.keys.each do |k|
+              should contain_file('/etc/mcollective/facts.yaml').with_content(/^\s*#{k.to_s}.*/m)
+            end
+          end
+        end
+
+        context 'dynamic fact removal with selective yaml_fact_filter' do
+          let(:facts) do
+            {
+              :last_run       => 'Wed Oct 16 10:16:10 MST 2013',
+              :memoryfree     => '5.78 GB',
+              :memoryfree_mb  => '5915.74',
+              :rubysitedir    => '/usr/lib/ruby/site_ruby/1.8',
+              :swapfree       => '2.00 GB',
+              :swapfree_mb    => '2047.99',
+              :uptime         => '16:20 hours',
+              :uptime_days    => '0',
+              :uptime_hours   => '16',
+              :uptime_seconds => '58838',
+            }
+          end
+          let(:params) { { :yaml_fact_filter => ['mem.*','.*time'] } }
+
+          it { should contain_file('/etc/mcollective/facts.yaml') }
+          it do
+            should_not contain_file('/etc/mcollective/facts.yaml').with_content(/^\s*memory.*/m)
+            should_not contain_file('/etc/mcollective/facts.yaml').with_content(/^\s*uptime: .*/m)
+          end
+        end
+
         describe '#yaml_fact_path' do
           it 'should default to /etc/mcollective/facts.yaml' do
             should contain_mcollective__server__setting('plugin.yaml').with_value('/etc/mcollective/facts.yaml')

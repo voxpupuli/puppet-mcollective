@@ -27,6 +27,7 @@ class mcollective (
   $psk = 'changemeplease',
   $factsource = 'yaml',
   $yaml_fact_path = '/etc/mcollective/facts.yaml',
+  $yaml_fact_filter = ['uptime.*','rubysitedir','_timestamp','memoryfree.*','swapfree.*','last_run'],
   $classesfile = '/var/lib/puppet/state/classes.txt',
   $rpcauthprovider = 'action_policy',
   $rpcauditprovider = 'logfile',
