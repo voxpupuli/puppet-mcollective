@@ -290,7 +290,8 @@ String: defaults to '/etc/mcollective/facts.yaml'.  Name of the file the
 ##### `yaml_fact_filter`
 
 Array: defaults to ['uptime.*','rubysitedir','_timestamp','memoryfree.*'
-,'swapfree.*','last_run']. List of facts to ignore when creating factsource.
+,'swapfree.*','last_run']. List of regex fragments of fact names to ignore 
+when creating factsource.
 
 ##### `classesfile`
 
