@@ -22,8 +22,8 @@ class mcollective::middleware::activemq {
     Class['activemq::packages'] ->
 
     file { "${mcollective::activemq_confdir}/ca.pem":
-      owner  => 'activemq',
-      group  => 'activemq',
+      owner  => $mcollective::activemq_user,
+      group  => $mcollective::activemq_user,
       mode   => '0444',
       source => $mcollective::ssl_ca_cert,
     } ->
@@ -37,21 +37,21 @@ class mcollective::middleware::activemq {
     } ->
 
     file { "${mcollective::activemq_confdir}/truststore.jks":
-      owner => 'activemq',
-      group => 'activemq',
+      owner => $mcollective::activemq_user,
+      group => $mcollective::activemq_user,
       mode  => '0400',
     } ->
 
     file { "${mcollective::activemq_confdir}/server_public.pem":
-      owner  => 'activemq',
-      group  => 'activemq',
+      owner  => $mcollective::activemq_user,
+      group  => $mcollective::activemq_user,
       mode   => '0444',
       source => $mcollective::ssl_server_public,
     } ->
 
     file { "${mcollective::activemq_confdir}/server_private.pem":
-      owner  => 'activemq',
-      group  => 'activemq',
+      owner  => $mcollective::activemq_user,
+      group  => $mcollective::activemq_user,
       mode   => '0400',
       source => $mcollective::ssl_server_private,
     } ->
@@ -66,8 +66,8 @@ class mcollective::middleware::activemq {
     } ->
 
     file { "${mcollective::activemq_confdir}/keystore.jks":
-      owner => 'activemq',
-      group => 'activemq',
+      owner => $mcollective::activemq_user,
+      group => $mcollective::activemq_user,
       mode  => '0400',
     } ->
 
