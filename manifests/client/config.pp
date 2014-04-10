@@ -15,7 +15,7 @@ class mcollective::client::config {
   else {
     datacat { 'mcollective::client':
       owner    => 'root',
-      group    => 'root',
+      group    => '0',
       mode     => '0444',
       path     => $mcollective::client_config_file,
       template => 'mcollective/settings.cfg.erb',

@@ -5,7 +5,7 @@
 define mcollective::actionpolicy($default = 'deny') {
   datacat { "mcollective::actionpolicy ${name}":
     owner    => 'root',
-    group    => 'root',
+    group    => '0',
     mode     => '0400',
     path     => "/etc/mcollective/policies/${name}.policy",
     template => 'mcollective/actionpolicy.erb',
