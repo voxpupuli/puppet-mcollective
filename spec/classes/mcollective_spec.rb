@@ -294,6 +294,18 @@ describe 'mcollective' do
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('1702') }
           end
         end
+
+        describe '#activemq_base64' do
+          let(:common_params) { { :server => true } }
+          context 'default' do
+            it { should contain_mcollective__common__setting('plugin.activemq.base64').with_value('yes') }
+          end
+
+          context 'false' do
+            let(:params) { common_params.merge({ :activemq_base64 => false }) }
+            it { should_not contain_mcollective__common__setting('plugin.activemq.base64') }
+          end
+        end
       end
 
       context 'rabbitmq' do

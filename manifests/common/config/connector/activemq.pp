@@ -8,8 +8,10 @@ class mcollective::common::config::connector::activemq {
     value => 1,
   }
 
-  mcollective::common::setting { 'plugin.activemq.base64':
-    value => 'yes',
+  if $mcollective::activemq_base64 {
+    mcollective::common::setting { 'plugin.activemq.base64':
+      value => 'yes',
+    }
   }
 
   mcollective::common::setting { 'plugin.activemq.randomize':

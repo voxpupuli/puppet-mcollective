@@ -220,6 +220,11 @@ configuration file to use when configuring activemq middleware.  Bypasses
 String: default based on distribution.  The directory to copy ssl certificates
 to when configuring activemq middleware with `mcollective::middleware_ssl`.
 
+##### `activemq_base64`
+
+Boolean: defaults to true. Option to disable base64 encoding for the activemq 
+middleware 
+
 ##### `rabbitmq_confdir`
 
 String: defaults to '/etc/rabbitmq'. The directory to copy ssl certificates to
