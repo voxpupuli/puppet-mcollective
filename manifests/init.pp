@@ -7,6 +7,9 @@ class mcollective (
 
   # middleware tweaking
   $activemq_template = 'mcollective/activemq.xml.erb',
+  $activemq_memoryUsage = '20 mb',
+  $activemq_storeUsage = '1 gb',
+  $activemq_tempUsage = '100 mb',
   $activemq_console = false, # ubuntu why you no jetty.xml!
   $activemq_config = undef,
   $activemq_confdir = $mcollective::defaults::activemq_confdir,
@@ -64,6 +67,13 @@ class mcollective (
 ) inherits mcollective::defaults {
   anchor { 'mcollective::begin': }
   anchor { 'mcollective::end': }
+
+  validate_string($activemq_memoryUsage)
+  validate_re($activemq_memoryUsage, '^[0-9]+ [kmg]b$')
+  validate_string($activemq_storeUsage)
+  validate_re($activemq_storeUsage, '^[0-9]+ [kmg]b$')
+  validate_string($activemq_tempUsage)
+  validate_re($activemq_tempUsage, '^[0-9]+ [kmg]b$')
 
   if $client or $server {
     # We don't want this on middleware roles.
