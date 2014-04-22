@@ -496,6 +496,42 @@ describe 'mcollective' do
           end
         end
 
+        describe '#activemq_memoryUsage' do
+          let(:params) { { :server => false, :middleware => true } }
+          it 'should default to 20 mb' do
+            should contain_file('activemq.xml').with_content(/<memoryUsage limit="20 mb"\/>/)
+          end
+
+          context '1 gb' do
+            let(:params) { { :server => false, :middleware => true, :activemq_memoryUsage => '1 gb' } }
+            it { should contain_file('activemq.xml').with_content(/<memoryUsage limit="1 gb"\/>/) }
+          end
+        end
+
+        describe '#activemq_storeUsage' do
+          let(:params) { { :server => false, :middleware => true } }
+          it 'should default to 1 gb' do
+            should contain_file('activemq.xml').with_content(/<storeUsage limit="1 gb"\/>/)
+          end
+
+          context '2 mb' do
+            let(:params) { { :server => false, :middleware => true, :activemq_storeUsage => '2 mb' } }
+            it { should contain_file('activemq.xml').with_content(/<storeUsage limit="2 mb"\/>/) }
+          end
+        end
+
+        describe '#activemq_tempUsage' do
+          let(:params) { { :server => false, :middleware => true } }
+          it 'should default to 100 mb' do
+            should contain_file('activemq.xml').with_content(/<tempUsage limit="100 mb"\/>/)
+          end
+
+          context '1 gb' do
+            let(:params) { { :server => false, :middleware => true, :activemq_tempUsage => '1 gb' } }
+            it { should contain_file('activemq.xml').with_content(/<tempUsage limit="1 gb"\/>/) }
+          end
+        end
+
         describe '#middleware_user' do
           let(:params) { { :server => false, :middleware => true } }
           it 'should default to mcollective' do
