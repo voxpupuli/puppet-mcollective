@@ -23,4 +23,9 @@ class mcollective::common::config::connector::rabbitmq {
 
   $indexes = mco_array_to_string(range('1', $pool_size))
   mcollective::common::config::connector::rabbitmq::hosts_iteration { $indexes: }
+  
+  mcollective::common::setting { 'plugin.rabbitmq.heartbeat_interval':
+    value => $mcollective::middleware_heartbeat_interval,
+  }
+
 }
