@@ -109,13 +109,13 @@
         <systemUsage>
             <systemUsage>
                 <memoryUsage>
-                    <memoryUsage limit="20 mb"/>
+                    <memoryUsage limit="<%= scope["mcollective::activemq_memoryUsage"] %>"/>
                 </memoryUsage>
                 <storeUsage>
-                    <storeUsage limit="1 gb" name="foo"/>
+                    <storeUsage limit="<%= scope["mcollective::activemq_storeUsage"] %>" name="foo"/>
                 </storeUsage>
                 <tempUsage>
-                    <tempUsage limit="100 mb"/>
+                    <tempUsage limit="<%= scope["mcollective::activemq_tempUsage"] %>"/>
                 </tempUsage>
             </systemUsage>
         </systemUsage>
