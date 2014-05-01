@@ -36,6 +36,7 @@ class mcollective (
   $registration = undef,
   $core_libdir = $mcollective::defaults::core_libdir,
   $site_libdir = $mcollective::defaults::site_libdir,
+  $identity = $fqdn,
 
   # networking
   $middleware_hosts = [],
