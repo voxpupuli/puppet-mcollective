@@ -1,4 +1,0 @@
-{
-    "erlang::epel_enable": "true",
-    "mcollective::connector": "rabbitmq"
-}
