@@ -381,7 +381,7 @@ String: defaults to 'admin'.  Username for the middleware admin user.
 
 ##### `middleware_admin_password`
 
-String: defaults to 'secret'.  Password to for the middleware 
+String: defaults to 'secret'.  Password to for the middleware
 admin user.
 
 ##### `server_config_file`
@@ -479,11 +479,33 @@ installing from a source uri the plugin will be copied to
 mcollective::plugin { 'puppet':
   package => true,
 }
+```
 
-mcollective::plugin { 'myplugin':
-  source => 'puppet:///modules/site_mcollective/plugins',
+When installing a plugin from source you need to create the correct directory
+structure for it to work.
+
+For example if you wish to sync an agent for apt which ships with ``apt.ddl``
+and ``apt.rb`` you need to create the following structure:
+
+```
+site_mcollective/files/plugins/apt/
+                               └── mcollective
+                                   └── agent
+                                       ├── apt.ddl
+                                       └── apt.rb
+```
+
+Now you can then point the ``source`` attribute of the defined type to the
+apt folder in your plugins directory.
+
+```puppet
+mcollective::plugin { 'apt':
+  source => 'puppet:///modules/site_mcollective/plugins/apt',
 }
 ```
+
+For more examples have a look at the directory structure in ``files/plugins``
+of this module.
 
 #### Parameters
 
