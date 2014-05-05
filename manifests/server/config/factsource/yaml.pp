@@ -4,6 +4,8 @@ class mcollective::server::config::factsource::yaml {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
+  $excluded_facts = $mcollective::excluded_facts
+
   # This pattern originally from
   # http://projects.puppetlabs.com/projects/mcollective-plugins/wiki/FactsFacterYAML
   file { $mcollective::yaml_fact_path:
