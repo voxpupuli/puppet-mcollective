@@ -54,6 +54,10 @@ class mcollective::common::config {
     value => $mcollective::main_collective,
   }
 
+ mcollective::common::setting { 'identity':
+    value => $mcollective::identity,
+  }
+
   mcollective::soft_include { [
     "::mcollective::common::config::connector::${mcollective::connector}",
     "::mcollective::common::config::securityprovider::${mcollective::securityprovider}",
