@@ -9,10 +9,11 @@ class mcollective::server::config::factsource::yaml {
   # This pattern originally from
   # http://projects.puppetlabs.com/projects/mcollective-plugins/wiki/FactsFacterYAML
   file { $mcollective::yaml_fact_path:
-    owner   => 'root',
-    group   => '0',
-    mode    => '0400',
-    content => template('mcollective/facts.yaml.erb'),
+    owner     => 'root',
+    group     => '0',
+    mode      => '0400',
+    content   => template('mcollective/facts.yaml.erb'),
+    show_diff => $mcollective::show_fact_diff,
   }
 
   mcollective::server::setting { 'factsource':

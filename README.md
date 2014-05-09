@@ -319,6 +319,10 @@ internally: `uptime.*`, `rubysitedir`, `_timestamp`, `memoryfree.*`,
 `swapfree.*` and `last_run`. Note that the fact names can be Ruby regular
 expressions.
 
+##### `show_fact_diff`
+Boolean: defaults to undef. Whether to generate a diff for the generated
+facts.yaml file. Set this to false if your facts contain private information.
+
 ##### `classesfile`
 
 String: defaults to '/var/lib/puppet/state/classes.txt'.  Name of the file the
