@@ -55,6 +55,7 @@ class mcollective (
   $server_logfile   = '/var/log/mcollective.log',
   $server_loglevel  = 'info',
   $server_daemonize = 1,
+  $service_name = 'mcollective',
 
   # client-specific
   $client_config_file = undef,

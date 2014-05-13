@@ -416,6 +416,10 @@ String: defaults to 'info'.  Level the mcollective server should log at.
 String: defaults to '1'.  Should the mcollective server daemonize when
 started.
 
+#### `service_name`
+
+String: defaults to 'mcollective'. MCollective service name.
+
 ##### `client_config_file`
 
 String: defaults to "${mcollective::confdir}/client.cfg".  Path to the client
