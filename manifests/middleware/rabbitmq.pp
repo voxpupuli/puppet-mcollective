@@ -34,6 +34,8 @@ class mcollective::middleware::rabbitmq {
     ssl               => $mcollective::middleware_ssl,
     stomp_port        => $mcollective::middleware_port,
     ssl_stomp_port    => $mcollective::middleware_ssl_port,
+    ssl_verify               => 'verify_peer',
+    ssl_fail_if_no_peer_cert => true,
     ssl_cacert        => "${mcollective::rabbitmq_confdir}/ca.pem",
     ssl_cert          => "${mcollective::rabbitmq_confdir}/server_public.pem",
     ssl_key           => "${mcollective::rabbitmq_confdir}/server_private.pem",
