@@ -3,19 +3,6 @@ class mcollective (
   # which subcomponents to install here
   $server = true,
   $client = false,
-  $middleware = false,
-
-  # middleware tweaking
-  $activemq_template = 'mcollective/activemq.xml.erb',
-  $activemq_memoryUsage = '20 mb',
-  $activemq_storeUsage = '1 gb',
-  $activemq_tempUsage = '100 mb',
-  $activemq_console = false, # ubuntu why you no jetty.xml!
-  $activemq_config = undef,
-  $activemq_confdir = $mcollective::defaults::activemq_confdir,
-  $rabbitmq_confdir = '/etc/rabbitmq',
-  $rabbitmq_vhost = '/mcollective', # used by rabbitmq
-  $delete_guest_user = false,
 
   # installing packages
   $manage_packages   = true,
@@ -73,13 +60,6 @@ class mcollective (
   $ssl_client_certs_dir = undef, # default dependent on $confdir
 ) inherits mcollective::defaults {
 
-  validate_string($activemq_memoryUsage)
-  validate_re($activemq_memoryUsage, '^[0-9]+ [kmg]b$')
-  validate_string($activemq_storeUsage)
-  validate_re($activemq_storeUsage, '^[0-9]+ [kmg]b$')
-  validate_string($activemq_tempUsage)
-  validate_re($activemq_tempUsage, '^[0-9]+ [kmg]b$')
-
   # Because the correct default value for several parameters is based on another
   # configurable parameter, it cannot be set in the parameter defaults above and
   # _real variables must be set here.
@@ -96,8 +76,5 @@ class mcollective (
   }
   if $server {
     contain mcollective::server
-  }
-  if $middleware {
-    contain mcollective::middleware
   }
 }
