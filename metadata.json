@@ -12,17 +12,20 @@
       "version_requirement": "0.4.x"
     },
     {
-      "name": "garethr/erlang"
+      "name": "garethr/erlang",
+      "version_requirement": ">=0.1.0"
     },
     {
-      "name": "puppetlabs/rabbitmq"
+      "name": "puppetlabs/rabbitmq",
+      "version_requirement": ">=1.0.0"
     },
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">=1.0.0"
     },
     {
-      "name": "puppetlabs/java_ks"
+      "name": "puppetlabs/java_ks",
+      "version_requirement": ">=1.0.0"
     }
   ],
   "types": [
