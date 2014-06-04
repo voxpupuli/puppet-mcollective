@@ -1,0 +1,36 @@
+{
+  "project_page": "https://github.com/puppetlabs/puppetlabs-mcollective",
+  "license": "Apache License, Version 2.0",
+  "source": "https://github.com/puppetlabs/puppetlabs-mcollective",
+  "dependencies": [
+    {
+      "name": "puppetlabs/activemq",
+      "version_requirement": "0.2.x"
+    },
+    {
+      "name": "richardc/datacat",
+      "version_requirement": "0.4.x"
+    },
+    {
+      "name": "garethr/erlang"
+    },
+    {
+      "name": "puppetlabs/rabbitmq"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">=1.0.0"
+    },
+    {
+      "name": "puppetlabs/java_ks"
+    },
+  ],
+  "types": [
+
+  ],
+  "description": "MCollective Puppet Module",
+  "summary": "MCollective Puppet Module",
+  "name": "puppetlabs-mcollective",
+  "author": "puppetlabs",
+  "version": "1.1.4"
+}

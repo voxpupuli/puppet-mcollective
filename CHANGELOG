@@ -1,3 +1,16 @@
+2014-06-04 Release 1.1.4
+
+Summary:
+
+This is a feature release that adds a number of new parameters.
+
+Features:
+- Add support for $activemq_memoryUsage, $activemq_storeUsage 
+  and $activemq_tempUsage
+- Add $ruby_stomp_ensure for manage ruby-stomp package
+- Add support for $excluded_facts
+- Add support for $$middleware_ssl_fallback
+
 2013-11-13 Release 1.1.3
 
 Summary:
