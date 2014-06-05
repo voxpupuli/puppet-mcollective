@@ -1,5 +1,12 @@
 # private define
-define mcollective::user::connector($username, $homedir, $order, $connector, $middleware_ssl) {
+define mcollective::user::connector(
+  $username,
+  $callerid,
+  $homedir,
+  $order,
+  $connector,
+  $middleware_ssl,
+) {
   $i = regsubst($title, "^${username}_", '')
 
   if $middleware_ssl {
@@ -14,14 +21,14 @@ define mcollective::user::connector($username, $homedir, $order, $connector, $mi
       setting  => "plugin.${connector}.pool.${i}.ssl.cert",
       username => $username,
       order    => $order,
-      value    => "${homedir}/.mcollective.d/credentials/certs/${username}.pem",
+      value    => "${homedir}/.mcollective.d/credentials/certs/${callerid}.pem",
     }
 
     mcollective::user::setting { "${username} plugin.${connector}.pool.${i}.ssl.key":
       setting  => "plugin.${connector}.pool.${i}.ssl.key",
       username => $username,
       order    => $order,
-      value    => "${homedir}/.mcollective.d/credentials/private_keys/${username}.pem",
+      value    => "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem",
     }
   }
 }

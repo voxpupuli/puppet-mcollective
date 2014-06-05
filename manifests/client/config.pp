@@ -9,7 +9,7 @@ class mcollective::client::config {
     # with their own identity in, so don't publish the global client.cfg
     file { 'mcollective::client':
       ensure => 'absent',
-      path   => $mcollective::client_config_file,
+      path   => $mcollective::client_config_file_real,
     }
   }
   else {
@@ -17,7 +17,7 @@ class mcollective::client::config {
       owner    => 'root',
       group    => '0',
       mode     => '0444',
-      path     => $mcollective::client_config_file,
+      path     => $mcollective::client_config_file_real,
       template => 'mcollective/settings.cfg.erb',
     }
   }
