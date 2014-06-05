@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'facter'
+require 'facter/application'
+
+Facter::Application.load_puppet
+
+facts = YAML.dump(Facter.to_hash)
+
+File.open('<%= @mco_etc -%>/facts.yaml.new', 'w') do |f|
+  f.puts facts
+end
+
+File.rename('<%= @mco_etc -%>/facts.yaml.new', '<%= @mco_etc -%>/facts.yaml')

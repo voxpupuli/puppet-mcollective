@@ -4,9 +4,11 @@ class mcollective::server {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  anchor { 'mcollective::server::begin': } ->
-  class { '::mcollective::server::install': } ->
-  class { '::mcollective::server::config': } ~>
-  class { '::mcollective::server::service': } ->
-  anchor { 'mcollective::server::end': }
+  contain mcollective::server::install
+  contain mcollective::server::config
+  contain mcollective::server::service
+
+  Class['mcollective::server::install'] ->
+  Class['mcollective::server::config']  ~>
+  Class['mcollective::server::service']
 }

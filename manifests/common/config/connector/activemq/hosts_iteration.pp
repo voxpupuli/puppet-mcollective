@@ -1,8 +1,9 @@
 # private define
 # $name will be an index into the $mcollective::middleware_hostsarray + 1
 define mcollective::common::config::connector::activemq::hosts_iteration {
+  $middleware_hosts_array = flatten([$mcollective::middleware_hosts])
   mcollective::common::setting { "plugin.activemq.pool.${name}.host":
-    value => $mcollective::middleware_hosts[$name - 1], # puppet array 0-based
+    value => $middleware_hosts_array[$name - 1],
   }
 
   $port = $mcollective::middleware_ssl ? {
@@ -33,7 +34,7 @@ define mcollective::common::config::connector::activemq::hosts_iteration {
     }
 
     mcollective::common::setting { "plugin.activemq.pool.${name}.ssl.ca":
-      value => '/etc/mcollective/ca.pem',
+      value => "${mcollective::confdir}/ca.pem",
     }
 
     mcollective::common::setting { "plugin.activemq.pool.${name}.ssl.fallback":
