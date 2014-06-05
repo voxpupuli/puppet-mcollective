@@ -16,7 +16,7 @@ class mcollective::common::config::connector::rabbitmq {
     value => 'true',
   }
 
-  $pool_size = size($mcollective::middleware_hosts)
+  $pool_size = size(flatten([$mcollective::middleware_hosts]))
   mcollective::common::setting { 'plugin.rabbitmq.pool.size':
     value => $pool_size,
   }
