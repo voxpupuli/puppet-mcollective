@@ -18,56 +18,56 @@ class mcollective (
   $delete_guest_user = false,
 
   # installing packages
-  $manage_packages = true,
-  $version = 'present',
+  $manage_packages   = true,
+  $version           = 'present',
   $ruby_stomp_ensure = 'installed',
 
   # core configuration
-  $main_collective = 'mcollective',
-  $collectives = 'mcollective',
-  $connector = 'activemq',
+  $main_collective  = 'mcollective',
+  $collectives      = 'mcollective',
+  $connector        = 'activemq',
   $securityprovider = 'psk',
-  $psk = 'changemeplease',
-  $factsource = 'yaml',
-  $yaml_fact_path = '/etc/mcollective/facts.yaml',
-  $excluded_facts = [],
-  $classesfile = '/var/lib/puppet/state/classes.txt',
-  $rpcauthprovider = 'action_policy',
+  $psk              = 'changemeplease',
+  $factsource       = 'yaml',
+  $yaml_fact_path   = '/etc/mcollective/facts.yaml',
+  $excluded_facts   = [],
+  $classesfile      = '/var/lib/puppet/state/classes.txt',
+  $rpcauthprovider  = 'action_policy',
   $rpcauditprovider = 'logfile',
-  $registration = undef,
-  $core_libdir = $mcollective::defaults::core_libdir,
-  $site_libdir = $mcollective::defaults::site_libdir,
+  $registration     = undef,
+  $core_libdir      = $mcollective::defaults::core_libdir,
+  $site_libdir      = $mcollective::defaults::site_libdir,
 
   # networking
-  $middleware_hosts = [],
-  $middleware_user = 'mcollective',
-  $middleware_password = 'marionette',
-  $middleware_port = '61613',
-  $middleware_ssl_port = '61614',
-  $middleware_ssl = false,
-  $middleware_ssl_fallback = false,
-  $middleware_admin_user = 'admin',
+  $middleware_hosts          = [],
+  $middleware_user           = 'mcollective',
+  $middleware_password       = 'marionette',
+  $middleware_port           = '61613',
+  $middleware_ssl_port       = '61614',
+  $middleware_ssl            = false,
+  $middleware_ssl_fallback   = false,
+  $middleware_admin_user     = 'admin',
   $middleware_admin_password = 'secret',
 
   # server-specific
   $server_config_file = '/etc/mcollective/server.cfg',
-  $server_logfile   = '/var/log/mcollective.log',
-  $server_loglevel  = 'info',
-  $server_daemonize = 1,
+  $server_logfile     = '/var/log/mcollective.log',
+  $server_loglevel    = 'info',
+  $server_daemonize   = 1,
+  $service_name       = 'mcollective',
 
   # client-specific
-  $client_config_file = '/etc/mcollective/client.cfg',
-  $client_logger_type = 'console',
-  $client_loglevel = 'warn',
+  $client_config_file  = '/etc/mcollective/client.cfg',
+  $client_logger_type  = 'console',
+  $client_loglevel     = 'warn',
+  $client_package_name = 'mcollective-client',
 
   # ssl certs
-  $ssl_ca_cert = undef,
-  $ssl_server_public = undef,
+  $ssl_ca_cert        = undef,
+  $ssl_server_public  = undef,
   $ssl_server_private = undef,
-  $ssl_client_certs = 'puppet:///modules/mcollective/empty',
+  $ssl_client_certs   = 'puppet:///modules/mcollective/empty',
 ) inherits mcollective::defaults {
-  anchor { 'mcollective::begin': }
-  anchor { 'mcollective::end': }
 
   validate_string($activemq_memoryUsage)
   validate_re($activemq_memoryUsage, '^[0-9]+ [kmg]b$')
@@ -77,24 +77,15 @@ class mcollective (
   validate_re($activemq_tempUsage, '^[0-9]+ [kmg]b$')
 
   if $client or $server {
-    # We don't want this on middleware roles.
-    Anchor['mcollective::begin'] ->
-    class { '::mcollective::common': } ->
-    Anchor['mcollective::end']
+    contain mcollective::common
   }
   if $client {
-    Anchor['mcollective::begin'] ->
-    class { '::mcollective::client': } ->
-    Anchor['mcollective::end']
+    contain mcollective::client
   }
   if $server {
-    Anchor['mcollective::begin'] ->
-    class { '::mcollective::server': } ->
-    Anchor['mcollective::end']
+    contain mcollective::server
   }
   if $middleware {
-    Anchor['mcollective::begin'] ->
-    class { '::mcollective::middleware': } ->
-    Anchor['mcollective::end']
+    contain mcollective::middleware
   }
 }
