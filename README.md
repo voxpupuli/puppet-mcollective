@@ -237,7 +237,7 @@ for further information. String must match '^[0-9]+ [kmg]b$'.
 
 ##### `activemq_tempUsage`
 
-String: default "20 mb". The amount of disk space dedicated to persistent messages
+String: default "100 mb". The amount of disk space dedicated to persistent messages
 (which MCollective doesn't use directly, but which may be used in networks of brokers
 to avoid duplicates). See
 [ActiveMQ - Memory and Temp Usage for Messages (systemUsage)](http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#memory-and-temp-usage-for-messages-systemusage)
