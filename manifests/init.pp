@@ -37,6 +37,9 @@ class mcollective (
   $middleware_admin_user     = 'admin',
   $middleware_admin_password = 'secret',
 
+  # middleware connector tweaking
+  $rabbitmq_vhost = '/mcollective',
+
   # server-specific
   $server_config_file = undef, # default dependent on $confdir
   $server_logfile     = '/var/log/mcollective.log',
