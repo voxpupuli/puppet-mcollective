@@ -22,6 +22,9 @@ class mcollective (
   $version = 'present',
   $ruby_stomp_ensure = 'installed',
 
+  # file layout
+  $confdir = '/etc/mcollective',
+
   # core configuration
   $main_collective = 'mcollective',
   $collectives = 'mcollective',

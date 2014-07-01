@@ -7,7 +7,7 @@ define mcollective::actionpolicy($default = 'deny') {
     owner    => 'root',
     group    => '0',
     mode     => '0400',
-    path     => "/etc/mcollective/policies/${name}.policy",
+    path     => "${mcollective::confdir}/policies/${name}.policy",
     template => 'mcollective/actionpolicy.erb',
   }
 

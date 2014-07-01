@@ -28,7 +28,7 @@ class mcollective::server::config {
     value => $mcollective::server_loglevel,
   }
 
-  file { '/etc/mcollective/policies':
+  file { "${mcollective::confdir}/policies":
     ensure => 'directory',
     owner  => 'root',
     group  => '0',
@@ -36,21 +36,21 @@ class mcollective::server::config {
   }
 
   if $mcollective::middleware_ssl or $mcollective::securityprovider == 'ssl' {
-    file { '/etc/mcollective/ca.pem':
+    file { "${mcollective::confdir}/ca.pem":
       owner  => 'root',
       group  => '0',
       mode   => '0444',
       source => $mcollective::ssl_ca_cert,
     }
 
-    file { '/etc/mcollective/server_public.pem':
+    file { "${mcollective::confdir}/server_public.pem":
       owner  => 'root',
       group  => '0',
       mode   => '0444',
       source => $mcollective::ssl_server_public,
     }
 
-    file { '/etc/mcollective/server_private.pem':
+    file { "${mcollective::confdir}/server_private.pem":
       owner  => 'root',
       group  => '0',
       mode   => '0400',
