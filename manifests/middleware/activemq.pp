@@ -49,7 +49,7 @@ class mcollective::middleware::activemq {
       source => $mcollective::ssl_server_public,
     } ->
 
-    file { "${mcollective::activemq_confdir}/server_private.pem":
+    mcollective::secret_file { "${mcollective::activemq_confdir}/server_private.pem":
       owner  => 'activemq',
       group  => 'activemq',
       mode   => '0400',

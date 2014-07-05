@@ -50,7 +50,7 @@ class mcollective::server::config {
       source => $mcollective::ssl_server_public,
     }
 
-    file { '/etc/mcollective/server_private.pem':
+    mcollective::secret_file { '/etc/mcollective/server_private.pem':
       owner  => 'root',
       group  => '0',
       mode   => '0400',

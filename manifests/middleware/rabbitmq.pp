@@ -19,7 +19,7 @@ class mcollective::middleware::rabbitmq {
       source => $mcollective::ssl_server_public,
     }
 
-    file { "${mcollective::rabbitmq_confdir}/server_private.pem":
+    mcollective::secret_file { "${mcollective::rabbitmq_confdir}/server_private.pem":
       owner  => 'rabbitmq',
       group  => 'rabbitmq',
       mode   => '0400',

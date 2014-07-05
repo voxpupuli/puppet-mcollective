@@ -52,7 +52,7 @@ define mcollective::user(
     }
 
     $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${username}.pem"
-    file { $private_path:
+    mcollective::secret_file { $private_path:
       source => $private_key,
       owner  => $username,
       group  => $group,
