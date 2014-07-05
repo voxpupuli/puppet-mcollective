@@ -33,14 +33,11 @@ class mcollective::middleware::rabbitmq {
     delete_guest_user => $mcollective::delete_guest_user,
     ssl               => $mcollective::middleware_ssl,
     stomp_port        => $mcollective::middleware_port,
+    stomp_ensure      => true,
     ssl_stomp_port    => $mcollective::middleware_ssl_port,
     ssl_cacert        => "${mcollective::rabbitmq_confdir}/ca.pem",
     ssl_cert          => "${mcollective::rabbitmq_confdir}/server_public.pem",
     ssl_key           => "${mcollective::rabbitmq_confdir}/server_private.pem",
-  } ->
-
-  rabbitmq_plugin { 'rabbitmq_stomp':
-    ensure => present,
   } ->
 
   rabbitmq_vhost { $mcollective::rabbitmq_vhost:
