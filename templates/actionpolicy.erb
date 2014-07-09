@@ -1,7 +1,7 @@
 policy default <%= @data['default'] %>
 <%
     lines = @data['lines'].collect do |line|
-      line.values_at(*%w{ action callerid actions facts classes }).join("\t")
+      line.values_at(*%w{ action callerid actions fact_filter classes }).join("\t")
     end
 -%>
 <%= lines.sort.join("\n") %>
