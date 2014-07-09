@@ -20,6 +20,6 @@ class mcollective::server::config::factsource::yaml {
   }
 
   mcollective::server::setting { 'plugin.yaml':
-    value => $mcollective::yaml_fact_path,
+    value =>  "${mcollective::yaml_fact_path}:${mcollective::extra_yaml_paths}"
   }
 }
