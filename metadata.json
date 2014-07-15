@@ -1,7 +1,16 @@
 {
-  "project_page": "https://github.com/puppetlabs/puppetlabs-mcollective",
+  "name": "puppetlabs-mcollective",
+  "version": "1.1.6",
+  "author": "puppetlabs",
+  "summary": "MCollective Puppet Module",
   "license": "Apache License, Version 2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-mcollective",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-mcollective",
+  "issues_url": "https://github.com/puppetlabs/puppetlabs-mcollective/issues",
+  "types": [
+  
+  ],
+  "description": "MCollective Puppet Module",
   "dependencies": [
     {
       "name": "puppetlabs/activemq",
@@ -27,13 +36,5 @@
       "name": "puppetlabs/java_ks",
       "version_requirement": ">=1.0.0"
     }
-  ],
-  "types": [
-
-  ],
-  "description": "MCollective Puppet Module",
-  "summary": "MCollective Puppet Module",
-  "name": "puppetlabs-mcollective",
-  "author": "puppetlabs",
-  "version": "1.1.5"
+  ]
 }
