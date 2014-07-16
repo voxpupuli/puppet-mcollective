@@ -7,6 +7,8 @@ class mcollective::server {
   anchor { 'mcollective::server::begin': } ->
   class { '::mcollective::server::install': } ->
   class { '::mcollective::server::config': } ~>
-  class { '::mcollective::server::service': } ->
+  class { '::mcollective::server::service':
+    service_name => $mcollective::service_name,
+  } ->
   anchor { 'mcollective::server::end': }
 }

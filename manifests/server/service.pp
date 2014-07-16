@@ -1,10 +1,10 @@
 # private class
-class mcollective::server::service {
+class mcollective::server::service($service_name) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  service { 'mcollective':
+  service { $service_name:
     ensure => 'running',
     enable => true,
   }

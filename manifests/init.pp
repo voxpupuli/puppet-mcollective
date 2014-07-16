@@ -22,6 +22,9 @@ class mcollective (
   $version = 'present',
   $ruby_stomp_ensure = 'installed',
 
+  # file layout
+  $confdir = '/etc/mcollective',
+
   # core configuration
   $main_collective = 'mcollective',
   $collectives = 'mcollective',
@@ -65,6 +68,9 @@ class mcollective (
   $ssl_server_public = undef,
   $ssl_server_private = undef,
   $ssl_client_certs = 'puppet:///modules/mcollective/empty',
+
+  # service
+  $service_name = 'mcollective',
 ) inherits mcollective::defaults {
   anchor { 'mcollective::begin': }
   anchor { 'mcollective::end': }
