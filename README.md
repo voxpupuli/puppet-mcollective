@@ -307,7 +307,7 @@ server.
 
 ##### `yaml_fact_path`
 
-String: defaults to '/etc/mcollective/facts.yaml'.  Name of the file the
+String: defaults to "${confdir}/facts.yaml".  Name of the file the
 'yaml' factsource plugin should load facts from.
 
 ##### `excluded_facts`
@@ -352,6 +352,10 @@ the `mcollective::plugin` type will install with its `source` parameter.
 This path will be managed and purged by puppet, so don't point it at
 core_libdir or any other non-dedicated path.
 
+#### `confdir`
+
+String: default is /etc/mcollective. Path to the configuration directory.
+
 ##### `middleware_hosts`
 
 Array of strings: defaults to [].  Where the middleware servers this
@@ -395,7 +399,7 @@ admin user.
 
 ##### `server_config_file`
 
-String: default is '/etc/mcollective/server.cfg'.  Path to the server
+String: default is "${mcollective::confdir}/server.cfg".  Path to the server
 configuration file.
 
 ##### `server_logfile`
@@ -412,9 +416,13 @@ String: defaults to 'info'.  Level the mcollective server should log at.
 String: defaults to '1'.  Should the mcollective server daemonize when
 started.
 
+#### `service_name`
+
+String: defaults to 'mcollective'. MCollective service name.
+
 ##### `client_config_file`
 
-String: defaults to '/etc/mcollective/client.cfg'.  Path to the client
+String: defaults to "${mcollective::confdir}/client.cfg".  Path to the client
 configuration file.
 
 ##### `client_logger_type`

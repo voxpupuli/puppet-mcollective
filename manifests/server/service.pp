@@ -4,7 +4,7 @@ class mcollective::server::service {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  service { 'mcollective':
+  service { $mcollective::service_name:
     ensure => 'running',
     enable => true,
   }

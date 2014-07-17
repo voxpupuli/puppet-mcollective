@@ -29,7 +29,7 @@ class mcollective (
   $securityprovider = 'psk',
   $psk = 'changemeplease',
   $factsource = 'yaml',
-  $yaml_fact_path = '/etc/mcollective/facts.yaml',
+  $yaml_fact_path = undef,
   $excluded_facts = [],
   $classesfile = '/var/lib/puppet/state/classes.txt',
   $rpcauthprovider = 'action_policy',
@@ -37,6 +37,7 @@ class mcollective (
   $registration = undef,
   $core_libdir = $mcollective::defaults::core_libdir,
   $site_libdir = $mcollective::defaults::site_libdir,
+  $confdir = '/etc/mcollective',
 
   # networking
   $middleware_hosts = [],
@@ -50,13 +51,14 @@ class mcollective (
   $middleware_admin_password = 'secret',
 
   # server-specific
-  $server_config_file = '/etc/mcollective/server.cfg',
+  $server_config_file = undef,
   $server_logfile   = '/var/log/mcollective.log',
   $server_loglevel  = 'info',
   $server_daemonize = 1,
+  $service_name = 'mcollective',
 
   # client-specific
-  $client_config_file = '/etc/mcollective/client.cfg',
+  $client_config_file = undef,
   $client_logger_type = 'console',
   $client_loglevel = 'warn',
 
@@ -75,6 +77,25 @@ class mcollective (
   validate_re($activemq_storeUsage, '^[0-9]+ [kmg]b$')
   validate_string($activemq_tempUsage)
   validate_re($activemq_tempUsage, '^[0-9]+ [kmg]b$')
+
+
+  if !$yaml_fact_path {
+    $yaml_fact_path_real = "${confdir}/facts.yaml"
+  } else {
+    $yaml_fact_path_real = $yaml_fact_path
+  }
+
+  if !$server_config_file {
+    $server_config_file_real = "${confdir}/server.cfg"
+  } else {
+    $server_config_file_real = $server_config_file
+  }
+
+  if !$client_config_file {
+    $client_config_file_real = "${confdir}/client.cfg"
+  } else {
+    $client_config_file_real = $client_config_file
+  }
 
   if $client or $server {
     # We don't want this on middleware roles.
