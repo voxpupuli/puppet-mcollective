@@ -5,7 +5,7 @@ class mcollective::client::install {
   }
 
   if $mcollective::manage_packages {
-    package { 'mcollective-client':
+    package { $mcollective::client_package_name:
       ensure => $mcollective::version,
     }
   }
