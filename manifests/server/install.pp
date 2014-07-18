@@ -5,14 +5,16 @@ class mcollective::server::install {
   }
 
   if $mcollective::manage_packages {
-    package { 'mcollective':
-      ensure => $mcollective::version,
+    package { 'mcollective': ensure => $mcollective::version, }
+
+    case $::osfamily {
+      'Debian' : { $ruby_stomp_package = 'ruby-stomp' }
+      'Redhat' : { $ruby_stomp_package = 'rubygem-stomp' }
+      default  : { $ruby_stomp_package = undef }
     }
 
-    if $::osfamily == 'Debian' {
-      # XXX the dependencies my test ubuntu 12.04 system seem to not correctly state
-      # ruby-stomp as a dependency of mcollective, so hand specify
-      package { 'ruby-stomp':
+    if $ruby_stomp_package {
+      package { $ruby_stomp_package:
         ensure => $mcollective::ruby_stomp_ensure,
         before => Package['mcollective'],
       }
