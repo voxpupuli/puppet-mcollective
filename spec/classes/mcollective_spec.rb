@@ -29,6 +29,18 @@ describe 'mcollective' do
       end
     end
 
+    describe '#manage_service' do
+      context 'should default to service mcollective' do
+        let(:params) { { :server => true } }
+        it { should contain_service('mcollective') }
+      end
+
+      context 'use specified service name' do
+        let(:params) { { :server => true, :service_name => 'mcollectived' } }
+        it { should contain_service('mcollectived') }
+      end
+    end
+
     describe '#version' do
       it 'should default to present' do
         should contain_package('mcollective').with_ensure('present')
