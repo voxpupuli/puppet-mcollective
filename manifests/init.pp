@@ -4,6 +4,7 @@ class mcollective (
   $server = true,
   $client = false,
   $middleware = false,
+  $agents = false,
 
   # middleware tweaking
   $activemq_template = 'mcollective/activemq.xml.erb',
@@ -60,6 +61,8 @@ class mcollective (
   $client_logger_type = 'console',
   $client_loglevel = 'warn',
 
+  $agents_list = ['mcollective-service-agent', 'mcollective-package-agent'],
+
   # ssl certs
   $ssl_ca_cert = undef,
   $ssl_server_public = undef,
@@ -95,6 +98,11 @@ class mcollective (
   if $middleware {
     Anchor['mcollective::begin'] ->
     class { '::mcollective::middleware': } ->
+    Anchor['mcollective::end']
+  }
+  if $agents {
+    Anchor['mcollective::begin'] ->
+    class { '::mcollective::agents': } ->
     Anchor['mcollective::end']
   }
 }
