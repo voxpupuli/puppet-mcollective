@@ -56,8 +56,8 @@
           -->
           <simpleAuthenticationPlugin>
             <users>
-              <authenticationUser username="<%= scope["site::middleware_user"] %>" password="<%= scope["site::middleware_password"] %>" groups="mcollective,everyone"/>
-              <authenticationUser username="<%= scope['site::middleware_admin_user'] %>" password="<%= scope['site::middleware_admin_password'] %>" groups="mcollective,admins,everyone"/>
+              <authenticationUser username="<%= @middleware_user %>" password="<%= @middleware_password %>" groups="mcollective,everyone"/>
+              <authenticationUser username="<%= @middleware_admin_user %>" password="<%= @middleware_admin_password %>" groups="mcollective,admins,everyone"/>
             </users>
           </simpleAuthenticationPlugin>
 
@@ -107,13 +107,13 @@
         <systemUsage>
             <systemUsage>
                 <memoryUsage>
-                    <memoryUsage limit="<%= @activemq_memoryusage %>"/>
+                    <memoryUsage limit="<%= @memoryusage %>"/>
                 </memoryUsage>
                 <storeUsage>
-                    <storeUsage limit="<%= @activemq_storeusage %>" name="foo"/>
+                    <storeUsage limit="<%= @storeusage %>" name="foo"/>
                 </storeUsage>
                 <tempUsage>
-                    <tempUsage limit="<%= @activemq_tempusage %>"/>
+                    <tempUsage limit="<%= @tempusage %>"/>
                 </tempUsage>
             </systemUsage>
         </systemUsage>
@@ -127,11 +127,11 @@
           http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#transport-connectors
         -->
         <transportConnectors>
-            <transportConnector name="stomp+nio+ssl" uri="stomp+ssl://0.0.0.0:<%= scope['site::middleware_ssl_port'] %>?needClientAuth=true"/>
+            <transportConnector name="stomp+nio+ssl" uri="stomp+ssl://0.0.0.0:<%= @middleware_ssl_port %>?needClientAuth=true"/>
         </transportConnectors>
     </broker>
 
-    <% if @activemq_console %>
+    <% if @console %>
     <!--
       Enable web consoles, REST and Ajax APIs and demos.
       It also includes Camel (with its web console); see ${ACTIVEMQ_HOME}/conf/camel.xml for more info.

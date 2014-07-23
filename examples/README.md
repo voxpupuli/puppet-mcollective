@@ -12,5 +12,5 @@ puppetlabs/mcollective technology module in conjunction with other Puppet Labs
 modules, puppetlabs/rabbitmq or puppetlabs/activemq, to build out a complete
 technology stack.
 
-To show these examples, a structurally correct module named "site" is rooted
-in this directory.
+To show these examples, a structurally correct module named "mco_profile" is
+rooted in this directory.
