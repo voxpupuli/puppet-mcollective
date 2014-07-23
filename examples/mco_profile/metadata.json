@@ -1,11 +1,9 @@
 {
-  "project_page": "https://github.com/SiteInc/site",
   "license": "Apache License, Version 2.0",
-  "source": "https://github.com/SiteInc/site",
   "dependencies": [
     {
       "name": "puppetlabs/activemq",
-      "version_requirement": "0.2.x"
+      "version_requirement": ">=0.2.0"
     },
     {
       "name": "puppetlabs/rabbitmq",
@@ -14,18 +12,19 @@
     {
       "name": "puppetlabs/java_ks",
       "version_requirement": ">=1.0.0"
-    }
+    },
     {
       "name": "puppetlabs/mcollective",
-      "version_requirement": "x"
-    },
+      "version_requirement": ">=2.0.0"
+    }
   ],
   "types": [
 
   ],
-  "description": "Sample profile for MCollective stack",
-  "summary": "Sample profile module",
-  "name": "SiteInc-site",
-  "author": "SiteInc",
-  "version": "x"
+  "description": "Example profiles for complete MCollective stack",
+  "source": "",
+  "summary": "Example module",
+  "name": "reidmv-mco_profile",
+  "author": "Reid Vandewiele",
+  "version": "0.1.0"
 }
