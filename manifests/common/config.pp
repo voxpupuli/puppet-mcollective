@@ -47,7 +47,7 @@ class mcollective::common::config {
   }
 
   mcollective::common::setting { 'collectives':
-    value => $mcollective::collectives,
+    value => join(flatten([$mcollective::collectives]), ','),
   }
 
   mcollective::common::setting { 'main_collective':
