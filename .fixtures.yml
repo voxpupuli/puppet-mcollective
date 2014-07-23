@@ -1,12 +1,11 @@
 ---
 fixtures:
   repositories:
-    activemq: 'https://github.com/puppetlabs/puppetlabs-activemq.git'
-    datacat: 'https://github.com/richardc/puppet-datacat.git'
-    java_ks: 'https://github.com/puppetlabs/puppetlabs-java_ks.git'
-    stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
-    erlang: 'https://github.com/garethr/garethr-erlang.git'
-    rabbitmq: 'https://github.com/puppetlabs/puppetlabs-rabbitmq'
-    staging: 'https://github.com/nanliu/puppet-staging'
+    datacat:
+      repo: 'https://github.com/richardc/puppet-datacat.git'
+      ref: '0.5.0'
+    stdlib:
+      repo: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
+      ref: '3.2.0'
   symlinks:
     mcollective: '#{source_dir}'
