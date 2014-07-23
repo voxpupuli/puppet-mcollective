@@ -4,11 +4,11 @@ class mcollective::server::config::factsource::yaml {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  $excluded_facts = $mcollective::excluded_facts
-  $mco_etc = $mcollective::confdir
+  $excluded_facts      = $mcollective::excluded_facts
+  $yaml_fact_path_real = $mcollective::yaml_fact_path_real
 
   # Template uses:
-  #   - $mco_etc
+  #   - $yaml_fact_path_real
   file { "${mcollective::core_libdir}/refresh-mcollective-metadata":
     owner   => '0',
     group   => '0',
@@ -25,7 +25,7 @@ class mcollective::server::config::factsource::yaml {
   exec { 'create-mcollective-metadata':
     path    => "/opt/puppet/bin:${::path}",
     command => "${mcollective::core_libdir}/refresh-mcollective-metadata",
-    creates => "${mco_etc}/facts.yaml",
+    creates => $yaml_fact_path_real,
     require => File["${mcollective::core_libdir}/refresh-mcollective-metadata"],
   }
 
@@ -34,6 +34,6 @@ class mcollective::server::config::factsource::yaml {
   }
 
   mcollective::server::setting { 'plugin.yaml':
-    value => $mcollective::yaml_fact_path_real,
+    value => $yaml_fact_path_real,
   }
 }
