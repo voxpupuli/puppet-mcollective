@@ -13,11 +13,9 @@ rvm:
   - 2.0.0
 env:
   matrix:
-    - PUPPET_GEM_VERSION="~> 3.0.0"
-    - PUPPET_GEM_VERSION="~> 3.1.0"
-    - PUPPET_GEM_VERSION="~> 3.2.0"
-    - PUPPET_GEM_VERSION="~> 3.3.0"
     - PUPPET_GEM_VERSION="~> 3.4.0"
+    - PUPPET_GEM_VERSION="~> 3.5.0"
+    - PUPPET_GEM_VERSION="~> 3.6.0"
   global:
     - PUBLISHER_LOGIN=puppetlabs
     - secure: iI91FnYPqlR7+KQBga6ujKB/3N+Wv91mvGhSdAkLl+HsncKLglH+epjXMJ4DLrv08W9msQ+u/ZA6nvAKv9sQTPb/RKx67mC56CHEHguKwCBPsVdJRVjMBseMTl+9INiG58s9uJKA3LRfGd760+WMYJUwDyh+lWTrTOmwNm4WfKI=
