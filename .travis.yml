@@ -19,11 +19,5 @@ env:
   global:
     - PUBLISHER_LOGIN=puppetlabs
     - secure: iI91FnYPqlR7+KQBga6ujKB/3N+Wv91mvGhSdAkLl+HsncKLglH+epjXMJ4DLrv08W9msQ+u/ZA6nvAKv9sQTPb/RKx67mC56CHEHguKwCBPsVdJRVjMBseMTl+9INiG58s9uJKA3LRfGd760+WMYJUwDyh+lWTrTOmwNm4WfKI=
-matrix:
-  exclude:
-    - rvm: 2.0.0
-      env: PUPPET_GEM_VERSION="~> 3.0.0"
-    - rvm: 2.0.0
-      env: PUPPET_GEM_VERSION="~> 3.1.0"
 notifications:
   email: false
