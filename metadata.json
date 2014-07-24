@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-mcollective",
-  "version": "1.1.6",
+  "version": "2.0.0-rc0",
   "author": "puppetlabs",
   "summary": "MCollective Puppet Module",
   "license": "Apache License, Version 2.0",
@@ -10,11 +10,21 @@
   "types": [
   
   ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 3.4.0"
+    }
+  ],
   "description": "MCollective Puppet Module",
   "dependencies": [
     {
       "name": "richardc/datacat",
       "version_requirement": "0.5.x"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": "1.x"
     },
     {
       "name": "puppetlabs/stdlib",

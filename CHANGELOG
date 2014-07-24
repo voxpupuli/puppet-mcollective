@@ -1,3 +1,20 @@
+2014-07-23 Release 2.0.0-rc0
+Summary:
+
+This is a fairly large rewrite of many parts of the mcollective module to
+remove the management of activemq and rabbitmq (middleware) since this task
+should be delegated to activemq/rabbitmq modules. See the examples/ directory
+for example profiles to replicate previous configuration.
+
+Backwards-incompatible Features:
+- This section should be filled out before final release
+
+Features:
+- This section should be filled out before final release
+
+Bugfixes:
+- This section should be filled out before final release
+
 2014-07-15 Release 1.1.6
 
 Summary:
