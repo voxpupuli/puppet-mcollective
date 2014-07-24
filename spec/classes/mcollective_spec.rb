@@ -130,78 +130,19 @@ describe 'mcollective' do
 
       context 'yaml' do
         let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69 } }
-        it { should contain_file('/etc/mcollective/facts.yaml') }
-        it { should contain_file('/etc/mcollective/facts.yaml').with_content(/^  osfamily: RedHat/) }
-        it { should contain_file('/etc/mcollective/facts.yaml').with_content(/^  number_of_cores: "42"/) }
-        it 'should be alpha-sorted' do
-          should contain_file('/etc/mcollective/facts.yaml').with_content(/^  number_of_cores:.*?^  osfamily: RedHat$/m)
-        end
-        it 'should not leak' do
-          should_not contain_file('/etc/mcollective/facts.yaml').with_content(/middleware_password/)
-        end
-
-        context 'dynamic fact removal' do
-          let(:facts) do
-            {
-              :last_run       => 'Wed Oct 16 10:16:10 MST 2013',
-              :memoryfree     => '5.78 GB',
-              :memoryfree_mb  => '5915.74',
-              :rubysitedir    => '/usr/lib/ruby/site_ruby/1.8',
-              :swapfree       => '2.00 GB',
-              :swapfree_mb    => '2047.99',
-              :uptime         => '16:20 hours',
-              :uptime_days    => '0',
-              :uptime_hours   => '16',
-              :uptime_seconds => '58838',
-            }
-          end
-
-          it { should contain_file('/etc/mcollective/facts.yaml') }
-          it do
-            facts.keys.each do |k|
-              should_not contain_file('/etc/mcollective/facts.yaml').with_content(/^#{k.to_s}.*/m)
-            end
-          end
-        end
-
-        describe '#excluded_facts' do
-          context 'dynamic fact removal with user-supplied facts' do
-            let(:params) { { :excluded_facts => [ 'path', 'last_root_login' ] } }
-            let(:facts) do
-              {
-                :last_run        => 'Wed Oct 16 10:16:10 MST 2013',
-                :memoryfree      => '5.78 GB',
-                :memoryfree_mb   => '5915.74',
-                :rubysitedir     => '/usr/lib/ruby/site_ruby/1.8',
-                :swapfree        => '2.00 GB',
-                :swapfree_mb     => '2047.99',
-                :uptime          => '16:20 hours',
-                :uptime_days     => '0',
-                :uptime_hours    => '16',
-                :uptime_seconds  => '58838',
-                :path            => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/X11R6/bin',
-                :last_root_login => 'Fri Mar 21 17:11:03 CET 2014',
-              }
-            end
-
-            it { should contain_file('/etc/mcollective/facts.yaml') }
-            it do
-              facts.keys.each do |k|
-                should_not contain_file('/etc/mcollective/facts.yaml').with_content(/^#{k.to_s}.*/m)
-              end
-            end
-          end
-        end
 
         describe '#yaml_fact_path' do
-          it 'should default to /etc/mcollective/facts.yaml' do
-            should contain_mcollective__server__setting('plugin.yaml').with_value('/etc/mcollective/facts.yaml')
+          context 'default' do
+            it 'should default to /etc/mcollective/facts.yaml' do
+              should contain_mcollective__server__setting('plugin.yaml').with_value('/etc/mcollective/facts.yaml')
+            end
+            it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/etc\/mcollective\/facts.yaml.new', '\/etc\/mcollective\/facts.yaml'\)/) }
           end
-
+          
           context '/tmp/facts' do
             let(:params) { { :yaml_fact_path => '/tmp/facts' } }
-            it { should contain_file('/tmp/facts') }
             it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
+            it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/tmp\/facts.new', '\/tmp\/facts'\)/) }
           end
         end
       end
@@ -438,18 +379,6 @@ describe 'mcollective' do
         let(:params) { { :server => true, :registration => 'redis' } }
         it { should contain_mcollective__server__setting('registration').with_value('redis') }
       end
-    end
-  end
-
-  describe '#middleware' do
-    context 'true' do
-      let(:params) { { :middleware => true } }
-      it { should contain_class('mcollective::middleware') }
-    end
-
-    context 'false' do
-      let(:params) { { :middleware => false } }
-      it { should_not contain_class('mcollective::middleware') }
     end
   end
 
