@@ -1,4 +1,4 @@
-2014-07-23 Release 2.0.0-rc0
+2014-09-03 Release 2.0.0
 Summary:
 
 This is a fairly large rewrite of many parts of the mcollective module to
@@ -7,13 +7,38 @@ should be delegated to activemq/rabbitmq modules. See the examples/ directory
 for example profiles to replicate previous configuration.
 
 Backwards-incompatible Features:
-- This section should be filled out before final release
+- Removed the management of activemq and rabbitmq
+- Removed the following parameters:
+  - mcollective::middleware
+  - mcollective::activemq_template
+	- mcollective::activemq_memoryUsage
+	- mcollective::activemq_storeUsage
+	- mcollective::activemq_tempUsage
+	- mcollective::activemq_console
+	- mcollective::activemq_config
+	- mcollective::activemq_confdir
+	- mcollective::rabbitmq_confdir
+	- mcollective::rabbitmq_vhost
+	- mcollective::delete_guest_user
 
 Features:
-- This section should be filled out before final release
+- Make the confdir configurable
+- Added callerid param for mcollective::user
+- Replace facts.yaml pattern with cron job
+- Allow mcollective::collectives to be an array
+- Added the following parameters to class mcollective:
+  - client_package
+	- confdir
+	- rabbitmq_vhost
+	- service_name
+	- server_package
+	- ruby_stomp_package
+	- ssl_client_certs_dir
 
 Bugfixes:
-- This section should be filled out before final release
+- Honor yaml_fact_path parameter in all the relevant places
+- Use string for host_iteration titles in future parser, as integers are not
+allowed as titles
 
 2014-07-15 Release 1.1.6
 
