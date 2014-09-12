@@ -152,7 +152,7 @@ describe 'mcollective' do
           end
 
           context 'false' do
-            let(:params) { { :server => false } }
+            let(:params) { { :yaml_fact_cron => false } }
             it { should_not contain_cron('refresh-mcollective-metadata') }
           end
         end

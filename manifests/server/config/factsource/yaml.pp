@@ -15,7 +15,6 @@ class mcollective::server::config::factsource::yaml {
     group   => '0',
     mode    => '0755',
     content => template('mcollective/refresh-mcollective-metadata.erb'),
-    before  => Cron['refresh-mcollective-metadata'],
   }
   if $yaml_fact_cron {
     cron { 'refresh-mcollective-metadata':
@@ -23,6 +22,7 @@ class mcollective::server::config::factsource::yaml {
       command     => "${mcollective::core_libdir}/refresh-mcollective-metadata",
       user        => 'root',
       minute      => [ '0', '15', '30', '45' ],
+      require     => File["${mcollective::core_libdir}/refresh-mcollective-metadata"],
     }
   }
   exec { 'create-mcollective-metadata':
