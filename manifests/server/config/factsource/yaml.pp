@@ -6,6 +6,7 @@ class mcollective::server::config::factsource::yaml {
 
   $excluded_facts      = $mcollective::excluded_facts
   $yaml_fact_path_real = $mcollective::yaml_fact_path_real
+  $yaml_fact_cron      = $mcollective::yaml_fact_cron
 
   # Template uses:
   #   - $yaml_fact_path_real
@@ -16,11 +17,13 @@ class mcollective::server::config::factsource::yaml {
     content => template('mcollective/refresh-mcollective-metadata.erb'),
     before  => Cron['refresh-mcollective-metadata'],
   }
-  cron { 'refresh-mcollective-metadata':
-    environment => "PATH=/opt/puppet/bin:${::path}",
-    command     => "${mcollective::core_libdir}/refresh-mcollective-metadata",
-    user        => 'root',
-    minute      => [ '0', '15', '30', '45' ],
+  if $yaml_fact_cron {
+    cron { 'refresh-mcollective-metadata':
+      environment => "PATH=/opt/puppet/bin:${::path}",
+      command     => "${mcollective::core_libdir}/refresh-mcollective-metadata",
+      user        => 'root',
+      minute      => [ '0', '15', '30', '45' ],
+    }
   }
   exec { 'create-mcollective-metadata':
     path    => "/opt/puppet/bin:${::path}",

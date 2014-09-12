@@ -145,6 +145,17 @@ describe 'mcollective' do
             it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/tmp\/facts.new', '\/tmp\/facts'\)/) }
           end
         end
+
+        describe '#yaml_fact_cron' do
+          context 'default (true)' do
+            it { should contain_cron('refresh-mcollective-metadata') }
+          end
+
+          context 'false' do
+            let(:params) { { :server => false } }
+            it { should_not contain_cron('refresh-mcollective-metadata') }
+          end
+        end
       end
 
       context 'facter' do
