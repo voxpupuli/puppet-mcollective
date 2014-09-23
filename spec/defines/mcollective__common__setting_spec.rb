@@ -9,4 +9,13 @@ describe 'mcollective::common::setting' do
     it { should contain_mcollective__setting('mcollective::common::setting some_setting').with_value('pie') }
     it { should contain_mcollective__setting('mcollective::common::setting some_setting').with_target(%w[ mcollective::server mcollective::client ]) }
   end
+
+  context 'some_setting with different title' do
+    let(:title) { 'some_other_setting' }
+    let(:params) { { 'setting' => 'some_setting', 'value' => 'pie' } }
+    it { should contain_mcollective__setting('mcollective::common::setting some_other_setting') }
+    it { should contain_mcollective__setting('mcollective::common::setting some_other_setting').with_setting('some_setting') }
+    it { should contain_mcollective__setting('mcollective::common::setting some_other_setting').with_value('pie') }
+    it { should contain_mcollective__setting('mcollective::common::setting some_other_setting').with_target(%w[ mcollective::server mcollective::client ]) }
+  end
 end
