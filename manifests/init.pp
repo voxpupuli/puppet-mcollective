@@ -19,7 +19,6 @@ class mcollective (
   $factsource       = 'yaml',
   $yaml_fact_path   = undef,
   $yaml_fact_cron   = true,
-  $excluded_facts   = [],
   $classesfile      = '/var/lib/puppet/state/classes.txt',
   $rpcauthprovider  = 'action_policy',
   $rpcauditprovider = 'logfile',
