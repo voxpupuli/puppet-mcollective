@@ -15,7 +15,7 @@
 ## Overview
 
 The mcollective module installs, configures, and manages the mcollective
-agents, clients, and middleware of an mcollective cluster.
+agents, and clients of an MCollective cluster.
 
 ## Module Description
 
@@ -55,11 +55,6 @@ On a client
 * mcollective client configuration file
 * optionally user configuration files (~/.mcollective and ~/.mcollective.d)
 
-On a middleware host
-
-* broker installation
-* broker configuration
-
 ### Beginning with mcollective
 
 Your main entrypoint to the mcollective module is the mcollective class, so
@@ -83,9 +78,7 @@ mcollective class, with secondary configuration managed by the defined types
 
 ```puppet
 node 'broker1.example.com' {
-  class { '::mcollective':
-    middleware_hosts => [ 'broker1.example.com' ],
-  }
+  include activemq
 }
 
 node 'server1.example.com' {
@@ -120,15 +113,9 @@ for more information about how to generate these.
 
 ```puppet
 node 'broker1.example.com' {
-  class { '::mcollective':
-   middleware_hosts   => [ 'broker1.example.com' ],
-    middleware_ssl     => true,
-    securityprovider   => 'ssl',
-    ssl_client_certs   => 'puppet:///modules/site_mcollective/client_certs',
-    ssl_ca_cert        => 'puppet:///modules/site_mcollective/certs/ca.pem',
-    ssl_server_public  => 'puppet:///modules/site_mcollective/certs/server.pem',
-    ssl_server_private => 'puppet:///modules/site_mcollective/private_keys/server.pem',
-  }
+  # Please see
+  # https://github.com/puppetlabs/puppetlabs-mcollective/blob/master/examples/mco_profile/manifests/middleware/activemq.pp
+  # for this as setting up activemq with a truststore can be quite complex.
 }
 
 node 'server1.example.com' {
