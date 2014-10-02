@@ -35,6 +35,9 @@ class mcollective (
   $middleware_ssl_port       = '61614',
   $middleware_ssl            = false,
   $middleware_ssl_fallback   = false,
+  $middleware_ssl_cert       = '',
+  $middleware_ssl_key        = '',
+  $middleware_ssl_ca         = '',
   $middleware_admin_user     = 'admin',
   $middleware_admin_password = 'secret',
   $middleware_heartbeat_interval = '30',
@@ -71,7 +74,21 @@ class mcollective (
   $yaml_fact_path_real = pick($yaml_fact_path, "${confdir}/facts.yaml")
   $server_config_file_real = pick($server_config_file, "${confdir}/server.cfg")
   $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
+
   $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/clients")
+  $ssl_server_public_path = "${confdir}/ssl/server_public.pem"
+  $ssl_server_private_path = "${confdir}/ssl/server_private.pem"
+
+  $middleware_ssl_ca_real = pick($middleware_ssl_ca, $ssl_ca_cert)
+  $middleware_ssl_cert_real =  pick($middleware_ssl_cert, $ssl_server_public)
+  $middleware_ssl_key_real =  pick($middleware_ssl_key, $ssl_server_private)
+
+  $middleware_ssl_key_path = "${confdir}/ssl/middleware_key.pem"
+  $middleware_ssl_cert_path = "${confdir}/ssl/middleware_cert.pem"
+  $middleware_ssl_ca_path = "${confdir}/ssl/middleware_ca.pem"
+
+
+
 
   if $client or $server {
     contain mcollective::common
