@@ -18,9 +18,4 @@ class mcollective::defaults {
     'Debian' => '/usr/local/share/mcollective',
     default  => '/usr/local/libexec/mcollective',
   }
-
-  $activemq_confdir = $::osfamily ? {
-    'Debian' => '/etc/activemq/instances-available/mcollective',
-    default  => '/etc/activemq',
-  }
 }

@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'facter'
+require 'facter/application'
+
+Facter::Application.load_puppet
+
+facts = YAML.dump(Facter.to_hash)
+
+File.open('<%= @yaml_fact_path_real -%>.new', 'w') do |f|
+  f.puts facts
+end
+
+File.rename('<%= @yaml_fact_path_real -%>.new', '<%= @yaml_fact_path_real -%>')

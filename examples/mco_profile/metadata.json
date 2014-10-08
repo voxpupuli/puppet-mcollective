@@ -1,0 +1,30 @@
+{
+  "license": "Apache License, Version 2.0",
+  "dependencies": [
+    {
+      "name": "puppetlabs/activemq",
+      "version_requirement": ">=0.2.0"
+    },
+    {
+      "name": "puppetlabs/rabbitmq",
+      "version_requirement": ">=1.0.0"
+    },
+    {
+      "name": "puppetlabs/java_ks",
+      "version_requirement": ">=1.0.0"
+    },
+    {
+      "name": "puppetlabs/mcollective",
+      "version_requirement": ">=2.0.0"
+    }
+  ],
+  "types": [
+
+  ],
+  "description": "Example profiles for complete MCollective stack",
+  "source": "",
+  "summary": "Example module",
+  "name": "reidmv-mco_profile",
+  "author": "Reid Vandewiele",
+  "version": "0.1.0"
+}

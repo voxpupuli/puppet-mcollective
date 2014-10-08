@@ -16,11 +16,11 @@ class mcollective::common::config::connector::activemq {
     value => 'true',
   }
 
-  $pool_size = size($mcollective::middleware_hosts)
+  $pool_size = size(flatten([$mcollective::middleware_hosts]))
   mcollective::common::setting { 'plugin.activemq.pool.size':
     value => $pool_size,
   }
 
-  $indexes = range('1', $pool_size)
+  $indexes = mco_array_to_string(range('1', $pool_size))
   mcollective::common::config::connector::activemq::hosts_iteration { $indexes: }
 }
