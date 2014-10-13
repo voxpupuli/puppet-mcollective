@@ -5,9 +5,10 @@ class mcollective::server::config::factsource::facter {
   }
 
   mcollective::plugin { 'facter':
-    type       => 'facts',
-    package    => true,
-    has_client => false,
+    type           => 'facts',
+    package        => true,
+    has_client     => false,
+    package_ensure => $mcollective::facts_package_ensure,
   }
 
   mcollective::server::setting { 'factsource':

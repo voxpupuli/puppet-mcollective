@@ -447,6 +447,16 @@ String: defaults to 'puppet:///modules/mcollective/empty'.  A file source that
 contains a directory of user certificates which are used by the ssl security
 provider in authenticating user requests.
 
+##### `yaml_fact_cron_path_env`
+
+String: defaults to '/opt/puppet/bin:${::path}'.  The value for PATH used by cron 
+and exec resources that populate the yaml factsource file.
+
+##### `facts_package_ensure`
+
+String: defaults to 'present'.  Sets the ensure property for the
+mcollective-facter-facts package.
+
 ### `mcollective::user` defined type
 
 `mcollective::user` installs a client configuration and any needed client

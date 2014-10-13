@@ -17,13 +17,13 @@ class mcollective::server::config::factsource::yaml {
     before  => Cron['refresh-mcollective-metadata'],
   }
   cron { 'refresh-mcollective-metadata':
-    environment => "PATH=/opt/puppet/bin:${::path}",
+    environment => "PATH=${mcollective::yaml_fact_cron_path_env}",
     command     => "${mcollective::core_libdir}/refresh-mcollective-metadata",
     user        => 'root',
     minute      => [ '0', '15', '30', '45' ],
   }
   exec { 'create-mcollective-metadata':
-    path    => "/opt/puppet/bin:${::path}",
+    path    => $mcollective::yaml_fact_cron_path_env,
     command => "${mcollective::core_libdir}/refresh-mcollective-metadata",
     creates => $yaml_fact_path_real,
     require => File["${mcollective::core_libdir}/refresh-mcollective-metadata"],

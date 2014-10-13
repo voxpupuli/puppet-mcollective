@@ -129,7 +129,7 @@ describe 'mcollective' do
       end
 
       context 'yaml' do
-        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69 } }
+        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :path => '/sbin:/bin:/usr/sbin:/usr/bin' } }
 
         describe '#yaml_fact_path' do
           context 'default' do
@@ -145,13 +145,51 @@ describe 'mcollective' do
             it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/tmp\/facts.new', '\/tmp\/facts'\)/) }
           end
         end
+
+        describe "#yaml_fact_cron_path_env" do
+          context 'default' do
+            it do
+              should contain_cron('refresh-mcollective-metadata').with({
+                :environment  => 'PATH=/opt/puppet/bin:/sbin:/bin:/usr/sbin:/usr/bin',
+                :command      => '/usr/libexec/mcollective/refresh-mcollective-metadata',
+                :user         => 'root',
+                :minute       => ['0','15','30','45'],
+              })
+            end
+
+            it do
+              should contain_exec('create-mcollective-metadata').with({
+                :path     => '/opt/puppet/bin:/sbin:/bin:/usr/sbin:/usr/bin',
+                :command  => '/usr/libexec/mcollective/refresh-mcollective-metadata',
+                :creates  => '/etc/mcollective/facts.yaml',
+                :require  => 'File[/usr/libexec/mcollective/refresh-mcollective-metadata]',
+              })
+            end
+          end
+
+          context '/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin' do
+            let(:params) { { :yaml_fact_cron_path_env => '/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin' } }
+            it { should contain_cron('refresh-mcollective-metadata').with_environment('PATH=/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin') }
+            it { should contain_exec('create-mcollective-metadata').with_path('/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin') }
+          end
+        end
       end
 
       context 'facter' do
         let(:params) { { :server => true, :factsource => 'facter' } }
         it { should contain_mcollective__server__setting('factsource').with_value('facter') }
         it { should contain_mcollective__server__setting('fact_cache_time').with_value('300') }
-        it { should contain_package('mcollective-facter-facts') }
+
+        describe '#facts_package_ensure' do
+          context 'default' do
+            it { should contain_package('mcollective-facter-facts').with_ensure('present') }
+          end
+
+          context 'latest' do
+            let(:params) { { :server => true, :factsource => 'facter', :facts_package_ensure => 'latest' } }
+            it { should contain_package('mcollective-facter-facts').with_ensure('latest') }
+          end
+        end
       end
     end
 
