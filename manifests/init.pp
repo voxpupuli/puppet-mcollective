@@ -63,6 +63,8 @@ class mcollective (
   $ssl_server_private   = undef,
   $ssl_client_certs     = 'puppet:///modules/mcollective/empty',
   $ssl_client_certs_dir = undef, # default dependent on $confdir
+  $ssl_shared_server_public = undef,
+  $ssl_shared_server_private = undef,
 ) inherits mcollective::defaults {
 
   # Because the correct default value for several parameters is based on another
@@ -72,6 +74,16 @@ class mcollective (
   $server_config_file_real = pick($server_config_file, "${confdir}/server.cfg")
   $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
   $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/clients")
+  if ($ssl_shared_server_public == undef) {
+    $ssl_shared_server_public_real = $ssl_server_public
+  } else {
+    $ssl_shared_server_public_real = $ssl_shared_server_public
+  }
+  if ($ssl_shared_server_private == undef) {
+    $ssl_shared_server_private_real = $ssl_server_private
+  } else {
+    $ssl_shared_server_private_real = $ssl_shared_server_private
+  }
 
   if $client or $server {
     contain mcollective::common

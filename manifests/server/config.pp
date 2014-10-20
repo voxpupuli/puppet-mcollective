@@ -56,6 +56,20 @@ class mcollective::server::config {
       mode   => '0400',
       source => $mcollective::ssl_server_private,
     }
+
+    file { "${mcollective::confdir}/shared_server_public.pem":
+      owner  => 'root',
+      group  => '0',
+      mode   => '0444',
+      source => $mcollective::ssl_shared_server_public_real,
+    }
+
+    file { "${mcollective::confdir}/shared_server_private.pem":
+      owner  => 'root',
+      group  => '0',
+      mode   => '0400',
+      source => $mcollective::ssl_shared_server_private_real,
+    }
   }
 
   mcollective::soft_include { [
