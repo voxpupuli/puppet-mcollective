@@ -130,7 +130,9 @@
         -->
         <transportConnectors>
         <% if scope['mcollective::middleware_ssl'] %>
-            <transportConnector name="stomp+ssl" uri="stomp+ssl://0.0.0.0:<%= scope['mcollective::middleware_ssl_port'] %>?needClientAuth=true"/>
+            <transportConnector name="stomp+ssl" uri="stomp+ssl://0.0.0.0:<%= scope['mcollective::middleware_ssl_port'] %>?needClientAuth=true<%- if scope['mcollective::middleware_ssl_protocols'] -%>
+&amp;transport.enabledProtocols=<%= scope['mcollective::middleware_ssl_protocols'] -%>
+            <%- end -%>"/>
         <% else %>
             <transportConnector name="stomp" uri="stomp://0.0.0.0:<%= scope['mcollective::middleware_port'] %>"/>
         <% end %>
