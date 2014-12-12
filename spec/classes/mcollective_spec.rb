@@ -714,6 +714,11 @@ describe 'mcollective' do
             it { should contain_file('activemq.xml').with_content(/transportConnector name="stomp\+ssl" uri="stomp\+ssl:.*?:61614\?/) }
           end
 
+          context 'TLS enabled' do
+            let(:params) { common_params.merge({ :middleware_ssl_protocols => 'abc,def'})}
+            it { should contain_file('activemq.xml').with_content(/transportConnector name="stomp\+ssl" uri="stomp\+ssl:.*?:61614\?needClientAuth=true&amp;transport\.enabledProtocols=#{params[:middleware_ssl_protocols]}/) }
+          end
+
           context 'set' do
             let(:params) { common_params.merge({ :middleware_ssl_port => '1702' }) }
             it { should contain_file('activemq.xml').with_content(/transportConnector name="stomp\+ssl" uri="stomp\+ssl:.*?:1702\?/) }
