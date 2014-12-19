@@ -2,7 +2,7 @@
   "name": "puppetlabs-mcollective",
   "version": "2.0.0",
   "author": "puppetlabs",
-  "summary": "MCollective Puppet Module",
+  "summary": "Installs, configures, and manages MCollective agents, clients, and middleware of an MCollective cluster.",
   "license": "Apache License, Version 2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-mcollective",
   "project_page": "https://github.com/puppetlabs/puppetlabs-mcollective",
