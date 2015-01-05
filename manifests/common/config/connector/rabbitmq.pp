@@ -21,6 +21,6 @@ class mcollective::common::config::connector::rabbitmq {
     value => $pool_size,
   }
 
-  $indexes = range('1', $pool_size)
+  $indexes = mco_array_to_string(range('1', $pool_size))
   mcollective::common::config::connector::rabbitmq::hosts_iteration { $indexes: }
 }
