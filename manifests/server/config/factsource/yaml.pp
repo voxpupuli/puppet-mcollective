@@ -17,8 +17,7 @@ class mcollective::server::config::factsource::yaml {
     before  => Cron['refresh-mcollective-metadata'],
   }
   cron { 'refresh-mcollective-metadata':
-    environment => "PATH=/opt/puppet/bin:${::path}",
-    command     => "${mcollective::core_libdir}/refresh-mcollective-metadata",
+    command     => "PATH=/opt/puppet/bin:${::path} ${mcollective::core_libdir}/refresh-mcollective-metadata",
     user        => 'root',
     minute      => [ '0', '15', '30', '45' ],
   }
