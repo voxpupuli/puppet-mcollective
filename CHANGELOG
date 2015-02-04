@@ -1,3 +1,8 @@
+2014-03-23 Release 99.99.99
+
+This release deprecates the puppetlabs MCollective module in
+preparation for moving it to puppet-community.
+
 2014-09-03 Release 2.0.0
 Summary:
 
