@@ -6,6 +6,7 @@ class mcollective::server::config::factsource::yaml {
 
   $excluded_facts      = $mcollective::excluded_facts
   $yaml_fact_path_real = $mcollective::yaml_fact_path_real
+  $ruby_interpreter    = $mcollective::ruby_interpreter
 
   # Template uses:
   #   - $yaml_fact_path_real

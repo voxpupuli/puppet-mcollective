@@ -48,6 +48,7 @@ class mcollective (
   $service_name       = 'mcollective',
   $server_package     = 'mcollective',
   $ruby_stomp_package = 'ruby-stomp',
+  $ruby_interpreter   = '/usr/bin/env ruby',
 
   # client-specific
   $client_config_file  = undef, # default dependent on $confdir

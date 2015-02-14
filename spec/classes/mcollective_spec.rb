@@ -144,6 +144,13 @@ describe 'mcollective' do
             it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
             it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/tmp\/facts.new', '\/tmp\/facts'\)/) }
           end
+          context 'ruby_interpreter default' do
+            it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/^#!\/usr\/bin\/env ruby$/) }
+          end
+          context 'ruby_interpreter non-default' do
+            let(:params) { { :ruby_interpreter => '/usr/local/bin/ruby21' } }
+            it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/^#!\/usr\/local\/bin\/ruby21$/) }
+          end
         end
       end
 
