@@ -10,6 +10,11 @@ define mcollective::common::config::connector::rabbitmq::hosts_iteration {
     default => $mcollective::middleware_port,
   }
 
+  $fallback = $mcollective::middleware_ssl_fallback ? {
+    true    => 1,
+    default => 0,
+  }
+
   mcollective::common::setting { "plugin.rabbitmq.pool.${name}.port":
     value => $port,
   }
@@ -32,7 +37,7 @@ define mcollective::common::config::connector::rabbitmq::hosts_iteration {
     }
 
     mcollective::common::setting { "plugin.rabbitmq.pool.${name}.ssl.fallback":
-      value => 0,
+      value => $fallback,
     }
   }
 }
