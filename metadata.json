@@ -1,15 +1,12 @@
 {
-  "name": "puppetlabs-mcollective",
-  "version": "2.0.0",
-  "author": "puppetlabs",
+  "name": "puppet-mcollective",
+  "version": "99.99.99",
+  "author": "puppet",
   "summary": "Installs, configures, and manages MCollective agents, clients, and middleware of an MCollective cluster.",
   "license": "Apache License, Version 2.0",
-  "source": "https://github.com/puppetlabs/puppetlabs-mcollective",
-  "project_page": "https://github.com/puppetlabs/puppetlabs-mcollective",
-  "issues_url": "https://github.com/puppetlabs/puppetlabs-mcollective/issues",
-  "types": [
-  
-  ],
+  "source": "https://github.com/puppet-community/puppet-mcollective",
+  "project_page": "https://github.com/puppet-community/puppet-mcollective",
+  "issues_url": "https://github.com/puppet-community/puppet-mcollective/issues",
   "requirements": [
     {
       "name": "puppet",
