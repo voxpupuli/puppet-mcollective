@@ -5,10 +5,6 @@ class mcollective::server::install {
   }
 
   if $mcollective::manage_packages {
-    package { $mcollective::common_package:
-      ensure => $mcollective::version,
-    }
-    ->
     package { $mcollective::server_package:
       ensure => $mcollective::version,
     }
