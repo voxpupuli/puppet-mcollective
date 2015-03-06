@@ -3,7 +3,8 @@ source 'https://rubygems.org'
 
 group :development, :test do
   gem 'rake'
-  gem 'puppetlabs_spec_helper'
+  gem 'puppetlabs_spec_helper', '>= 0.7.0', :require => false
+  gem 'rspec-system-puppet', '~>2.0'
   gem 'puppet-lint'
 end
 
