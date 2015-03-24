@@ -6,6 +6,7 @@ class mcollective::server::config::factsource::yaml {
 
   $excluded_facts      = $mcollective::excluded_facts
   $yaml_fact_path_real = $mcollective::yaml_fact_path_real
+  $cron_minute_value   = rand_fqdn(60, $::uniqueid)
 
   # Template uses:
   #   - $yaml_fact_path_real
@@ -20,7 +21,8 @@ class mcollective::server::config::factsource::yaml {
     environment => "PATH=/opt/puppet/bin:${::path}",
     command     => "${mcollective::core_libdir}/refresh-mcollective-metadata",
     user        => 'root',
-    minute      => [ '0', '15', '30', '45' ],
+    minute      => $cron_minute_value,
+    hour        => '0-23/2',
   }
   exec { 'create-mcollective-metadata':
     path    => "/opt/puppet/bin:${::path}",
