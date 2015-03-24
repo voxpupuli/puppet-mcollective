@@ -6,8 +6,7 @@ class mcollective::server::config::factsource::yaml {
 
   $excluded_facts      = $mcollective::excluded_facts
   $yaml_fact_path_real = $mcollective::yaml_fact_path_real
-  $cron_minute_value   = generate('/usr/bin/env','sh','-c',
-     'printf $((RANDOM%60+0))')
+  $cron_minute_value   = rand_fqdn(60, $::uniqueid)
 
   # Template uses:
   #   - $yaml_fact_path_real
