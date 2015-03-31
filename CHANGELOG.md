@@ -1,4 +1,4 @@
-2015-03-31 Release 2.1.0
+2015-03-31 Release 2.1.1
 ========================
 
 Summary:
@@ -10,6 +10,7 @@ space on GitHub.
 Bugfixes:
 - fix propagation of middleware\_ssl\_fallback for rabbitmq
 - Use string for host\_iteration titles in future parser ([MODULES-773](https://tickets.puppetlabs.com/browse/MODULES-773)
+- Fix our Rakefile release task
 
 
 2014-09-03 Release 2.0.0
