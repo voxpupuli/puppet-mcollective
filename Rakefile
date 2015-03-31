@@ -30,7 +30,7 @@ task :travis_release => [
 desc "Check Changelog."
 task :check_changelog do
   v = Blacksmith::Modulefile.new.version
-  if File.readlines('CHANGELOG.md').grep("Release #{v}").size == 0 then
+  if File.readlines('CHANGELOG.md').grep(/Release #{v}/).size == 0 then
     fail "Unable to find a CHANGELOG.md entry for the #{v} release."
   end
 end
