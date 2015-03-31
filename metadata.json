@@ -1,6 +1,6 @@
 {
   "name": "puppet-mcollective",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "puppetcommunity",
   "summary": "Installs, configures, and manages MCollective agents, clients, and middleware of an MCollective cluster.",
   "license": "Apache-2.0",
