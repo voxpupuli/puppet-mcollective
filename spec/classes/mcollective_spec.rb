@@ -506,9 +506,9 @@ describe 'mcollective' do
           it { should contain_file('mcollective::client').with_ensure('absent') }
         end
         context 'nouserssl' do
-          let(:params) { { :server => false, :client => true, :securityprovider => 'ssl', :userssl => false, :ssl_client_keys => 'puppet:///modules/foo/private' } }
-          it { should contain_file('mcollective::client').with_ensure('/etc/mcollective/client.cfg') }
-          it { should contain_file('/etc/mcollective/private').with_source('puppet:///modules/foo/private') }
+          let(:params) { { :server => false, :client => true, :securityprovider => 'ssl', :userssl => false, :ssl_client_keys => 'puppet:///modules/mcollective/empty' } }
+          it { should contain_file('mcollective::client').with_content(/datacat/) }
+          it { should contain_file('/etc/mcollective/private').with_source('puppet:///modules/mcollective/empty') }
         end
         context 'psk' do
           let(:params) { { :server => false, :client => true, :securityprovider => 'psk' } }
