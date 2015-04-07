@@ -16,7 +16,7 @@ class mcollective (
   $connector        = 'activemq',
   $securityprovider = 'psk',
   $psk              = 'changemeplease',
-	$userssl          = true,
+  $userssl          = true,
   $factsource       = 'yaml',
   $yaml_fact_path   = undef,
   $excluded_facts   = [],
@@ -48,8 +48,7 @@ class mcollective (
   $server_loglevel    = 'info',
   $server_daemonize   = 1,
   $service_name       = 'mcollective',
-  $server_package     = 'mcollective',
-  $common_package     = 'mcollective-common',
+  $common_package     = 'mcollective',
   $ruby_stomp_package = 'ruby-stomp',
 
   # client-specific

@@ -8,12 +8,12 @@ class mcollective::client::config {
     # if securityprovider == ssl each user will want their own ~/.mcollective
     # with their own identity in, so don't publish the global client.cfg
     file { 'mcollective::client':
-      ensure => 'absent',
+			ensure => 'absent',
       path   => $mcollective::client_config_file_real,
     }
-		file { $mcollective::ssl_client_keys_dir_real:
-			ensure  => 'absent',
-			force => true,
+    file { $mcollective::ssl_client_keys_dir_real:
+      ensure  => 'absent',
+      force => true,
 		}
   }
   else {
@@ -24,14 +24,14 @@ class mcollective::client::config {
       path     => $mcollective::client_config_file_real,
       template => 'mcollective/settings.cfg.erb',
     }
-		file { $mcollective::ssl_client_keys_dir_real:
-			ensure  => 'directory',
-							owner   => 'root',
-							group   => '0',
-							purge   => true,
-							recurse => true,
-							mode    => '0400',
-							source  => $mcollective::ssl_client_keys,
+    file { $mcollective::ssl_client_keys_dir_real:
+      ensure  => 'directory',
+      owner   => 'root',
+      group   => '0',
+      purge   => true,
+      recurse => true,
+      mode    => '0400',
+      source  => $mcollective::ssl_client_keys,
 		}
   }
 
