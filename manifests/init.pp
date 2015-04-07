@@ -16,6 +16,7 @@ class mcollective (
   $connector        = 'activemq',
   $securityprovider = 'psk',
   $psk              = 'changemeplease',
+	$userssl          = true,
   $factsource       = 'yaml',
   $yaml_fact_path   = undef,
   $excluded_facts   = [],
@@ -60,6 +61,7 @@ class mcollective (
   $ssl_server_public    = undef,
   $ssl_server_private   = undef,
   $ssl_client_certs     = 'puppet:///modules/mcollective/empty',
+  $ssl_client_keys      = 'puppet:///modules/mcollective/empty',
   $ssl_client_certs_dir = undef, # default dependent on $confdir
 ) inherits mcollective::defaults {
 
@@ -70,6 +72,7 @@ class mcollective (
   $server_config_file_real = pick($server_config_file, "${confdir}/server.cfg")
   $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
   $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/clients")
+  $ssl_client_keys_dir_real = pick($ssl_client_certs_dir, "${confdir}/private")
 
   if $client or $server {
     contain mcollective::common
