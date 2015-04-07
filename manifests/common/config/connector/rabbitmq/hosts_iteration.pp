@@ -39,5 +39,13 @@ define mcollective::common::config::connector::rabbitmq::hosts_iteration {
     mcollective::common::setting { "plugin.rabbitmq.pool.${name}.ssl.fallback":
       value => $fallback,
     }
+
+    mcollective::common::setting { "plugin.rabbitmq.pool.${name}.ssl.cert":
+      value => "${mcollective::confdir}/server_public.pem",
+    }
+
+    mcollective::common::setting { "plugin.rabbitmq.pool.${name}.ssl.key":
+      value => "${mcollective::confdir}/server_private.pem",
+    }
   }
 }

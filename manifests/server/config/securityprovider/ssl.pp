@@ -18,11 +18,4 @@ class mcollective::server::config::securityprovider::ssl {
     value => $mcollective::ssl_client_certs_dir_real,
   }
 
-  mcollective::server::setting { 'plugin.ssl_server_public':
-    value => "${mcollective::confdir}/server_public.pem",
-  }
-
-  mcollective::server::setting { 'plugin.ssl_server_private':
-    value => "${mcollective::confdir}/server_private.pem",
-  }
 }
