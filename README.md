@@ -369,6 +369,11 @@ Boolean: defaults to true. Whether the users should handle their own private key
 If false, the client is set up as to be used by sudo, i.e. only root has access to the
 private keys. Use together with `ssl_client_keys`
 
+##### `pluginconf`
+
+Hash: defaults to {}. Additional {"key" => "value"} pairs to be added to the config files.
+Will result in "plugin.key = value", type lines.
+
 ### `mcollective::user` defined type
 
 `mcollective::user` installs a client configuration and any needed client

@@ -77,6 +77,9 @@ class mcollective::common::config {
     }
   }
 
+  $configkeys = keys($mcollective::pluginconf)
+  mcollective::common::config::pluginconf::plugin_iteration{ $configkeys: }
+
   mcollective::soft_include { [
     "::mcollective::common::config::connector::${mcollective::connector}",
     "::mcollective::common::config::securityprovider::${mcollective::securityprovider}",
