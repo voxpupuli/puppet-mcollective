@@ -35,28 +35,6 @@ class mcollective::server::config {
     mode   => '0700',
   }
 
-  if $mcollective::middleware_ssl or $mcollective::securityprovider == 'ssl' {
-    file { "${mcollective::confdir}/ca.pem":
-      owner  => 'root',
-      group  => '0',
-      mode   => '0444',
-      source => $mcollective::ssl_ca_cert,
-    }
-
-    file { "${mcollective::confdir}/server_public.pem":
-      owner  => 'root',
-      group  => '0',
-      mode   => '0444',
-      source => $mcollective::ssl_server_public,
-    }
-
-    file { "${mcollective::confdir}/server_private.pem":
-      owner  => 'root',
-      group  => '0',
-      mode   => '0400',
-      source => $mcollective::ssl_server_private,
-    }
-  }
 
   mcollective::soft_include { [
     "::mcollective::server::config::connector::${mcollective::connector}",

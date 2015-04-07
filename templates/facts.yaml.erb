@@ -1,0 +1,13 @@
+<%=
+    # remove dynamic facts
+    obj = scope.to_hash.reject {|k,v| k.to_s =~ /^(uptime.*|rubysitedir|_timestamp|memoryfree.*|swapfree.*|title|name|caller_module_name|module_name)$/ }
+
+    arr = obj.sort
+    out = "---\n"
+    arr.each do |element|
+      entry = {element[0] => element[1]}
+      out += entry.to_yaml.split(/\n/)[1..-1].join("\n") + "\n"
+    end
+
+    out
+%>
