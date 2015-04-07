@@ -55,11 +55,6 @@ On a client
 * mcollective client configuration file
 * optionally user configuration files (~/.mcollective and ~/.mcollective.d)
 
-On a middleware host
-
-* broker installation
-* broker configuration
-
 ### Beginning with mcollective
 
 Your main entrypoint to the mcollective module is the mcollective class, so
@@ -82,13 +77,6 @@ mcollective class, with secondary configuration managed by the defined types
 ### I just want to run it, what's the minimum I need?
 
 ```puppet
-node 'broker1.example.com' {
-  class { '::mcollective':
-    middleware       => true,
-    middleware_hosts => [ 'broker1.example.com' ],
-  }
-}
-
 node 'server1.example.com' {
   class { '::mcollective':
     middleware_hosts => [ 'broker1.example.com' ],
@@ -120,19 +108,6 @@ for more information about how to generate these.
 
 
 ```puppet
-node 'broker1.example.com' {
-  class { '::mcollective':
-    middleware         => true,
-    middleware_hosts   => [ 'broker1.example.com' ],
-    middleware_ssl     => true,
-    securityprovider   => 'ssl',
-    ssl_client_certs   => 'puppet:///modules/site_mcollective/client_certs',
-    ssl_ca_cert        => 'puppet:///modules/site_mcollective/certs/ca.pem',
-    ssl_server_public  => 'puppet:///modules/site_mcollective/certs/server.pem',
-    ssl_server_private => 'puppet:///modules/site_mcollective/private_keys/server.pem',
-  }
-}
-
 node 'server1.example.com' {
   class { '::mcollective':
     middleware_hosts   => [ 'broker1.example.com' ],
@@ -192,71 +167,6 @@ node.
 
 Boolean: defaults to false.  Whether to install the mcollective client
 application on this node.
-
-##### `middleware`
-
-Boolean: defaults to false.  Whether to install middleware that matches
-`$mcollective::connector` on this node.
-
-
-##### `activemq_template`
-
-String: defaults to 'mcollective/activemq.xml.erb'.  Template to use when
-configuring activemq middleware.
-
-##### `activemq_console`
-
-Boolean: defaults to false.  Whether to enable the jetty admin console when
-configuring the activemq middleware.
-
-##### `activemq_config`
-
-String: defaults to undef.  If supplied the contents of the activemq.xml
-configuration file to use when configuring activemq middleware.  Bypasses
-`mcollective::activemq_template`
-
-##### `activemq_confdir`
-
-String: default based on distribution.  The directory to copy ssl certificates
-to when configuring activemq middleware with `mcollective::middleware_ssl`.
-
-##### `activemq_memoryUsage`
-
-String: default "20 mb". The amount of memory ActiveMQ will take up with *actual
-messages*; it doesn't include things like thread management. See
-[ActiveMQ - Memory and Temp Usage for Messages (systemUsage)](http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#memory-and-temp-usage-for-messages-systemusage)
-for further information. String must match '^[0-9]+ [kmg]b$'.
-
-##### `activemq_storeUsage`
-
-String: default "1 gb". The amount of disk space ActiveMQ will use for stashing
-non-persisted messages if the memoryUsage is exceeded (e.g. in the event of a
-sudden flood of messages). See
-[ActiveMQ - Memory and Temp Usage for Messages (systemUsage)](http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#memory-and-temp-usage-for-messages-systemusage)
-for further information. String must match '^[0-9]+ [kmg]b$'.
-
-##### `activemq_tempUsage`
-
-String: default "100 mb". The amount of disk space dedicated to persistent messages
-(which MCollective doesn't use directly, but which may be used in networks of brokers
-to avoid duplicates). See
-[ActiveMQ - Memory and Temp Usage for Messages (systemUsage)](http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#memory-and-temp-usage-for-messages-systemusage)
-for further information. String must match '^[0-9]+ [kmg]b$'.
-
-##### `rabbitmq_confdir`
-
-String: defaults to '/etc/rabbitmq'. The directory to copy ssl certificates to
-when configuring rabbitmq middleware with `mcollective::middleware_ssl`.
-
-##### `rabbitmq_vhost`
-
-String: defaults to '/mcollective'.  The vhost to connect to/manage when using
-rabbitmq middleware.
-
-##### `delete_guest_user`
-
-Boolean: defaults to 'false'.  Whether to delete the rabbitmq guest user when
-setting up rabbitmq middleware.
 
 ##### `manage_packages`
 
@@ -446,6 +356,18 @@ the server keypair.
 String: defaults to 'puppet:///modules/mcollective/empty'.  A file source that
 contains a directory of user certificates which are used by the ssl security
 provider in authenticating user requests.
+
+##### `ssl_client_keys`
+
+String: defaults to 'puppet:///modules/mcollective/empty'.  A file source that
+contains a directory of user keys which can be used by the client ssl security
+provider to make client requests. Populated when `mcollective::userssl` is false.
+
+##### `userssl`
+
+Boolean: defaults to true. Whether the users should handle their own private keys.
+If false, the client is set up as to be used by sudo, i.e. only root has access to the
+private keys. Use together with `ssl_client_keys`
 
 ### `mcollective::user` defined type
 
@@ -729,6 +651,7 @@ This module has been built on and tested against Puppet 3.0 and higher.
 
 The module has been tested on:
 
+* CentOS 7
 * CentOS 6
 * Ubuntu 12.04
 
