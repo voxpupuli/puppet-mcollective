@@ -1,3 +1,14 @@
+2015-03-31 Release 2.1.2
+========================
+
+Summary:
+
+New features
+
+- userssl option to (not) manage private client keys
+- SSL functionality moved to common
+- Plugin configuration feature
+
 2015-03-31 Release 2.1.1
 ========================
 

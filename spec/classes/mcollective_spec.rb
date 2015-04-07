@@ -288,8 +288,8 @@ describe 'mcollective' do
       end
 
       context 'ssl' do
-        let(:params) { { :server => true, :securityprovider => 'ssl' } }
-        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
+        let(:params) { { :securityprovider => 'ssl' } }
+        it { should contain_mcollective__common__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
         it { should contain_file('/etc/mcollective/server_public.pem') }
 
         describe '#ssl_client_certs' do
@@ -367,6 +367,14 @@ describe 'mcollective' do
         let(:params) { { :site_libdir => '/usr/local/fishy/fishy' } }
         it { should contain_file('/usr/local/fishy/fishy') }
         it { should contain_mcollective__common__setting('libdir').with_value('/usr/local/fishy/fishy:/usr/libexec/mcollective') }
+      end
+    end
+
+    describe '#pluginconf' do
+      context 'default' do
+        let(:params) { { :pluginconf => {"foo" => "bar", "baz" => "quux"} } }
+        it { should contain_mcollective__common__setting('plugin.foo').with_value('bar') }
+        it { should contain_mcollective__common__setting('plugin.baz').with_value('quux') }
       end
     end
 
@@ -492,16 +500,22 @@ describe 'mcollective' do
       end
 
       describe '#securityprovider' do
-        context 'ssl' do
-          let(:params) { { :server => false, :client => true, :securityprovider => 'ssl' } }
+        let(:params) { { :server => false, :client => true, :securityprovider => 'ssl' } }
+        context 'userssl' do
+          let(:params) { { :server => false, :client => true, :securityprovider => 'ssl', :userssl => true } }
           it { should contain_file('mcollective::client').with_ensure('absent') }
         end
-
+        context 'nouserssl' do
+          let(:params) { { :server => false, :client => true, :securityprovider => 'ssl', :userssl => false, :ssl_client_keys => 'puppet:///modules/foo/private' } }
+          it { should contain_file('mcollective::client').with_ensure('/etc/mcollective/client.cfg') }
+          it { should contain_file('/etc/mcollective/private').with_source('puppet:///modules/foo/private') }
+        end
         context 'psk' do
           let(:params) { { :server => false, :client => true, :securityprovider => 'psk' } }
           it { should contain_file('mcollective::client').with_content(/datacat/) }
         end
       end
+
     end
 
     describe '#securityprovider' do
@@ -510,8 +524,8 @@ describe 'mcollective' do
       end
 
       context 'ssl' do
-        let(:params) { { :server => true, :securityprovider => 'ssl' } }
-        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
+        let(:params) { { :securityprovider => 'ssl' } }
+        it { should contain_mcollective__common__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
         it { should contain_file('/etc/mcollective/server_public.pem') }
       end
 
