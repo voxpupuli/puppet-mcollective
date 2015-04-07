@@ -4,12 +4,16 @@ class mcollective::client::config {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  if $mcollective::securityprovider == 'ssl' {
-    # if securityprovider == ssl each user will want their own ~/.mcollective
-    # with their own identity in, so don't publish the global client.cfg
+# if securityprovider == ssl each user will want their own ~/.mcollective
+# with their own identity in, so don't publish the global client.cfg
+  if $mcollective::securityprovider == 'ssl' and $mcollective::userssl {
     file { 'mcollective::client':
       ensure => 'absent',
       path   => $mcollective::client_config_file_real,
+    }
+    file { $mcollective::ssl_client_keys_dir_real:
+      ensure => 'absent',
+      force  => true,
     }
   }
   else {
@@ -19,6 +23,15 @@ class mcollective::client::config {
       mode     => '0444',
       path     => $mcollective::client_config_file_real,
       template => 'mcollective/settings.cfg.erb',
+    }
+    file { $mcollective::ssl_client_keys_dir_real:
+      ensure  => 'directory',
+      owner   => 'root',
+      group   => '0',
+      purge   => true,
+      recurse => true,
+      mode    => '0400',
+      source  => $mcollective::ssl_client_keys,
     }
   }
 

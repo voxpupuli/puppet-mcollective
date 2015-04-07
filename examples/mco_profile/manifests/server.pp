@@ -21,20 +21,18 @@ class mco_profile::server (
   $ssl_server_private  = $mco_profile::params::ssl_server_private,
   $ssl_ca_cert         = $mco_profile::params::ssl_ca_cert,
 ) inherits mco_profile::params {
-
   class { '::mcollective':
-    securityprovider     => 'ssl',
-    middleware_ssl       => true,
-    middleware_hosts     => $middleware_hosts,
-    middleware_ssl_port  => $middleware_ssl_port,
-    middleware_user      => $middleware_user,
-    middleware_password  => $middleware_password,
-    main_collective      => $main_collective,
-    collectives          => $collectives,
-    connector            => $connector,
-    ssl_server_public    => $ssl_server_cert,
-    ssl_server_private   => $ssl_server_private,
-    ssl_ca_cert          => $ssl_ca_cert,
+    securityprovider    => 'ssl',
+    middleware_ssl      => true,
+    middleware_hosts    => $middleware_hosts,
+    middleware_ssl_port => $middleware_ssl_port,
+    middleware_user     => $middleware_user,
+    middleware_password => $middleware_password,
+    main_collective     => $main_collective,
+    collectives         => $collectives,
+    connector           => $connector,
+    ssl_server_public   => $ssl_server_cert,
+    ssl_server_private  => $ssl_server_private,
+    ssl_ca_cert         => $ssl_ca_cert,
   }
-
 }
