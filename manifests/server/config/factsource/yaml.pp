@@ -7,8 +7,8 @@ class mcollective::server::config::factsource::yaml {
   $excluded_facts      = $mcollective::excluded_facts
   $yaml_fact_path_real = $mcollective::yaml_fact_path_real
 
-  $cron_minute_offset  = fqdn_rand(15, ${::macaddress})
-  $cron_minutes = [ $cron_minute_offset, $cron_minute_offset + 15, 
+  $cron_minute_offset  = fqdn_rand(15, $::macaddress)
+  $cron_minutes        = [ $cron_minute_offset, $cron_minute_offset + 15, 
     $cron_minute_offset + 30, $cron_minute_offset + 45 ]
 
   # Template uses:
