@@ -1,3 +1,4 @@
+# an example profile for mco clients
 class mco_profile::client (
   $middleware_hosts   = $mco_profile::params::middleware_hosts,
   $ssl_server_cert    = $mco_profile::params::ssl_server_cert,
@@ -13,7 +14,7 @@ class mco_profile::client (
     private_key       => $ssl_server_private,
     ssl_ca_cert       => $ssl_ca_cert,
     ssl_server_public => $ssl_server_public,
-    middleware_hosts  => $middleware_host,
+    middleware_hosts  => $middleware_hosts,
     middleware_ssl    => true,
     securityprovider  => 'ssl',
     connector         => $connector,

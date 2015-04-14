@@ -9,11 +9,11 @@ class mcollective::common::config::connector::activemq {
   }
 
   mcollective::common::setting { 'plugin.activemq.base64':
-    value => 'yes',
+    value => yes,
   }
 
   mcollective::common::setting { 'plugin.activemq.randomize':
-    value => 'true',
+    value => true,
   }
 
   $pool_size = size(flatten([$mcollective::middleware_hosts]))

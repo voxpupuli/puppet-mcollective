@@ -1,5 +1,9 @@
 # Define - mcollective::server::setting
-define mcollective::server::setting($setting = $name, $value, $order = '30') {
+define mcollective::server::setting (
+  $value,
+  $setting = $name,
+  $order   = '30',
+) {
   mcollective::setting { "mcollective::server::setting ${title}":
     setting => $setting,
     value   => $value,
