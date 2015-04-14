@@ -13,7 +13,7 @@ class mcollective::common::config::connector::rabbitmq {
   }
 
   mcollective::common::setting { 'plugin.rabbitmq.randomize':
-    value => 'true',
+    value => true,
   }
 
   $pool_size = size(flatten([$mcollective::middleware_hosts]))
