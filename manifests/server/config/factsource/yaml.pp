@@ -9,11 +9,18 @@ class mcollective::server::config::factsource::yaml {
 
   # Template uses:
   #   - $yaml_fact_path_real
+  file { "${mcollective::core_libdir}":
+    ensure  => 'directory',
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
+  }
   file { "${mcollective::core_libdir}/refresh-mcollective-metadata":
     owner   => '0',
     group   => '0',
     mode    => '0755',
     content => template('mcollective/refresh-mcollective-metadata.erb'),
+    require => File["${mcollective::core_libdir}"],
     before  => Cron['refresh-mcollective-metadata'],
   }
   cron { 'refresh-mcollective-metadata':
