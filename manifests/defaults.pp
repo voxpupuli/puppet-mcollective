@@ -18,4 +18,7 @@ class mcollective::defaults {
     'Debian' => '/usr/local/share/mcollective',
     default  => '/usr/local/libexec/mcollective',
   }
+
+  # environment passed to factsource yaml cron resource
+  $yaml_fact_cron_path_env = "/opt/puppet/bin:${::path}"
 }

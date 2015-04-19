@@ -61,6 +61,10 @@ class mcollective (
   $ssl_server_private   = undef,
   $ssl_client_certs     = 'puppet:///modules/mcollective/empty',
   $ssl_client_certs_dir = undef, # default dependent on $confdir
+
+  # factsource options
+  $yaml_fact_cron_path_env = $mcollective::defaults::yaml_fact_cron_path_env,
+  $facts_package_ensure    = 'present',
 ) inherits mcollective::defaults {
 
   # Because the correct default value for several parameters is based on another
