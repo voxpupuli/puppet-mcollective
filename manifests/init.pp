@@ -1,8 +1,8 @@
 # Class - mcollective
 class mcollective (
   # which subcomponents to install here
-  $server = true,
-  $client = false,
+  $server = false,
+  $client = true,
 
   # installing packages
   $manage_packages   = true,
@@ -13,7 +13,7 @@ class mcollective (
   $confdir          = '/etc/mcollective',
   $main_collective  = 'mcollective',
   $collectives      = 'mcollective',
-  $connector        = 'activemq',
+  $connector        = undef,
   $activemq_package = 'activemq',
   $rabbitmq_package = 'rabbitmq-server',
   $securityprovider = 'psk',
