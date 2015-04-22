@@ -14,6 +14,8 @@ class mcollective (
   $main_collective  = 'mcollective',
   $collectives      = 'mcollective',
   $connector        = 'activemq',
+  $activemq_package = 'activemq',
+  $rabbitmq_package = 'rabbitmq-server',
   $securityprovider = 'psk',
   $psk              = 'changemeplease',
   $factsource       = 'yaml',
