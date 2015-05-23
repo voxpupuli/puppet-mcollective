@@ -319,6 +319,12 @@ internally: `uptime.*`, `rubysitedir`, `_timestamp`, `memoryfree.*`,
 `swapfree.*` and `last_run`. Note that the fact names can be Ruby regular
 expressions.
 
+##### `ruby_interpreter`
+
+String: defaults to '/usr/bin/env ruby'. With `factsource` 'yaml', a ruby
+script gets installed as cron job, that needs to find the ruby interpreter.
+This parameter allows overriding the default interpreter.
+
 ##### `classesfile`
 
 String: defaults to '/var/lib/puppet/state/classes.txt'.  Name of the file the
