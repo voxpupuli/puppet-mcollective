@@ -136,13 +136,13 @@ describe 'mcollective' do
             it 'should default to /etc/mcollective/facts.yaml' do
               should contain_mcollective__server__setting('plugin.yaml').with_value('/etc/mcollective/facts.yaml')
             end
-            it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/etc\/mcollective\/facts.yaml.new', '\/etc\/mcollective\/facts.yaml'\)/) }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/etc\/mcollective\/facts.yaml.new', '\/etc\/mcollective\/facts.yaml'\)/) }
           end
           
           context '/tmp/facts' do
             let(:params) { { :yaml_fact_path => '/tmp/facts' } }
             it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
-            it { should contain_file('/usr/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/tmp\/facts.new', '\/tmp\/facts'\)/) }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/tmp\/facts.new', '\/tmp\/facts'\)/) }
           end
         end
 

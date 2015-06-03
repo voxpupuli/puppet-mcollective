@@ -10,7 +10,7 @@ class mcollective::server::config::factsource::yaml {
 
   # Template uses:
   #   - $yaml_fact_path_real
-  file { "${mcollective::core_libdir}/refresh-mcollective-metadata":
+  file { "${mcollective::site_libdir}/refresh-mcollective-metadata":
     owner   => '0',
     group   => '0',
     mode    => '0755',
@@ -27,9 +27,9 @@ class mcollective::server::config::factsource::yaml {
   }
   exec { 'create-mcollective-metadata':
     path    => "/opt/puppet/bin:${::path}",
-    command => "${mcollective::core_libdir}/refresh-mcollective-metadata",
+    command => "${mcollective::site_libdir}/refresh-mcollective-metadata",
     creates => $yaml_fact_path_real,
-    require => File["${mcollective::core_libdir}/refresh-mcollective-metadata"],
+    require => File["${mcollective::site_libdir}/refresh-mcollective-metadata"],
   }
 
   mcollective::server::setting { 'factsource':
