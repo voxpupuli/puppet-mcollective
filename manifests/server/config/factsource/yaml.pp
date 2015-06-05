@@ -1,5 +1,7 @@
 # private class
-class mcollective::server::config::factsource::yaml {
+class mcollective::server::config::factsource::yaml (
+  $path = $::path,
+) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
@@ -35,12 +37,19 @@ class mcollective::server::config::factsource::yaml {
         mode    => '0755',
         content => template('mcollective/refresh-mcollective-metadata.erb'),
       }
+
+      # There is concern that cron jobs run with a reduced PATH, so we still
+      # want to invoke this script with at least as full a path as the Puppet
+      # service has itself. We want to avoid the environment parameter to set
+      # PATH as environment is global. Therefore, prefix the command itself in
+      # the cron job with the value of the PATH environment variable to use.
       cron { 'refresh-mcollective-metadata':
-        command => "${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1",
+        command => "bash -c 'export PATH=${path}; ${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1",
         user    => 'root',
         minute  => [ '0', '15', '30', '45' ],
         require => File["${mcollective::site_libdir}/refresh-mcollective-metadata"],
       }
+
       exec { 'create-mcollective-metadata':
         path    => "/opt/puppet/bin:${::path}",
         command => "${mcollective::site_libdir}/refresh-mcollective-metadata",
