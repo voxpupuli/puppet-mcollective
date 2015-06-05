@@ -10,6 +10,7 @@ class mcollective::server::config::factsource::yaml {
     true    => '/opt/puppet/bin/ruby',
     default => '/usr/bin/env ruby',
   }
+  $yaml_fact_cron      = $mcollective::yaml_fact_cron
 
   # Template uses:
   #   - $ruby_shebang_path
@@ -19,12 +20,14 @@ class mcollective::server::config::factsource::yaml {
     group   => '0',
     mode    => '0755',
     content => template('mcollective/refresh-mcollective-metadata.erb'),
-    before  => Cron['refresh-mcollective-metadata'],
   }
-  cron { 'refresh-mcollective-metadata':
-    command => "${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1",
-    user    => 'root',
-    minute  => [ '0', '15', '30', '45' ],
+  if $yaml_fact_cron {
+    cron { 'refresh-mcollective-metadata':
+      command => "${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1",
+      user    => 'root',
+      minute  => [ '0', '15', '30', '45' ],
+      require => File["${mcollective::site_libdir}/refresh-mcollective-metadata"],
+    }
   }
   exec { 'create-mcollective-metadata':
     path    => "/opt/puppet/bin:${::path}",
