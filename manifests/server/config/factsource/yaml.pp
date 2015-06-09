@@ -7,11 +7,7 @@ class mcollective::server::config::factsource::yaml (
   }
 
   $yaml_fact_path_real = $mcollective::yaml_fact_path_real
-  if defined('$is_pe') and str2bool($::is_pe) {
-    $ruby_shebang_path = '/opt/puppet/bin/ruby'
-  } else {
-    $ruby_shebang_path = '/usr/bin/env ruby'
-  }
+  $ruby_shebang_path   = $mcollective::ruby_interpreter
   $yaml_fact_cron      = $mcollective::yaml_fact_cron
 
   if $mcollective::fact_cron_splay {
@@ -56,7 +52,7 @@ class mcollective::server::config::factsource::yaml (
       # PATH as environment is global. Therefore, prefix the command itself in
       # the cron job with the value of the PATH environment variable to use.
       cron { 'refresh-mcollective-metadata':
-        command => "bash -c 'export PATH=${path}; ${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1'",
+        command => "/bin/sh -c 'export PATH=${path}; ${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1'",
         user    => 'root',
         minute  => $cron_minutes,
         require => File["${mcollective::site_libdir}/refresh-mcollective-metadata"],

@@ -28,11 +28,13 @@ describe 'mcollective::user' do
   end
 
   describe '#middleware_ssl' do
-    context 'true' do
-      let(:params) { default_params.merge(:middleware_ssl => true) }
-      it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/nagios.pem') }
-      it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert') }
-      it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert').with_value('/home/nagios/.mcollective.d/credentials/certs/nagios.pem') }
+    context 'true and "true"' do
+      [true, 'true',].each do |value|
+        let(:params) { default_params.merge(:middleware_ssl => value) }
+        it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/nagios.pem') }
+        it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert') }
+        it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert').with_value('/home/nagios/.mcollective.d/credentials/certs/nagios.pem') }
+      end
     end
 
     context 'false' do
