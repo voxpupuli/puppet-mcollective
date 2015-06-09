@@ -294,7 +294,6 @@ describe 'mcollective' do
         end
 
         describe '#fact_cron_splay' do
-
           let(:facts) do
             {
               :puppetversion => Puppet.version,
@@ -445,6 +444,15 @@ describe 'mcollective' do
             it { should_not contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem") }
             it { should_not contain_file("#{mcollective_config_path}/ssl/middleware_cert.pem") }
             it { should_not contain_file("#{mcollective_config_path}/ssl/middleware_key.pem") }
+          end
+
+          context 'true and "true"' do
+            [true, 'true',].each do |value|
+              let(:common_params) { { :server => true, :middleware_hosts => %w( foo ), :middleware_ssl => value } }
+              let(:params) { common_params }
+              it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
+              it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
+            end
           end
 
           context 'true' do
@@ -768,6 +776,15 @@ describe 'mcollective' do
           let(:params) { { :server => false, :client => true, :middleware_hosts => %w( foo ) } }
           it 'should default to false' do
             should_not contain_mcollective__common__setting('plugin.activemq.pool.1.ssl')
+          end
+
+          context 'true and "true"' do
+            [true, 'true',].each do |value|
+              let(:common_params) { { :server => true, :middleware_hosts => %w( foo ), :middleware_ssl => value } }
+              let(:params) { common_params }
+              it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
+              it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
+            end
           end
 
           context 'true' do
