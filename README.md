@@ -193,70 +193,10 @@ node.
 Boolean: defaults to false.  Whether to install the mcollective client
 application on this node.
 
-##### `middleware`
-
-Boolean: defaults to false.  Whether to install middleware that matches
-`$mcollective::connector` on this node.
-
-
-##### `activemq_template`
-
-String: defaults to 'mcollective/activemq.xml.erb'.  Template to use when
-configuring activemq middleware.
-
-##### `activemq_console`
-
-Boolean: defaults to false.  Whether to enable the jetty admin console when
-configuring the activemq middleware.
-
-##### `activemq_config`
-
-String: defaults to undef.  If supplied the contents of the activemq.xml
-configuration file to use when configuring activemq middleware.  Bypasses
-`mcollective::activemq_template`
-
-##### `activemq_confdir`
-
-String: default based on distribution.  The directory to copy ssl certificates
-to when configuring activemq middleware with `mcollective::middleware_ssl`.
-
-##### `activemq_memoryUsage`
-
-String: default "20 mb". The amount of memory ActiveMQ will take up with *actual
-messages*; it doesn't include things like thread management. See
-[ActiveMQ - Memory and Temp Usage for Messages (systemUsage)](http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#memory-and-temp-usage-for-messages-systemusage)
-for further information. String must match '^[0-9]+ [kmg]b$'.
-
-##### `activemq_storeUsage`
-
-String: default "1 gb". The amount of disk space ActiveMQ will use for stashing
-non-persisted messages if the memoryUsage is exceeded (e.g. in the event of a
-sudden flood of messages). See
-[ActiveMQ - Memory and Temp Usage for Messages (systemUsage)](http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#memory-and-temp-usage-for-messages-systemusage)
-for further information. String must match '^[0-9]+ [kmg]b$'.
-
-##### `activemq_tempUsage`
-
-String: default "100 mb". The amount of disk space dedicated to persistent messages
-(which MCollective doesn't use directly, but which may be used in networks of brokers
-to avoid duplicates). See
-[ActiveMQ - Memory and Temp Usage for Messages (systemUsage)](http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#memory-and-temp-usage-for-messages-systemusage)
-for further information. String must match '^[0-9]+ [kmg]b$'.
-
-##### `rabbitmq_confdir`
-
-String: defaults to '/etc/rabbitmq'. The directory to copy ssl certificates to
-when configuring rabbitmq middleware with `mcollective::middleware_ssl`.
-
 ##### `rabbitmq_vhost`
 
 String: defaults to '/mcollective'.  The vhost to connect to/manage when using
 rabbitmq middleware.
-
-##### `delete_guest_user`
-
-Boolean: defaults to 'false'.  Whether to delete the rabbitmq guest user when
-setting up rabbitmq middleware.
 
 ##### `manage_packages`
 
