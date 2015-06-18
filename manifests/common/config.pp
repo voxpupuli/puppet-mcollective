@@ -8,6 +8,7 @@ class mcollective::common::config {
     ensure       => directory,
     owner        => 'root',
     group        => '0',
+    mode         => '0644',
     recurse      => true,
     purge        => true,
     force        => true,

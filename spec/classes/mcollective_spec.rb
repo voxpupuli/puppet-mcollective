@@ -45,7 +45,7 @@ describe 'mcollective' do
       it 'should default to installed' do
         should contain_package('ruby-stomp').with_ensure('installed')
       end
-      
+
       context 'latest' do
         let(:params) { { :ruby_stomp_ensure => 'latest' } }
         it { should contain_package('ruby-stomp').with_ensure('latest') }
@@ -138,7 +138,7 @@ describe 'mcollective' do
             end
             it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/etc\/mcollective\/facts.yaml.new', '\/etc\/mcollective\/facts.yaml'\)/) }
           end
-          
+
           context '/tmp/facts' do
             let(:params) { { :yaml_fact_path => '/tmp/facts' } }
             it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
@@ -370,7 +370,7 @@ describe 'mcollective' do
 
     describe '#site_libdir' do
       context 'default' do
-        it { should contain_file('/usr/local/libexec/mcollective') }
+        it { should contain_file('/usr/local/libexec/mcollective').with_mode('0644') }
         it { should contain_mcollective__common__setting('libdir').with_value('/usr/local/libexec/mcollective:/usr/libexec/mcollective') }
       end
 
