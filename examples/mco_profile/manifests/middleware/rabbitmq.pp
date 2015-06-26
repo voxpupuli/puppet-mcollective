@@ -48,7 +48,7 @@ class mco_profile::middleware::rabbitmq (
     ssl_cert          => "${confdir}/server_cert.pem",
     ssl_key           => "${confdir}/server_private.pem",
   }
-  contain rabbitmq
+  contain ::rabbitmq
 
   # Configure the RabbitMQ service for use by MCollective
   rabbitmq_plugin { 'rabbitmq_stomp':
