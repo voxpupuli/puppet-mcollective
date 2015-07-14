@@ -18,13 +18,13 @@ class mcollective::server::config::factsource::yaml {
   if $yaml_fact_cron {
     if versioncmp($::facterversion, '3.0.0') >= 0 {
       cron { 'refresh-mcollective-metadata':
-        command => "facter >${yaml_fact_path_real} 2>&1",
+        command => "facter --yaml >${yaml_fact_path_real} 2>&1",
         user    => 'root',
         minute  => [ '0', '15', '30', '45' ],
       }
       exec { 'create-mcollective-metadata':
         path    => "/opt/puppet/bin:${::path}",
-        command => "facter >${yaml_fact_path_real} 2>&1",
+        command => "facter --yaml >${yaml_fact_path_real} 2>&1",
         creates => $yaml_fact_path_real,
       }
     } else {
