@@ -250,6 +250,11 @@ server.
 String: defaults to '/etc/mcollective/facts.yaml'.  Name of the file the
 'yaml' factsource plugin should load facts from.
 
+##### `puppet_exec_path`
+
+String: defaults to '/opt/puppetlabs/puppet/bin'.  If you're using Facter 3.x
+the 'yaml' factsource plugin will search for `puppet` in this dir.
+
 ##### `excluded_facts`
 Array: defaults to []. List of facts to exclude from facts.yaml when
 `factsource` is 'yaml'. This is useful for preventing dynamic facts (that

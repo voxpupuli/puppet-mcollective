@@ -176,6 +176,21 @@ describe 'mcollective' do
           end
         end
 
+        describe '#puppet_exec_path' do
+          context 'default' do
+            it 'should default to /opt/puppetlabs/puppet/bin/puppet' do
+              should contain_mcollective__server__setting('puppet_exec_path').with_value('/opt/puppetlabs/puppet/bin/puppet')
+            end
+          end
+
+          context '/some/path/to/puppet' do
+            let(:params) { { :puppet_exec_path => '/some/path/to/puppet' } }
+            it 'should be /some/path/to/puppet/puppet' do
+              should contain_mcollective__server__setting('puppet_exec_path').with_value('/some/path/to/puppet/puppet')
+            end
+          end
+        end
+
         describe '#yaml_fact_cron' do
           context 'default (true)' do
             it { should contain_cron('refresh-mcollective-metadata') }
