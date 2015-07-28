@@ -128,8 +128,8 @@ describe 'mcollective' do
         should contain_mcollective__server__setting('factsource').with_value('yaml')
       end
 
-      context 'yaml' do
-        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69 } }
+      context 'yaml_facter2' do
+        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4' } }
 
         describe '#yaml_fact_path' do
           context 'default' do
@@ -143,6 +143,36 @@ describe 'mcollective' do
             let(:params) { { :yaml_fact_path => '/tmp/facts' } }
             it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
             it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(/File.rename\('\/tmp\/facts.new', '\/tmp\/facts'\)/) }
+          end
+        end
+
+        describe '#yaml_fact_cron' do
+          context 'default (true)' do
+            it { should contain_cron('refresh-mcollective-metadata') }
+          end
+
+          context 'false' do
+            let(:params) { { :yaml_fact_cron => false } }
+            it { should_not contain_cron('refresh-mcollective-metadata') }
+          end
+        end
+      end
+
+      context 'yaml_facter3' do
+        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '3.0.1' } }
+
+        describe '#yaml_fact_path' do
+          context 'default' do
+            it 'should default to /etc/mcollective/facts.yaml' do
+              should contain_mcollective__server__setting('plugin.yaml').with_value('/etc/mcollective/facts.yaml')
+            end
+            it { should_not contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata') }
+          end
+
+          context '/tmp/facts' do
+            let(:params) { { :yaml_fact_path => '/tmp/facts' } }
+            it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
+            it { should_not contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata') }
           end
         end
 
