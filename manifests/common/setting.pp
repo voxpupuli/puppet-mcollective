@@ -4,7 +4,7 @@ define mcollective::common::setting (
   $setting = $name,
   $order = '10',
 ) {
-  mcollective::setting { "mcollective::common::setting ${setting}":
+  mcollective::setting { "mcollective::common::setting ${title}":
     setting => $setting,
     value   => $value,
     target  => [ 'mcollective::server', 'mcollective::client' ],
