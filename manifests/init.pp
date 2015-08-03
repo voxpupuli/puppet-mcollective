@@ -19,6 +19,7 @@ class mcollective (
   $factsource       = 'yaml',
   $yaml_fact_path   = undef,
   $yaml_fact_cron   = true,
+  $puppet_exec_path = '/opt/puppetlabs/puppet/bin', # only for Facter 3+ / Puppet 4.2+
   $excluded_facts   = [],
   $classesfile      = '/var/lib/puppet/state/classes.txt',
   $rpcauthprovider  = 'action_policy',
