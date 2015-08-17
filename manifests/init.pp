@@ -45,10 +45,13 @@ class mcollective (
   $server_config_file = undef, # default dependent on $confdir
   $server_logfile     = '/var/log/mcollective.log',
   $server_loglevel    = 'info',
-  $server_daemonize   = 1,
   $service_name       = 'mcollective',
   $server_package     = 'mcollective',
   $ruby_stomp_package = 'ruby-stomp',
+  case $::operatingsystem {
+    Ubuntu : { $server_daemonize = 0,}
+    default: { $server_daemonize = 1,}
+  }
 
   # client-specific
   $client_config_file  = undef, # default dependent on $confdir
