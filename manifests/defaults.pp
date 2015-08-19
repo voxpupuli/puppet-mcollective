@@ -18,4 +18,10 @@ class mcollective::defaults {
     'Debian' => '/usr/local/share/mcollective',
     default  => '/usr/local/libexec/mcollective',
   }
+
+  $server_daemonize = $::operatingsystem ? {
+    'Ubuntu' => '0',
+    default  => '1',
+  }
+
 }
