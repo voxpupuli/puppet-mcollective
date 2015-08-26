@@ -211,6 +211,19 @@ describe 'mcollective' do
           it { should contain_mcollective__common__setting('plugin.activemq.pool.2.port').with_value('61613') }
         end
 
+        describe '#activemq_heartbeat' do
+        let(:common_params) { { :server => true } }
+        let(:params) { common_params }
+          context 'default' do
+            it { should contain_mcollective__common__setting('plugin.activemq.heartbeat_interval').with_value('30') }
+          end
+
+          context 'set' do
+            let(:params) { common_params.merge({ :middleware_heartbeat_interval => '20' }) }
+            it { should contain_mcollective__common__setting('plugin.activemq.heartbeat_interval').with_value('20') }
+          end
+        end
+
         describe '#middleware_user' do
           let(:params) { { :server => true, :middleware_hosts => %w{ foo } } }
           it 'should default to mcollective' do
@@ -318,6 +331,16 @@ describe 'mcollective' do
           context 'set' do
             let(:params) { common_params.merge({ :rabbitmq_vhost => '/pies' }) }
             it { should contain_mcollective__common__setting('plugin.rabbitmq.vhost').with_value('/pies') }
+          end
+        end
+        describe '#rabbitmq_heartbeat' do
+          context 'default' do
+            it { should contain_mcollective__common__setting('plugin.rabbitmq.heartbeat_interval').with_value('30') }
+          end
+
+          context 'set' do
+            let(:params) { common_params.merge({ :middleware_heartbeat_interval => '20' }) }
+            it { should contain_mcollective__common__setting('plugin.rabbitmq.heartbeat_interval').with_value('20') }
           end
         end
       end
@@ -510,6 +533,7 @@ describe 'mcollective' do
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('bob') }
           end
         end
+
 
         describe '#middleware_ssl' do
           let(:params) { { :server => false, :client => true, :middleware_hosts => %w{ foo } } }
