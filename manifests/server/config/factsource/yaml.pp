@@ -19,7 +19,7 @@ class mcollective::server::config::factsource::yaml {
     if versioncmp($::facterversion, '3.0.0') >= 0 {
       cron { 'refresh-mcollective-metadata':
         command     => "facter --yaml >${yaml_fact_path_real} 2>&1",
-        environment => "PATH=/opt/puppet/bin:/opt/puppetlabs/bin:${::path}",
+        environment => 'PATH=/opt/puppet/bin:/opt/puppetlabs/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         user        => 'root',
         minute      => [ '0', '15', '30', '45' ],
       }
