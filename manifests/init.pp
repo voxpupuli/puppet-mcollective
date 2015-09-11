@@ -10,7 +10,7 @@ class mcollective (
   $ruby_stomp_ensure = 'installed',
 
   # core configuration
-  $confdir          = '/etc/mcollective',
+  $confdir          = $mcollective::defaults::confdir,
   $main_collective  = 'mcollective',
   $collectives      = 'mcollective',
   $connector        = 'activemq',
