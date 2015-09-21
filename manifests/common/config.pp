@@ -16,7 +16,7 @@ class mcollective::common::config {
     sourceselect => 'all',
   }
 
-  if $mcollective::server {
+  if $mcollective::server and $mcollective::service_manage {
     # if we have a server install, reload when the plugins change
     File[$mcollective::site_libdir] ~> Class['mcollective::server::service']
   }

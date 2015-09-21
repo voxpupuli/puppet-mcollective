@@ -4,11 +4,20 @@ class mcollective::server {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
+  if str2bool($mcollective::service_manage) {
+    contain mcollective::server::service
+  }
+
   contain mcollective::server::install
   contain mcollective::server::config
-  contain mcollective::server::service
 
   Class['mcollective::server::install'] ->
-  Class['mcollective::server::config']  ~>
-  Class['mcollective::server::service']
+  Class['mcollective::server::config']
+
+  if str2bool($mcollective::service_manage) {
+    contain mcollective::server::service
+    Class['::mcollective::server::config'] ~>
+    Class['mcollective::server::service']
+  }
 }
+
