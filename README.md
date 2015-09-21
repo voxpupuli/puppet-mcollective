@@ -500,7 +500,8 @@ String: defaults to 'deny'.  The default actionpolicy to apply to the agent.
 ### `mcollective::actionpolicy::rule` defined type
 
 `mcollective::actionpolicy::rule` represents a single actionpolicy policy
-entry.
+entry. See the actionpolicy plugin [Policy File Format](https://github.com/puppetlabs/mcollective-actionpolicy-auth#policy-file-format)
+for specific restrictions on the values of these fields.
 
 #### Parameters
 
@@ -526,9 +527,11 @@ String: defaults to '*'.  What callerids should match this rule.
 
 String: defaults to '*'.  What actions should match this rule.
 
-##### `facts`
+##### `fact_filter`
 
-String: defaults to '*'.  What facts should match this rule.
+String: defaults to '*'.  What facts should match this rule. This can be either
+'*', a space-separated list of ``fact=value`` pairs (which match if every listed
+fact matches), or any valid [compound filter string](http://docs.puppetlabs.com/mcollective/reference/basic/basic_cli_usage.html#complex-compound-or-select-queries). This matches the "facts" field of the policy file lines.
 
 ##### `classes`
 
