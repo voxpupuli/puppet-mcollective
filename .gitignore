@@ -12,3 +12,4 @@ spec/fixtures/modules/stdlib
 .rspec_system
 .bundle
 /bin/*
+/.project
