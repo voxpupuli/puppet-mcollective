@@ -84,7 +84,6 @@ mcollective class, with secondary configuration managed by the defined types
 ```puppet
 node 'broker1.example.com' {
   class { '::mcollective':
-    middleware       => true,
     middleware_hosts => [ 'broker1.example.com' ],
   }
 }
@@ -122,8 +121,7 @@ for more information about how to generate these.
 ```puppet
 node 'broker1.example.com' {
   class { '::mcollective':
-    middleware         => true,
-    middleware_hosts   => [ 'broker1.example.com' ],
+   middleware_hosts   => [ 'broker1.example.com' ],
     middleware_ssl     => true,
     securityprovider   => 'ssl',
     ssl_client_certs   => 'puppet:///modules/site_mcollective/client_certs',
