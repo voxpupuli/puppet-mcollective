@@ -44,7 +44,7 @@ class mcollective::server::config::factsource::yaml (
       # PATH as environment is global. Therefore, prefix the command itself in
       # the cron job with the value of the PATH environment variable to use.
       cron { 'refresh-mcollective-metadata':
-        command => "bash -c 'export PATH=${path}; ${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1",
+        command => "bash -c 'export PATH=${path}; ${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1'",
         user    => 'root',
         minute  => [ '0', '15', '30', '45' ],
         require => File["${mcollective::site_libdir}/refresh-mcollective-metadata"],
