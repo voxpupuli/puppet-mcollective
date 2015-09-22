@@ -613,6 +613,16 @@ String: no default.  The value to set.
 
 String: default '70'.  The order in which to merge this setting.
 
+### `mcollective::server::config::factsource::yaml` private class
+
+`mcollective::server::config::factsource::yaml` is the class that implements cron-based fact generation and configures MCollective to use it. It is a private class and so may not be declared directly, but rather is invoked when the `mcollective` class is declared with the `factsource` parameter set to `yaml` (the default). Although `mcollective::server::config::factsource::yaml` is private it does have one parameter which can be tuned using data bindings (e.g. Hiera).
+
+#### Parameters
+
+##### `path`
+
+String: default $::path. What PATH environment variable to use when refresh-mcollective-metadata is invoked by cron.
+
 ## Reference
 
 ### Configuration merging
