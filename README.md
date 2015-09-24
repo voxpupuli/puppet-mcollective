@@ -285,8 +285,8 @@ middleware.
 
 ##### `middleware_port`
 
-String: defaults to '61613'.  Port number to use when connecting to the
-middleware over an unencrypted connection.
+String: defaults to '61613' (for `activemq`).  Port number to use when
+connecting to the middleware over an unencrypted connection.
 
 ##### `middleware_ssl_port`
 
@@ -311,7 +311,7 @@ admin user.
 
 ##### `server_config_file`
 
-String: default is '/etc/mcollective/server.cfg'.  Path to the server
+String: default is '$confdir/server.cfg'.  Path to the server
 configuration file.
 
 ##### `server_logfile`
@@ -330,7 +330,7 @@ started.
 
 ##### `client_config_file`
 
-String: defaults to '/etc/mcollective/client.cfg'.  Path to the client
+String: defaults to '$confdir/client.cfg'.  Path to the client
 configuration file.
 
 ##### `client_logger_type`
@@ -665,10 +665,10 @@ Testing on other platforms has been light and cannot be guaranteed.
 
 ## Development
 
-Puppet Labs modules on the Puppet Forge are open projects, and community
-contributions are essential for keeping them great. We can’t access the
-huge number of platforms and myriad of hardware, software, and deployment
-configurations that Puppet is intended to serve.
+Puppet Community modules on are open projects, and community contributions are
+essential for keeping them great. We can’t access the huge number of platforms
+and myriad of hardware, software, and deployment configurations that Puppet is
+intended to serve.
 
 We want to keep it as easy as possible to contribute changes so that our
 modules work in your environment. There are a few guidelines that we need
