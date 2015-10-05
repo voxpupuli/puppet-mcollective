@@ -19,9 +19,9 @@ class mcollective::defaults {
     default  => '/usr/local/libexec/mcollective',
   }
 
-  $server_daemonize = $::operatingsystem ? {
-    'Ubuntu' => '0',
-    default  => '1',
-  }
+if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '14.10') < 0)
+  { $server_daemonize = '0' }
+  else
+  { $server_daemonize = '1' }
 
 }
