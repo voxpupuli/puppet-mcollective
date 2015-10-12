@@ -6,7 +6,6 @@ class mcollective::server::config::factsource::yaml (
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  $excluded_facts      = $mcollective::excluded_facts
   $yaml_fact_path_real = $mcollective::yaml_fact_path_real
   $ruby_shebang_path   = $::is_pe ? {
     true    => '/opt/puppet/bin/ruby',
