@@ -24,4 +24,10 @@ class mcollective::defaults {
     $core_libdir = '/opt/puppetlabs/mcollective/plugins'
     $site_libdir = '/opt/puppetlabs/mcollective'
   }
+
+if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '14.10') < 0)
+  { $server_daemonize = '0' }
+  else
+  { $server_daemonize = '1' }
+
 }
