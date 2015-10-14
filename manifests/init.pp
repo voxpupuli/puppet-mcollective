@@ -75,14 +75,14 @@ class mcollective (
   $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
   $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/clients")
   if ($ssl_shared_server_public == undef) {
-	$ssl_shared_server_public_real = $ssl_server_public
+    $ssl_shared_server_public_real = $ssl_server_public
   } else {
-	$ssl_shared_server_public_real = $ssl_shared_server_public
+    $ssl_shared_server_public_real = $ssl_shared_server_public
   }
   if ($ssl_shared_server_private == undef) {
-	$ssl_shared_server_private_real = $ssl_server_private
+    $ssl_shared_server_private_real = $ssl_server_private
   } else {
-	$ssl_shared_server_private_real = $ssl_shared_server_private
+    $ssl_shared_server_private_real = $ssl_shared_server_private
   }
 
   if $client or $server {
