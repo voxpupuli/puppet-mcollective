@@ -284,6 +284,20 @@ describe 'mcollective' do
               end
             end
 
+            describe '#ssl_shared_server_public' do
+              context 'set' do
+                let(:params) { common_params.merge({ :ssl_server_public => 'puppet:///modules/foo/server_public.pem' }) }
+                it { should contain_file('/etc/mcollective/shared_server_public.pem').with_source('puppet:///modules/foo/server_public.pem') }
+              end
+            end
+
+            describe '#ssl_shared_server_private' do
+              context 'set' do
+                let(:params) { common_params.merge({ :ssl_server_private => 'puppet:///modules/foo/server_private.pem' }) }
+                it { should contain_file('/etc/mcollective/shared_server_private.pem').with_source('puppet:///modules/foo/server_private.pem') }
+              end
+            end
+
             describe '#ssl_server_fallback' do
               context 'set' do
                 let(:params) { common_params.merge({ :middleware_ssl_fallback => true }) }
@@ -353,8 +367,8 @@ describe 'mcollective' do
 
       context 'ssl' do
         let(:params) { { :server => true, :securityprovider => 'ssl' } }
-        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
-        it { should contain_file('/etc/mcollective/server_public.pem') }
+        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/shared_server_public.pem') }
+        it { should contain_file('/etc/mcollective/shared_server_public.pem') }
 
         describe '#ssl_client_certs' do
           it { should contain_file('/etc/mcollective/clients') }
@@ -576,8 +590,8 @@ describe 'mcollective' do
 
       context 'ssl' do
         let(:params) { { :server => true, :securityprovider => 'ssl' } }
-        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
-        it { should contain_file('/etc/mcollective/server_public.pem') }
+        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/shared_server_public.pem') }
+        it { should contain_file('/etc/mcollective/shared_server_public.pem') }
       end
 
       context 'psk' do
