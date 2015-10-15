@@ -19,10 +19,10 @@ class mcollective::server::config::securityprovider::ssl {
   }
 
   mcollective::server::setting { 'plugin.ssl_server_public':
-    value => "${mcollective::confdir}/server_public.pem",
+    value => $mcollective::ssl_server_public_real,
   }
 
   mcollective::server::setting { 'plugin.ssl_server_private':
-    value => "${mcollective::confdir}/server_private.pem",
+    value => $mcollective::ssl_server_private_real,
   }
 }

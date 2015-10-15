@@ -367,6 +367,12 @@ describe 'mcollective' do
             let(:params) { { :server => true, :securityprovider => 'ssl', :ssl_client_certs => 'puppet:///modules/foo/clients' } }
             it { should contain_file('/etc/mcollective/clients').with_source('puppet:///modules/foo/clients') }
           end
+
+          context 'set' do
+            let(:params) { { :server => true, :securityprovider => 'ssl', :ssl_server_public => '/etc/foo/server_public.pem', :ssl_server_private => '/etc/foo/server_private.pem' } }
+            it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/foo/server_public.pem') }
+            it { should contain_mcollective__server__setting('plugin.ssl_server_private').with_value('/etc/foo/server_private.pem') }
+          end
         end
       end
 
