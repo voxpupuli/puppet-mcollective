@@ -392,6 +392,11 @@ describe 'mcollective' do
         let(:params) { { :server => true, :rpcauthprovider => 'action_policy' } }
         it { should contain_mcollective__server__setting('plugin.actionpolicy.allow_unconfigured').with_value('1') }
       end
+
+      context 'allow_unconfigured' do
+        let(:params) { { :server => true, :rpcauthprovider => 'action_policy', :allowunconfigured => '0' }}
+        it { should contain_mcollective__server__setting('plugin.actionpolicy.allow_unconfigured').with_value('0') }
+      end
     end
 
     describe '#rpcauditprovider' do

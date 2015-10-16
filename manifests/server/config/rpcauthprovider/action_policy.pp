@@ -15,6 +15,6 @@ class mcollective::server::config::rpcauthprovider::action_policy {
   }
 
   mcollective::server::setting { 'plugin.actionpolicy.allow_unconfigured':
-    value => 1,
+    value => $mcollective::allowunconfigured,
   }
 }
