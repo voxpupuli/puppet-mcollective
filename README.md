@@ -363,6 +363,12 @@ String: defaults to 'puppet:///modules/mcollective/empty'.  A file source that
 contains a directory of user certificates which are used by the ssl security
 provider in authenticating user requests.
 
+#### `show_diff`
+
+Boolean: defaults to true. Determines whether puppet will show a diff when
+changing file resources using datacat. Useful for secure environments where
+passwords can't be seen in reports and logs.
+
 ### `mcollective::user` defined type
 
 `mcollective::user` installs a client configuration and any needed client
