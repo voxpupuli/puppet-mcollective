@@ -5,11 +5,12 @@ class mcollective::server::config {
   }
 
   datacat { 'mcollective::server':
-    owner    => 'root',
-    group    => '0',
-    mode     => '0400',
-    path     => $mcollective::server_config_file_real,
-    template => 'mcollective/settings.cfg.erb',
+    owner     => 'root',
+    group     => '0',
+    mode      => '0400',
+    path      => $mcollective::server_config_file_real,
+    template  => 'mcollective/settings.cfg.erb',
+    show_diff => $mcollective::show_diff,
   }
 
   mcollective::server::setting { 'classesfile':
