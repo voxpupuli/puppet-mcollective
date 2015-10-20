@@ -29,12 +29,13 @@ define mcollective::user(
   }
 
   datacat { "mcollective::user ${username}":
-    path     => "${homedir}/.mcollective",
-    collects => [ 'mcollective::user', 'mcollective::client' ],
-    owner    => $username,
-    group    => $group,
-    mode     => '0400',
-    template => 'mcollective/settings.cfg.erb',
+    path      => "${homedir}/.mcollective",
+    collects  => [ 'mcollective::user', 'mcollective::client' ],
+    owner     => $username,
+    group     => $group,
+    mode      => '0400',
+    template  => 'mcollective/settings.cfg.erb',
+    show_diff => $mcollective::show_diff,
   }
 
   if $middleware_ssl or $securityprovider == 'ssl' {
