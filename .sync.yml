@@ -1,0 +1,7 @@
+---
+.travis.yml:
+  secure: "KOhDZN2IcdlCbnz4i6wCbh1RXK/TZW7GTzxCwuM4wnSVTit/I9TpD2AdEIHCYg3D7V0BKYqvKhVl0zVlabinHltDf0l9FJ0ic9yfXF3M2gcvJtOKjn+Xm8rC+UDFeiaIByDjE6bc7/Ys0SBQq/yLXkjI+OShqhtdo26ZIXiPVGo="
+.rubocop.yml:
+  AllCops:
+    Exclude:
+      - files/**/*
