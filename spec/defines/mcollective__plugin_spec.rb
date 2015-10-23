@@ -6,14 +6,14 @@ describe 'mcollective::plugin' do
     context 'default (unset)' do
       it { should contain_datacat_fragment('mcollective::plugin fishcakes') }
       it { should contain_datacat_fragment('mcollective::plugin fishcakes').with_target('mcollective::site_libdir') }
-      it { should contain_datacat_fragment('mcollective::plugin fishcakes').with_data({ 'source_path' => ['puppet:///modules/mcollective/plugins/fishcakes'] }) }
+      it { should contain_datacat_fragment('mcollective::plugin fishcakes').with_data('source_path' => ['puppet:///modules/mcollective/plugins/fishcakes']) }
     end
 
     context 'set' do
       let(:params) { { :source => 'puppet:///modules/my_module/fishcakes' } }
       it { should contain_datacat_fragment('mcollective::plugin fishcakes') }
       it { should contain_datacat_fragment('mcollective::plugin fishcakes').with_target('mcollective::site_libdir') }
-      it { should contain_datacat_fragment('mcollective::plugin fishcakes').with_data({ 'source_path' => ['puppet:///modules/my_module/fishcakes'] }) }
+      it { should contain_datacat_fragment('mcollective::plugin fishcakes').with_data('source_path' => ['puppet:///modules/my_module/fishcakes']) }
     end
   end
 

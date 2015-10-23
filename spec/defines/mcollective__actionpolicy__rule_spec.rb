@@ -9,21 +9,19 @@ describe 'mcollective::actionpolicy::rule', :type => :define do
       }
     end
 
-    it {
+    it do
       should contain_datacat_fragment('mcollective::actionpolicy::rule default-puppet') \
         .with_target('mcollective::actionpolicy puppet') \
-        .with_data({
-          'lines' => [
-            {
-              'action'   => 'allow',
-              'callerid' => '*',
-              'actions'  => '*',
-              'facts'    => '*',
-              'classes'  => '*',
-            },
-          ],
-        })
-      }
+        .with_data('lines' => [
+          {
+            'action'   => 'allow',
+            'callerid' => '*',
+            'actions'  => '*',
+            'facts'    => '*',
+            'classes'  => '*',
+          },
+        ],)
+    end
   end
 
   context 'facts-specified' do
@@ -35,20 +33,18 @@ describe 'mcollective::actionpolicy::rule', :type => :define do
       }
     end
 
-    it {
+    it do
       should contain_datacat_fragment('mcollective::actionpolicy::rule default-puppet') \
         .with_target('mcollective::actionpolicy puppet') \
-        .with_data({
-          'lines' => [
-            {
-              'action'   => 'allow',
-              'callerid' => '*',
-              'actions'  => '*',
-              'facts'    => 'environment=dev and !customer=acme',
-              'classes'  => '*',
-            },
-          ],
-        })
-      }
+        .with_data('lines' => [
+          {
+            'action'   => 'allow',
+            'callerid' => '*',
+            'actions'  => '*',
+            'facts'    => 'environment=dev and !customer=acme',
+            'classes'  => '*',
+          },
+        ],)
+    end
   end
 end

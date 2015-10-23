@@ -32,7 +32,7 @@ class mcollective::common::config {
     target => 'mcollective::site_libdir',
     data   => {
       source_path => [ 'puppet:///modules/mcollective/site_libdir' ],
-    }
+    },
   }
 
   mcollective::common::setting { 'libdir':

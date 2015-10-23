@@ -21,7 +21,7 @@ define mcollective::user(
     "${homedir}/.mcollective.d",
     "${homedir}/.mcollective.d/credentials",
     "${homedir}/.mcollective.d/credentials/certs",
-    "${homedir}/.mcollective.d/credentials/private_keys"
+    "${homedir}/.mcollective.d/credentials/private_keys",
   ]:
     ensure => 'directory',
     owner  => $username,

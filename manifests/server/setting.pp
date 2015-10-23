@@ -7,7 +7,7 @@ define mcollective::server::setting (
   mcollective::setting { "mcollective::server::setting ${title}":
     setting => $setting,
     value   => $value,
-    target  => [ 'mcollective::server' ],
+    target  => 'mcollective::server',
     order   => $order,
   }
 }
