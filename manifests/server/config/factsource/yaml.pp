@@ -7,7 +7,7 @@ class mcollective::server::config::factsource::yaml (
   }
 
   $yaml_fact_path_real = $mcollective::yaml_fact_path_real
-  $ruby_shebang_path   = $::is_pe ? {
+  $ruby_shebang_path   = defined('$is_pe') and $::is_pe ? {
     true    => '/opt/puppet/bin/ruby',
     default => '/usr/bin/env ruby',
   }
