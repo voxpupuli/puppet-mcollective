@@ -75,8 +75,6 @@ class mcollective (
   $server_config_file_real = pick($server_config_file, "${confdir}/server.cfg")
   $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
   $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/clients")
-  $ssl_server_public_real = pick($ssl_server_public, "${mcollective::confdir}/server_public.pem")
-  $ssl_server_private_real = pick($ssl_server_private, "${mcollective::confdir}/server_public.pem")
 
   if $client or $server {
     contain mcollective::common
