@@ -6,7 +6,8 @@ class mcollective::server::install {
 
   if $mcollective::manage_packages {
     package { $mcollective::server_package:
-      ensure => $mcollective::version,
+      ensure          => $mcollective::version,
+      install_options => $mcollective::package_install_options,
     }
 
     if $::osfamily == 'Debian' {
@@ -14,6 +15,7 @@ class mcollective::server::install {
       # state ruby-stomp as a dependency of mcollective, so hand specify
       package { $mcollective::ruby_stomp_package:
         ensure => $mcollective::ruby_stomp_ensure,
+        install_options => $mcollective::package_install_options,
         before => Package[$mcollective::server_package],
       }
     }
