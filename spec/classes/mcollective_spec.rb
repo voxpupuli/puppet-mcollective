@@ -309,9 +309,9 @@ describe 'mcollective' do
           let(:params) { { :server => true, :middleware_hosts => %w( foo ) } }
           context 'default' do
             it { should_not contain_mcollective__common__setting('plugin.activemq.pool.1.ssl') }
-            it { should_not contain_file('/etc/mcollective/ca.pem') }
-            it { should_not contain_file('/etc/mcollective/server_public.pem') }
-            it { should_not contain_file('/etc/mcollective/server_private.pem') }
+            it { should_not contain_file('/etc/mcollective/ssl/middleware_ca.pem') }
+            it { should_not contain_file('/etc/mcollective/ssl/middleware_cert.pem') }
+            it { should_not contain_file('/etc/mcollective/ssl/middleware_key.pem') }
           end
 
           context 'true' do
@@ -320,28 +320,40 @@ describe 'mcollective' do
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
 
-            describe '#ssl_ca_cert' do
-              context 'set' do
+            describe '#middleware_ssl_ca' do
+              context 'when defaulting to ssl_ca_cert (backwards compatibility)' do
                 let(:params) { common_params.merge(:ssl_ca_cert => 'puppet:///modules/foo/ca_cert.pem') }
-                it { should contain_file('/etc/mcollective/ca.pem').with_source('puppet:///modules/foo/ca_cert.pem') }
+                it { should contain_file('/etc/mcollective/ssl/middleware_ca.pem').with_source('puppet:///modules/foo/ca_cert.pem') }
+              end
+              context 'when set' do
+                let(:params) { common_params.merge(:middleware_ssl_ca => '/var/lib/puppet/ssl/certs/ca.pem') }
+                it { should contain_file('/etc/mcollective/ssl/middleware_ca.pem').with_source('/var/lib/puppet/ssl/certs/ca.pem') }
               end
             end
 
-            describe '#ssl_server_public' do
-              context 'set' do
+            describe '#middleware_ssl_cert' do
+              context 'when defaulting to ssl_server_public (backwards compatibility)' do
                 let(:params) { common_params.merge(:ssl_server_public => 'puppet:///modules/foo/server_public.pem') }
-                it { should contain_file('/etc/mcollective/server_public.pem').with_source('puppet:///modules/foo/server_public.pem') }
+                it { should contain_file('/etc/mcollective/ssl/middleware_cert.pem').with_source('puppet:///modules/foo/server_public.pem') }
+              end
+              context 'when set' do
+                let(:params) { common_params.merge(:middleware_ssl_cert => '/var/lib/puppet/ssl/certs/host.example.com.pem') }
+                it { should contain_file('/etc/mcollective/ssl/middleware_cert.pem').with_source('/var/lib/puppet/ssl/certs/host.example.com.pem') }
               end
             end
 
-            describe '#ssl_server_private' do
-              context 'set' do
+            describe '#middleware_ssl_key' do
+              context 'when defaulting to ssl_server_private (backwards compatibility)' do
                 let(:params) { common_params.merge(:ssl_server_private => 'puppet:///modules/foo/server_private.pem') }
-                it { should contain_file('/etc/mcollective/server_private.pem').with_source('puppet:///modules/foo/server_private.pem') }
+                it { should contain_file('/etc/mcollective/ssl/middleware_key.pem').with_source('puppet:///modules/foo/server_private.pem') }
+              end
+              context 'when set' do
+                let(:params) { common_params.merge(:middleware_ssl_key => '/var/lib/puppet/ssl/private_keys/host.example.com.pem') }
+                it { should contain_file('/etc/mcollective/ssl/middleware_key.pem').with_source('/var/lib/puppet/ssl/private_keys/host.example.com.pem') }
               end
             end
 
-            describe '#ssl_server_fallback' do
+            describe '#middleware_ssl_fallback' do
               context 'set' do
                 let(:params) { common_params.merge(:middleware_ssl_fallback => true) }
                 it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
@@ -410,8 +422,9 @@ describe 'mcollective' do
 
       context 'ssl' do
         let(:params) { { :server => true, :securityprovider => 'ssl' } }
-        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
-        it { should contain_file('/etc/mcollective/server_public.pem') }
+        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/ssl/server_public.pem') }
+        it { should contain_mcollective__server__setting('plugin.ssl_server_private').with_value('/etc/mcollective/ssl/server_private.pem') }
+        it { should contain_file('/etc/mcollective/ssl/server_public.pem') }
 
         describe '#ssl_client_certs' do
           it { should contain_file('/etc/mcollective/clients') }
@@ -637,8 +650,8 @@ describe 'mcollective' do
 
       context 'ssl' do
         let(:params) { { :server => true, :securityprovider => 'ssl' } }
-        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
-        it { should contain_file('/etc/mcollective/server_public.pem') }
+        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/ssl/server_public.pem') }
+        it { should contain_file('/etc/mcollective/ssl/server_public.pem') }
       end
 
       context 'psk' do

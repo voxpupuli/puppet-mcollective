@@ -35,9 +35,9 @@ class mcollective (
   $middleware_ssl_port       = '61614',
   $middleware_ssl            = false,
   $middleware_ssl_fallback   = false,
-  $middleware_ssl_cert       = '',
-  $middleware_ssl_key        = '',
-  $middleware_ssl_ca         = '',
+  $middleware_ssl_cert       = undef,
+  $middleware_ssl_key        = undef,
+  $middleware_ssl_ca         = undef,
   $middleware_admin_user     = 'admin',
   $middleware_admin_password = 'secret',
   $middleware_heartbeat_interval = '30',
@@ -82,16 +82,27 @@ class mcollective (
   $ssl_server_public_path = "${confdir}/ssl/server_public.pem"
   $ssl_server_private_path = "${confdir}/ssl/server_private.pem"
 
-  $middleware_ssl_ca_real = pick($middleware_ssl_ca, $ssl_ca_cert)
-  $middleware_ssl_cert_real =  pick($middleware_ssl_cert, $ssl_server_public)
-  $middleware_ssl_key_real =  pick($middleware_ssl_key, $ssl_server_private)
+  if ($middleware_ssl_ca == undef and $ssl_ca_cert == undef ) {
+    $middleware_ssl_ca_real = undef
+  } else {
+    $middleware_ssl_ca_real = pick($middleware_ssl_ca, $ssl_ca_cert)
+  }
 
-  $middleware_ssl_key_path = "${confdir}/ssl/middleware_key.pem"
+  if ($middleware_ssl_cert == undef and $ssl_server_public == undef) {
+    $middleware_ssl_cert_real = undef
+  } else {
+    $middleware_ssl_cert_real = pick($middleware_ssl_cert, $ssl_server_public)
+  }
+
+  if ($middleware_ssl_key == undef and $ssl_server_private == undef) {
+    $middleware_ssl_key_real = undef
+  } else {
+    $middleware_ssl_key_real = pick($middleware_ssl_key, $ssl_server_private)
+  }
+
+  $middleware_ssl_key_path  = "${confdir}/ssl/middleware_key.pem"
   $middleware_ssl_cert_path = "${confdir}/ssl/middleware_cert.pem"
-  $middleware_ssl_ca_path = "${confdir}/ssl/middleware_ca.pem"
-
-
-
+  $middleware_ssl_ca_path   = "${confdir}/ssl/middleware_ca.pem"
 
   if $client or $server {
     contain mcollective::common

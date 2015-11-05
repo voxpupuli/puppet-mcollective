@@ -35,7 +35,7 @@ class mcollective::server::config {
     mode   => '0700',
   }
 
-  if $mcollective::middleware_ssl {
+  if $::mcollective::middleware_ssl {
 
     file { $::mcollective::middleware_ssl_ca_path:
       owner  => 'root',
@@ -60,8 +60,7 @@ class mcollective::server::config {
 
   }
 
-
-  if $mcollective::securityprovider == 'ssl' {
+  if $::mcollective::securityprovider == 'ssl' {
 
     file { $::mcollective::ssl_server_public_path:
       owner  => 'root',
