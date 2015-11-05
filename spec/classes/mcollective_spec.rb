@@ -146,6 +146,20 @@ describe 'mcollective' do
           end
         end
 
+        describe '#ruby_shebang_path' do
+          context 'when is_pe undefined' do
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
+          end
+          context 'when is_pe == true' do
+            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => true } }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/opt/puppet/bin/ruby}) }
+          end
+          context 'when is_pe == false' do
+            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => false } }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
+          end
+        end
+
         describe '#yaml_fact_cron' do
           context 'default (true)' do
             it { should contain_cron('refresh-mcollective-metadata') }
