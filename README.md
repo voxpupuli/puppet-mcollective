@@ -325,7 +325,7 @@ String: defaults to 'info'.  Level the mcollective server should log at.
 
 ##### `server_daemonize`
 
-String: defaults to '1'.  Should the mcollective server daemonize when
+Boolean: defaults to true.  Should the mcollective server daemonize when
 started.
 
 ##### `client_config_file`

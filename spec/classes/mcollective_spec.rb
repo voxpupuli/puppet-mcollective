@@ -113,13 +113,46 @@ describe 'mcollective' do
     end
 
     describe '#server_daemonize' do
-      it 'should default to 1' do
+      it 'should default to true' do
         should contain_mcollective__server__setting('daemonize').with_value('1')
       end
-
-      context '0' do
-        let(:params) { { :server_daemonize => '0' } }
+      context 'when true' do
+        let(:params) { { :server_daemonize => true } }
+        it { should contain_mcollective__server__setting('daemonize').with_value('1') }
+      end
+      context 'when false' do
+        let(:params) { { :server_daemonize => false } }
         it { should contain_mcollective__server__setting('daemonize').with_value('0') }
+      end
+      describe '#backwards compatibility' do
+        context 'when \'1\'' do
+          let(:params) { { :server_daemonize => '1' } }
+          it { should contain_mcollective__server__setting('daemonize').with_value('1') }
+        end
+        context 'when \'0\'' do
+          let(:params) { { :server_daemonize => '0' } }
+          it { should contain_mcollective__server__setting('daemonize').with_value('0') }
+        end
+      end
+      describe '#Ubuntu workaround for https://tickets.puppetlabs.com/browse/MCO-167' do
+        context 'when on Ubuntu 14.04' do
+          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '14.04' } }
+          it 'should default to false' do
+            should contain_mcollective__server__setting('daemonize').with_value('0')
+          end
+        end
+        context 'when on Ubuntu 14.10' do
+          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '14.10' } }
+          it 'should default to false' do
+            should contain_mcollective__server__setting('daemonize').with_value('0')
+          end
+        end
+        context 'when on Ubuntu 15.04' do
+          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '15.04' } }
+          it 'should default to true' do
+            should contain_mcollective__server__setting('daemonize').with_value('1')
+          end
+        end
       end
     end
 
