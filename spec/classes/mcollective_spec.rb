@@ -191,6 +191,16 @@ describe 'mcollective' do
             let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => false } }
             it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
           end
+
+          # Facts aren't being stringified automatically.  Maybe an rspec-puppet/puppetlabs-spec-helper bug???
+          context 'when is_pe == \'true\'' do
+            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => 'true' } }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/opt/puppet/bin/ruby}) }
+          end
+          context 'when is_pe == \'false\'' do
+            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => 'false' } }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
+          end
         end
 
         describe '#yaml_fact_cron' do
