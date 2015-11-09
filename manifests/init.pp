@@ -78,27 +78,13 @@ class mcollective (
   $server_config_file_real = pick($server_config_file, "${confdir}/server.cfg")
   $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
 
-  $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/clients")
-  $ssl_server_public_path = "${confdir}/ssl/server_public.pem"
-  $ssl_server_private_path = "${confdir}/ssl/server_private.pem"
+  $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/ssl/clients")
+  $ssl_server_public_path    = "${confdir}/ssl/server_public.pem"
+  $ssl_server_private_path   = "${confdir}/ssl/server_private.pem"
 
-  if ($middleware_ssl_ca == undef and $ssl_ca_cert == undef ) {
-    $middleware_ssl_ca_real = undef
-  } else {
-    $middleware_ssl_ca_real = pick($middleware_ssl_ca, $ssl_ca_cert)
-  }
-
-  if ($middleware_ssl_cert == undef and $ssl_server_public == undef) {
-    $middleware_ssl_cert_real = undef
-  } else {
-    $middleware_ssl_cert_real = pick($middleware_ssl_cert, $ssl_server_public)
-  }
-
-  if ($middleware_ssl_key == undef and $ssl_server_private == undef) {
-    $middleware_ssl_key_real = undef
-  } else {
-    $middleware_ssl_key_real = pick($middleware_ssl_key, $ssl_server_private)
-  }
+  $middleware_ssl_ca_real   = pick_default($middleware_ssl_ca, $ssl_ca_cert)
+  $middleware_ssl_cert_real = pick_default($middleware_ssl_cert, $ssl_server_public)
+  $middleware_ssl_key_real  = pick_default($middleware_ssl_key, $ssl_server_private)
 
   $middleware_ssl_key_path  = "${confdir}/ssl/middleware_key.pem"
   $middleware_ssl_cert_path = "${confdir}/ssl/middleware_cert.pem"
