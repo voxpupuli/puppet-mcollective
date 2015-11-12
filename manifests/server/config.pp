@@ -17,7 +17,7 @@ class mcollective::server::config {
   }
 
   mcollective::server::setting { 'daemonize':
-    value => $mcollective::server_daemonize,
+    value => bool2num($::mcollective::server_daemonize),
   }
 
   mcollective::server::setting { 'logfile':

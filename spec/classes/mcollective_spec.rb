@@ -113,13 +113,46 @@ describe 'mcollective' do
     end
 
     describe '#server_daemonize' do
-      it 'should default to 1' do
+      it 'should default to true' do
         should contain_mcollective__server__setting('daemonize').with_value('1')
       end
-
-      context '0' do
-        let(:params) { { :server_daemonize => '0' } }
+      context 'when true' do
+        let(:params) { { :server_daemonize => true } }
+        it { should contain_mcollective__server__setting('daemonize').with_value('1') }
+      end
+      context 'when false' do
+        let(:params) { { :server_daemonize => false } }
         it { should contain_mcollective__server__setting('daemonize').with_value('0') }
+      end
+      describe '#backwards compatibility' do
+        context 'when \'1\'' do
+          let(:params) { { :server_daemonize => '1' } }
+          it { should contain_mcollective__server__setting('daemonize').with_value('1') }
+        end
+        context 'when \'0\'' do
+          let(:params) { { :server_daemonize => '0' } }
+          it { should contain_mcollective__server__setting('daemonize').with_value('0') }
+        end
+      end
+      describe '#Ubuntu workaround for https://tickets.puppetlabs.com/browse/MCO-167' do
+        context 'when on Ubuntu 14.04' do
+          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '14.04' } }
+          it 'should default to false' do
+            should contain_mcollective__server__setting('daemonize').with_value('0')
+          end
+        end
+        context 'when on Ubuntu 14.10' do
+          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '14.10' } }
+          it 'should default to false' do
+            should contain_mcollective__server__setting('daemonize').with_value('0')
+          end
+        end
+        context 'when on Ubuntu 15.04' do
+          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '15.04' } }
+          it 'should default to true' do
+            should contain_mcollective__server__setting('daemonize').with_value('1')
+          end
+        end
       end
     end
 
@@ -143,6 +176,30 @@ describe 'mcollective' do
             let(:params) { { :yaml_fact_path => '/tmp/facts' } }
             it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
             it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{File.rename\('/tmp/facts.new', '/tmp/facts'\)}) }
+          end
+        end
+
+        describe '#ruby_shebang_path' do
+          context 'when is_pe undefined' do
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
+          end
+          context 'when is_pe == true' do
+            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => true } }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/opt/puppet/bin/ruby}) }
+          end
+          context 'when is_pe == false' do
+            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => false } }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
+          end
+
+          # Facts aren't being stringified automatically.  Maybe an rspec-puppet/puppetlabs-spec-helper bug???
+          context 'when is_pe == \'true\'' do
+            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => 'true' } }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/opt/puppet/bin/ruby}) }
+          end
+          context 'when is_pe == \'false\'' do
+            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => 'false' } }
+            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
           end
         end
 
