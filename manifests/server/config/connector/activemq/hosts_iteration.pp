@@ -9,5 +9,11 @@ define mcollective::server::config::connector::activemq::hosts_iteration {
     mcollective::server::setting { "plugin.activemq.pool.${name}.ssl.key":
       value => "${mcollective::confdir}/server_private.pem",
     }
+
+    if ! empty( $mcollective::ssl_ciphers ) {
+      mcollective::server::setting { "plugin.activemq.pool.${name}.ssl.ciphers":
+        value => $mcollective::ssl_ciphers,
+      }
+    }
   }
 }

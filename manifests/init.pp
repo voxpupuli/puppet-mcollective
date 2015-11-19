@@ -64,6 +64,9 @@ class mcollective (
   $ssl_client_certs     = 'puppet:///modules/mcollective/empty',
   $ssl_client_certs_dir = undef, # default dependent on $confdir
 
+  # ssl ciphers
+  $ssl_ciphers = undef,
+
   # Action policy settings
   $allowunconfigured    = '1',
 ) inherits mcollective::defaults {
