@@ -35,27 +35,47 @@ class mcollective::server::config {
     mode   => '0700',
   }
 
-  if $mcollective::middleware_ssl or $mcollective::securityprovider == 'ssl' {
-    file { "${mcollective::confdir}/ca.pem":
+  if $::mcollective::middleware_ssl {
+
+    file { $::mcollective::middleware_ssl_ca_path:
       owner  => 'root',
       group  => '0',
       mode   => '0444',
-      source => $mcollective::ssl_ca_cert,
+      source => $::mcollective::middleware_ssl_ca_real,
     }
 
-    file { "${mcollective::confdir}/server_public.pem":
-      owner  => 'root',
-      group  => '0',
-      mode   => '0444',
-      source => $mcollective::ssl_server_public,
-    }
-
-    file { "${mcollective::confdir}/server_private.pem":
+    file { $::mcollective::middleware_ssl_key_path:
       owner  => 'root',
       group  => '0',
       mode   => '0400',
-      source => $mcollective::ssl_server_private,
+      source => $::mcollective::middleware_ssl_key_real,
     }
+
+    file { $::mcollective::middleware_ssl_cert_path:
+      owner  => 'root',
+      group  => '0',
+      mode   => '0444',
+      source => $::mcollective::middleware_ssl_cert_real,
+    }
+
+  }
+
+  if $::mcollective::securityprovider == 'ssl' {
+
+    file { $::mcollective::ssl_server_public_path:
+      owner  => 'root',
+      group  => '0',
+      mode   => '0444',
+      source => $::mcollective::ssl_server_public,
+    }
+
+    file { $::mcollective::ssl_server_private_path:
+      owner  => 'root',
+      group  => '0',
+      mode   => '0400',
+      source => $::mcollective::ssl_server_private,
+    }
+
   }
 
   mcollective::soft_include { [
