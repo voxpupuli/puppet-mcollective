@@ -78,17 +78,19 @@ class mcollective (
   $server_config_file_real = pick($server_config_file, "${confdir}/server.cfg")
   $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
 
-  $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/ssl/clients")
-  $ssl_server_public_path    = "${confdir}/ssl/server_public.pem"
-  $ssl_server_private_path   = "${confdir}/ssl/server_private.pem"
+  $ssldir = "${confdir}/ssl"
+
+  $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${ssldir}/clients")
+  $ssl_server_public_path    = "${ssldir}/server_public.pem"
+  $ssl_server_private_path   = "${ssldir}/server_private.pem"
 
   $middleware_ssl_ca_real   = pick_default($middleware_ssl_ca, $ssl_ca_cert)
   $middleware_ssl_cert_real = pick_default($middleware_ssl_cert, $ssl_server_public)
   $middleware_ssl_key_real  = pick_default($middleware_ssl_key, $ssl_server_private)
 
-  $middleware_ssl_key_path  = "${confdir}/ssl/middleware_key.pem"
-  $middleware_ssl_cert_path = "${confdir}/ssl/middleware_cert.pem"
-  $middleware_ssl_ca_path   = "${confdir}/ssl/middleware_ca.pem"
+  $middleware_ssl_key_path  = "${ssldir}/middleware_key.pem"
+  $middleware_ssl_cert_path = "${ssldir}/middleware_cert.pem"
+  $middleware_ssl_ca_path   = "${ssldir}/middleware_ca.pem"
 
   if $client or $server {
     contain mcollective::common

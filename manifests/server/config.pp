@@ -35,6 +35,13 @@ class mcollective::server::config {
     mode   => '0700',
   }
 
+  file { $mcollective::ssldir:
+    ensure => 'directory',
+    owner  => 'root',
+    group  => '0',
+    mode   => '0755',
+  }
+
   if $::mcollective::middleware_ssl {
 
     file { $::mcollective::middleware_ssl_ca_path:
