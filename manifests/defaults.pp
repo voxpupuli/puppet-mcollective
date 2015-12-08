@@ -25,9 +25,11 @@ class mcollective::defaults {
     $site_libdir = '/opt/puppetlabs/mcollective'
   }
 
-  if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '14.10') <= 0)
-  { $server_daemonize = false } #https://tickets.puppetlabs.com/browse/MCO-167
-  else
-  { $server_daemonize = true }
+  if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '14.10') <= 0){
+    $server_daemonize = false # See https://tickets.puppetlabs.com/browse/MCO-167
+  }
+  else {
+    $server_daemonize = true
+  }
 
 }

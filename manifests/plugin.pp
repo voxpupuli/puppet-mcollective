@@ -28,13 +28,12 @@ define mcollective::plugin(
         ensure => $package_ensure,
       }
     }
-  }
-  else {
+  } else {
+
     # file sync the module into mcollective::site_libdir
     if $source {
       $source_real = $source
-    }
-    else {
+    } else {
       $source_real = "puppet:///modules/mcollective/plugins/${name}"
     }
 
@@ -44,5 +43,6 @@ define mcollective::plugin(
         source_path => [ $source_real ],
       },
     }
+
   }
 }
