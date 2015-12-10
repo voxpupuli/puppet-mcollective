@@ -293,6 +293,28 @@ describe 'mcollective' do
           end
         end
 
+        describe '#fact_cron_splay' do
+
+          let(:facts) do
+            {
+              :puppetversion => Puppet.version,
+              :facterversion => Facter.version,
+              :macaddress    => '00:00:00:26:28:8a',
+              # fqdn_rand gives better random numbers based on a longer fqdn
+              :fqdn          => 'somereallylongfqdnthatleadstobetterrandomnumbers.example.com'
+            }
+          end
+
+          context 'default (false)' do
+            it { should contain_cron('refresh-mcollective-metadata').with_minute(%w(0 15 30 45)) }
+          end
+
+          context 'true' do
+            let(:params) { { :fact_cron_splay => true } }
+            it { should contain_cron('refresh-mcollective-metadata').with_minute(%w(8 23 38 53)) }
+          end
+        end
+
         describe '#yaml_fact_cron' do
           context 'default (true)' do
             it { should contain_cron('refresh-mcollective-metadata') }
