@@ -27,8 +27,7 @@ class mcollective::defaults {
 
   if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '14.10') <= 0){
     $server_daemonize = false # See https://tickets.puppetlabs.com/browse/MCO-167
-  }
-  else {
+  } else {
     $server_daemonize = true
   }
 
