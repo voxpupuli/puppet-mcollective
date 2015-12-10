@@ -14,12 +14,17 @@ class mcollective::server::config::factsource::yaml (
   }
   $yaml_fact_cron      = $mcollective::yaml_fact_cron
 
-  $cron_minute_offset  = fqdn_rand(15, $::macaddress)
-
-  $cron_minutes        = [
-                            $cron_minute_offset, $cron_minute_offset + 15,
-                            $cron_minute_offset + 30, $cron_minute_offset + 45
-                        ]
+  if $mcollective::fact_cron_splay {
+    $cron_minute_offset  = fqdn_rand(15, $::macaddress)
+    $cron_minutes        = [
+                            $cron_minute_offset,
+                            $cron_minute_offset + 15,
+                            $cron_minute_offset + 30,
+                            $cron_minute_offset + 45,
+                          ]
+  } else {
+    $cron_minutes = [ '0', '15', '30', '45' ]
+  }
 
   # Template uses:
   #   - $ruby_shebang_path
@@ -53,7 +58,7 @@ class mcollective::server::config::factsource::yaml (
       cron { 'refresh-mcollective-metadata':
         command => "bash -c 'export PATH=${path}; ${mcollective::site_libdir}/refresh-mcollective-metadata >/dev/null 2>&1'",
         user    => 'root',
-        minute  => [ '0', '15', '30', '45' ],
+        minute  => $cron_minutes,
         require => File["${mcollective::site_libdir}/refresh-mcollective-metadata"],
       }
 

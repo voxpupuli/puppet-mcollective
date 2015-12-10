@@ -19,6 +19,7 @@ class mcollective (
   $factsource       = 'yaml',
   $yaml_fact_path   = undef,
   $yaml_fact_cron   = true,
+  $fact_cron_splay  = false,
   $classesfile      = '/var/lib/puppet/state/classes.txt',
   $rpcauthprovider  = 'action_policy',
   $rpcauditprovider = 'logfile',
