@@ -17,7 +17,7 @@
   "dependencies": [
     {
       "name": "richardc/datacat",
-      "version_requirement": "0.5.x"
+      "version_requirement": ">= 0.6.2 < 1.0.0"
     },
     {
       "name": "puppetlabs/concat",
