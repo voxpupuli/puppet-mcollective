@@ -31,7 +31,8 @@ describe 'mcollective' do
   let :facts do
     {
       :puppetversion => Puppet.version,
-      :facterversion => Facter.version
+      :facterversion => Facter.version,
+      :macaddress    => '00:00:00:26:28:8a',
     }
   end
 
