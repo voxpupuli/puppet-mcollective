@@ -44,13 +44,13 @@ class mcollective (
   $common_package = 'mcollective-common',
 
   # server-specific
-  $server_config_file    = undef, # default dependent on $confdir
-  $server_logfile        = '/var/log/mcollective.log',
-  $server_loglevel       = 'info',
-  $server_daemonize      = 1,
-  $service_name          = 'mcollective',
-  $server_package        = 'mcollective',
-  $ruby_stomp_package    = 'ruby-stomp',
+  $server_config_file = undef, # default dependent on $confdir
+  $server_logfile     = '/var/log/mcollective.log',
+  $server_loglevel    = 'info',
+  $server_daemonize   = 1,
+  $service_name       = 'mcollective',
+  $server_package     = 'mcollective',
+  $ruby_stomp_package = 'ruby-stomp',
 
   # client-specific
   $client_config_file  = undef, # default dependent on $confdir
