@@ -35,8 +35,14 @@ class mcollective::common::config {
     },
   }
 
+  $libdir = $::mcollective::core_libdir ? {
+    undef   => $::mcollective::site_libdir,
+    ''      => $::mcollective::site_libdir,
+    default => "${::mcollective::site_libdir}:${::mcollective::core_libdir}"
+  }
+
   mcollective::common::setting { 'libdir':
-    value => "${mcollective::site_libdir}:${mcollective::core_libdir}",
+    value => $libdir,
   }
 
   mcollective::common::setting { 'connector':

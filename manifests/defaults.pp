@@ -7,7 +7,7 @@
 class mcollective::defaults {
   if versioncmp($::puppetversion, '4') < 0 {
     $confdir = '/etc/mcollective'
-    $core_libdir = $::osfamily ? {
+    $_core_libdir = $::osfamily ? {
       'Debian' => '/usr/share/mcollective/plugins',
       default  => '/usr/libexec/mcollective',
     }
@@ -21,8 +21,19 @@ class mcollective::defaults {
     }
   } else {
     $confdir     = '/etc/puppetlabs/mcollective'
-    $core_libdir = '/opt/puppetlabs/mcollective/plugins'
+    $_core_libdir = '/opt/puppetlabs/mcollective/plugins'
     $site_libdir = '/opt/puppetlabs/mcollective'
+  }
+
+  # Since mcollective version 2.8, there is no core libdir
+  # https://docs.puppetlabs.com/mcollective/releasenotes.html#libdirloadpath-changes-and-core-plugins
+  $mco_assumed_version = '2.8.5'
+
+  $_mco_version = pick($::mco_version, $mco_assumed_version)
+  if versioncmp($_mco_version, '2.8') >= 0 {
+    $core_libdir = undef
+  } else {
+    $core_libdir = $_core_libdir
   }
 
   if ($::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '14.10') <= 0){

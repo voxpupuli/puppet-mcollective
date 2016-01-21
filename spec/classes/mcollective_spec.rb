@@ -621,6 +621,17 @@ describe 'mcollective' do
 
   describe '#core_libdir' do
     context 'default' do
+      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}") }
+    end
+
+    context 'when mco_version < 2.8' do
+      let :facts do
+        {
+          :puppetversion => Puppet.version,
+          :facterversion => Facter.version,
+          :mco_version   => '2.7.0'
+        }
+      end
       it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
     end
 
@@ -633,13 +644,24 @@ describe 'mcollective' do
   describe '#site_libdir' do
     context 'default' do
       it { should contain_file(mcollective_site_libdir_path).with_mode('0644') }
+      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}") }
+    end
+
+    context 'when mco_version < 2.8' do
+      let :facts do
+        {
+          :puppetversion => Puppet.version,
+          :facterversion => Facter.version,
+          :mco_version   => '2.7.0'
+        }
+      end
       it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
     end
 
     context 'set' do
       let(:params) { { :site_libdir => '/usr/local/fishy/fishy' } }
       it { should contain_file('/usr/local/fishy/fishy') }
-      it { should contain_mcollective__common__setting('libdir').with_value("/usr/local/fishy/fishy:#{mcollective_core_libdir_path}") }
+      it { should contain_mcollective__common__setting('libdir').with_value('/usr/local/fishy/fishy') }
     end
   end
 
