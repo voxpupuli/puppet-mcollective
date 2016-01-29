@@ -5,9 +5,10 @@ class mcollective (
   $client = false,
 
   # installing packages
-  $manage_packages   = true,
-  $version           = 'present',
-  $ruby_stomp_ensure = 'installed',
+  $manage_packages        = true,
+  $version                = 'present',
+  $ruby_stomp_ensure      = 'installed',
+  $sshkeyauth_gem_version = 'present',
 
   # core configuration
   $confdir          = $mcollective::defaults::confdir,
@@ -70,6 +71,15 @@ class mcollective (
 
   # Action policy settings
   $allowunconfigured    = '1',
+
+  # Sshkey security provider settings
+  # Module defaults: https://github.com/puppetlabs/mcollective-sshkey-security/blob/master/security/sshkey.rb
+  $sshkey_server_learn_public_keys      = false,
+  $sshkey_server_overwrite_stored_keys  = false,
+  $sshkey_server_publickey_dir          = undef, #overwritten below
+  $sshkey_server_private_key            = '/etc/ssh/ssh_host_rsa_key',
+  $sshkey_server_authorized_keys        = undef,
+  $sshkey_server_send_key               = undef,
 ) inherits mcollective::defaults {
 
   # Because the correct default value for several parameters is based on another
@@ -92,6 +102,17 @@ class mcollective (
   $middleware_ssl_key_path  = "${ssldir}/middleware_key.pem"
   $middleware_ssl_cert_path = "${ssldir}/middleware_cert.pem"
   $middleware_ssl_ca_path   = "${ssldir}/middleware_ca.pem"
+
+  if $securityprovider == 'sshkey' {
+    package{'sshkeyauth':
+      ensure   =>  $sshkeyauth_gem_version,
+      provider =>  'puppet_gem',
+    }
+  }
+
+  if $sshkey_server_learn_public_keys {
+    $sshkey_server_publickey_dir_real = pick($sshkey_server_publickey_dir,"${confdir}/sshkey_pubkeys")
+  }
 
   if $client or $server {
     contain mcollective::common
