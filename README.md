@@ -369,6 +369,65 @@ String: defaults to 'puppet:///modules/mcollective/empty'.  A file source that
 contains a directory of user certificates which are used by the ssl security
 provider in authenticating user requests.
 
+##### `sshkey_server_learn_public_keys`
+
+Boolean: defaults to false.  Allow writing sshkey public keys to 
+`sshkey_server_publickey_dir`.
+
+##### `sshkey_server_overwrite_stored_keys`
+
+Boolean: defaults to false.  Overwrite learned keys.
+
+##### `sshkey_server_publickey_dir`
+
+String: defaults to `${confdir}/sshkey_pubdir`.  Directory to store
+received keys
+
+##### `sshkey_server_private_key`
+
+String: defaults to '/etc/ssh/ssh\_host\_rsa\_key'.  The private key used to
+sign replies with.
+
+##### `sshkey_server_authorized_keys`
+
+String: defaults to undefined.  The authorized_key file to use.  Undefined
+is interpreted by sshkey to mean the caller's authorized key file.
+
+##### `sshkey_server_send_key`
+
+String: defaults to '/etc/ssh/ssh\_host\_rsa\_key.pub'.  Specifies the public key
+sent back with the response for validation.
+
+##### `sshkey_client_learn_public_keys`
+
+Boolean: defaults to false.  Allow writing sshkey public keys to 
+`sshkey_client_publickey_dir`.
+
+##### `sshkey_client_overwrite_stored_keys`
+
+Boolean: defaults to false.  Overwrite learned keys.
+
+##### `sshkey_client_publickey_dir`
+
+String: defaults to `${confdir}/sshkey_pubdir`.  Directory to store
+received keys
+
+##### `sshkey_client_private_key`
+
+String: defaults to undefined.  The private key used to
+sign requests with.  Undefined is interpreted by sshkey to use the 
+user's ssh-agent.
+
+##### `sshkey_client_known_hosts`
+
+String: defaults to undefined.  The known\_hosts file to use.  Undefined
+is interpreted by sshkey to mean '/home/callerid/.ssh/known\_hosts'.
+
+##### `sshkey_client_send_key`
+
+String: defaults to '/etc/ssh/ssh\_host\_rsa\_key.pub'.  Specifies the public key
+sent with the request for validation.
+
 ### `mcollective::user` defined type
 
 `mcollective::user` installs a client configuration and any needed client
