@@ -78,7 +78,7 @@ class mcollective (
   $sshkey_server_publickey_dir          = undef, #overwritten below
   $sshkey_server_private_key            = '/etc/ssh/ssh_host_rsa_key',
   $sshkey_server_authorized_keys        = undef,
-  $sshkey_server_send_key               = '/etc/ssh/ssh_host_rsa_key.pub',
+  $sshkey_server_send_key               = undef,
   $sshkey_client_learn_public_keys      = false,
   $sshkey_client_overwrite_stored_keys  = false,
   $sshkey_client_publickey_dir          = undef, #overwritten below

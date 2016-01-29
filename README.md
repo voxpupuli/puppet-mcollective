@@ -395,8 +395,9 @@ is interpreted by sshkey to mean the caller's authorized key file.
 
 ##### `sshkey_server_send_key`
 
-String: defaults to '/etc/ssh/ssh\_host\_rsa\_key.pub'.  Specifies the public key
-sent back with the response for validation.
+String: defaults to undefined.  Specifies the public key
+sent back with the response for validation. You probably want
+'/etc/ssh/ssh\_host\_rsa\_key.pub'.
 
 ##### `sshkey_client_learn_public_keys`
 
