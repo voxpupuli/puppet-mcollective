@@ -9,7 +9,7 @@ group :test do
   gem 'rspec-puppet-facts'
   gem 'rspec'
   gem 'puppet-blacksmith'
-  gem 'rubocop'
+  gem 'rubocop', '<= 0.35.0'
   gem 'puppet-lint-absolute_classname-check'
   gem 'puppet-lint-leading_zero-check'
   gem 'puppet-lint-trailing_comma-check'
