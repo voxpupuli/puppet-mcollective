@@ -3,7 +3,7 @@ define mcollective::user(
   $username = $name,
   $callerid = $name,
   $group    = $name,
-  $homedir = "/home/${name}",
+  $homedir  = undef,
   $certificate = undef,
   $certificate_content  = undef,
   $private_key = undef,
@@ -12,9 +12,9 @@ define mcollective::user(
   $public_key_content  = undef,
   $sshkey_learn_public_keys      =   false,
   $sshkey_overwrite_stored_keys  =   false,
-  $sshkey_publickey_dir          =   "${homedir}/.mcollective.d/credentials/public_keys",
+  $sshkey_publickey_dir          =   undef,
   $sshkey_enable_private_key     =   false,
-  $sshkey_known_hosts            =   "${homedir}/.ssh/known_hosts",
+  $sshkey_known_hosts            =   undef,
   $sshkey_enable_send_key        =   false,
 
   # duplication of $ssl_ca_cert, $ssl_server_public,$ssl_server_private, $connector,
@@ -37,12 +37,17 @@ define mcollective::user(
     fail("Both a source and content cannot be defined for ${username} private key!")
   }
   
+  # Variable interpolation in class parameters can be goofy (PUP-1080)
+  $homedir_real = pick($homedir,"/home/${username}")
+  $sshkey_publickey_dir_real = pick($sshkey_publickey_dir,"${homedir_real}/.mcollective.d/credentials/public_keys")
+  $sshkey_known_hosts_real = pick($sshkey_known_hosts,"${homedir_real}/.ssh/known_hosts")
+  
   file { [
-    "${homedir}/.mcollective.d",
-    "${homedir}/.mcollective.d/credentials",
-    "${homedir}/.mcollective.d/credentials/certs",
-    "${homedir}/.mcollective.d/credentials/private_keys",
-    "${homedir}/.mcollective.d/credentials/public_keys",
+    "${homedir_real}/.mcollective.d",
+    "${homedir_real}/.mcollective.d/credentials",
+    "${homedir_real}/.mcollective.d/credentials/certs",
+    "${homedir_real}/.mcollective.d/credentials/private_keys",
+    "${homedir_real}/.mcollective.d/credentials/public_keys",
   ]:
     ensure => 'directory',
     owner  => $username,
@@ -50,7 +55,7 @@ define mcollective::user(
   }
 
   datacat { "mcollective::user ${username}":
-    path     => "${homedir}/.mcollective",
+    path     => "${homedir_real}/.mcollective",
     collects => [ 'mcollective::user', 'mcollective::client' ],
     owner    => $username,
     group    => $group,
@@ -59,21 +64,21 @@ define mcollective::user(
   }
 
   if $middleware_ssl or $securityprovider == 'ssl' {
-    file { "${homedir}/.mcollective.d/credentials/certs/ca.pem":
+    file { "${homedir_real}/.mcollective.d/credentials/certs/ca.pem":
       source => $ssl_ca_cert,
       owner  => $username,
       group  => $group,
       mode   => '0444',
     }
 
-    file { "${homedir}/.mcollective.d/credentials/certs/server_public.pem":
+    file { "${homedir_real}/.mcollective.d/credentials/certs/server_public.pem":
       source => $ssl_server_public,
       owner  => $username,
       group  => $group,
       mode   => '0444',
     }
     
-    file { "${homedir}/.mcollective.d/credentials/private_keys/server_private.pem":
+    file { "${homedir_real}/.mcollective.d/credentials/private_keys/server_private.pem":
       source => $ssl_server_private,
       owner  => $username,
       group  => $group,
@@ -82,7 +87,7 @@ define mcollective::user(
   }
   
   if $securityprovider == 'ssl' or  $securityprovider == 'sshkey' {
-    $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem"
+    $private_path = "${homedir_real}/.mcollective.d/credentials/private_keys/${callerid}.pem"
     if $private_key {
       file { $private_path:
         source =>  $private_key,
@@ -106,7 +111,7 @@ define mcollective::user(
 
   if $securityprovider == 'ssl' {
     $cert_content = pick($certificate_content, file($certificate))
-    file { "${homedir}/.mcollective.d/credentials/certs/${callerid}.pem":
+    file { "${homedir_real}/.mcollective.d/credentials/certs/${callerid}.pem":
       content => $cert_content,
       owner   => $username,
       group   => $group,
@@ -116,27 +121,27 @@ define mcollective::user(
     mcollective::user::setting { "${username}:plugin.ssl_client_public":
       setting  => 'plugin.ssl_client_public',
       username => $username,
-      value    => "${homedir}/.mcollective.d/credentials/certs/${callerid}.pem",
+      value    => "${homedir_real}/.mcollective.d/credentials/certs/${callerid}.pem",
       order    => '60',
     }
 
     mcollective::user::setting { "${username}:plugin.ssl_client_private":
       setting  => 'plugin.ssl_client_private',
       username => $username,
-      value    => "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem",
+      value    => "${homedir_real}/.mcollective.d/credentials/private_keys/${callerid}.pem",
       order    => '60',
     }
 
     mcollective::user::setting { "${username}:plugin.ssl_server_public":
       setting  => 'plugin.ssl_server_public',
       username => $username,
-      value    => "${homedir}/.mcollective.d/credentials/certs/server_public.pem",
+      value    => "${homedir_real}/.mcollective.d/credentials/certs/server_public.pem",
       order    => '60',
     }
   }
   
   if $securityprovider == 'sshkey' {
-    $public_path = "${homedir}/.mcollective.d/credentials/public_keys/${callerid}.pem"
+    $public_path = "${homedir_real}/.mcollective.d/credentials/public_keys/${callerid}.pem"
     if $public_key {
       file { $public_path:
         source => $public_key,
@@ -179,14 +184,14 @@ define mcollective::user(
       mcollective::user::setting { "${username}:plugin.sshkey.client.publickey_dir":
         setting  => 'plugin.sshkey.client.publickey_dir',
         username => $username,
-        value    => $sshkey_publickey_dir,
+        value    => $sshkey_publickey_dir_real,
       }
     }
     else {
       mcollective::user::setting { "${username}:plugin.sshkey.client.known_hosts":
         setting  => 'plugin.sshkey.client.known_hosts',
         username => $username,
-        value    => $sshkey_known_hosts,
+        value    => $sshkey_known_hosts_real,
       }
     }
     
@@ -215,7 +220,7 @@ define mcollective::user(
     mcollective::user::connector { $connectors:
       username       => $username,
       callerid       => $callerid,
-      homedir        => $homedir,
+      homedir        => $homedir_real,
       connector      => $connector,
       middleware_ssl => $middleware_ssl,
       order          => '60',
