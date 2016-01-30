@@ -5,7 +5,9 @@ define mcollective::user(
   $group    = $name,
   $homedir = "/home/${name}",
   $certificate = undef,
+  $certificate_content  = undef,
   $private_key = undef,
+  $private_key_content  = undef,
 
   # duplication of $ssl_ca_cert, $ssl_server_public, $connector,
   # $middleware_ssl, $middleware_hosts, and $securityprovider parameters to
@@ -17,6 +19,15 @@ define mcollective::user(
   $securityprovider = $mcollective::securityprovider,
   $connector = $mcollective::connector,
 ) {
+  
+  # Validate that both forms of data weren't given
+  if $certificate and $certificate_content {
+    fail("Both a source and content cannot be defined for ${username} certificate!")
+  }
+  if $private_key and $private_key_content {
+    fail("Both a source and content cannot be defined for ${username} private key!")
+  }
+  
   file { [
     "${homedir}/.mcollective.d",
     "${homedir}/.mcollective.d/credentials",
@@ -53,20 +64,22 @@ define mcollective::user(
     }
 
     $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem"
+    $private_content = pick($private_key_content,file($private_key))
     file { $private_path:
-      source => $private_key,
-      owner  => $username,
-      group  => $group,
-      mode   => '0400',
+      content => $private_content,
+      owner   => $username,
+      group   => $group,
+      mode    => '0400',
     }
   }
 
   if $securityprovider == 'ssl' {
+    $cert_content = pick($certificate_content, file($certificate))
     file { "${homedir}/.mcollective.d/credentials/certs/${callerid}.pem":
-      source => $certificate,
-      owner  => $username,
-      group  => $group,
-      mode   => '0444',
+      content => $cert_content,
+      owner   => $username,
+      group   => $group,
+      mode    => '0444',
     }
 
     mcollective::user::setting { "${username}:plugin.ssl_client_public":
