@@ -455,7 +455,7 @@ Boolean: defaults to false.  Overwrite learned keys.
 
 ##### `sshkey_publickey_dir`
 
-String: defaults to `${confdir}/sshkey_pubdir`.  Directory to store
+String: defaults to `${homedir}/.mcollective.d/public_keys`.  Directory to store
 received keys.
 
 ##### `sshkey_enable_private_key`

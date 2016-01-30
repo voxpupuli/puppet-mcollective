@@ -12,9 +12,9 @@ define mcollective::user(
   $public_key_content  = undef,
   $sshkey_learn_public_keys      =   false,
   $sshkey_overwrite_stored_keys  =   false,
-  $sshkey_publickey_dir          =   "${mcollective::confdir}/sshkey_pubkeys",
+  $sshkey_publickey_dir          =   "${homedir}/.mcollective.d/credentials/public_keys",
   $sshkey_enable_private_key     =   false,
-  $sshkey_known_hosts            =   "${homedir}/${callerid}/.ssh/known_hosts",
+  $sshkey_known_hosts            =   "${homedir}/.ssh/known_hosts",
   $sshkey_enable_send_key        =   false,
 
   # duplication of $ssl_ca_cert, $ssl_server_public,$ssl_server_private, $connector,
