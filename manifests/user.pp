@@ -174,10 +174,20 @@ define mcollective::user(
       value    => bool2num($sshkey_overwrite_stored_keys),
     }
     
-    mcollective::user::setting { "${username}:plugin.sshkey.client.publickey_dir":
-      setting  => 'plugin.sshkey.client.publickey_dir',
-      username => $username,
-      value    => $sshkey_publickey_dir,
+    # Learning public keys implies you want to ignore known_hosts
+    if $sshkey_learn_public_keys {
+      mcollective::user::setting { "${username}:plugin.sshkey.client.publickey_dir":
+        setting  => 'plugin.sshkey.client.publickey_dir',
+        username => $username,
+        value    => $sshkey_publickey_dir,
+      }
+    }
+    else {
+      mcollective::user::setting { "${username}:plugin.sshkey.client.known_hosts":
+        setting  => 'plugin.sshkey.client.known_hosts',
+        username => $username,
+        value    => $sshkey_known_hosts,
+      }
     }
     
     if $sshkey_enable_private_key {
@@ -186,12 +196,6 @@ define mcollective::user(
         username => $username,
         value    => $private_path,
       }
-    }
-    
-    mcollective::user::setting { "${username}:plugin.sshkey.client.known_hosts":
-      setting  => 'plugin.sshkey.client.known_hosts',
-      username => $username,
-      value    => $sshkey_known_hosts,
     }
     
     if $sshkey_enable_send_key {
