@@ -399,36 +399,6 @@ String: defaults to undefined.  Specifies the public key
 sent back with the response for validation. You probably want
 '/etc/ssh/ssh\_host\_rsa\_key.pub'.
 
-##### `sshkey_client_learn_public_keys`
-
-Boolean: defaults to false.  Allow writing sshkey public keys to 
-`sshkey_client_publickey_dir`.
-
-##### `sshkey_client_overwrite_stored_keys`
-
-Boolean: defaults to false.  Overwrite learned keys.
-
-##### `sshkey_client_publickey_dir`
-
-String: defaults to `${confdir}/sshkey_pubdir`.  Directory to store
-received keys
-
-##### `sshkey_client_private_key`
-
-String: defaults to undefined.  The private key used to
-sign requests with.  Undefined is interpreted by sshkey to use the 
-user's ssh-agent.
-
-##### `sshkey_client_known_hosts`
-
-String: defaults to undefined.  The known\_hosts file to use.  Undefined
-is interpreted by sshkey to mean '/home/callerid/.ssh/known\_hosts'.
-
-##### `sshkey_client_send_key`
-
-String: defaults to '/etc/ssh/ssh\_host\_rsa\_key.pub'.  Specifies the public key
-sent with the request for validation.
-
 ### `mcollective::user` defined type
 
 `mcollective::user` installs a client configuration and any needed client
@@ -464,16 +434,45 @@ mutually exclusive with `certificate`.
 ##### `private_key`
 
 String: defaults to undef.  A file source for the private key of the user.
-Used when `mcollective::middleware_ssl` is true to connect to the middleware
-and by the 'ssl' securityprovider to sign messages as from this user. This is
-mutually exclusive with `private_key_content`.
+Used by the 'ssl' & 'sshkey' securityprovider to sign messages as from this user.  
+When not supplied to sshkey, this is interpreted to use the user's ssh-agent.
+This is mutually exclusive with `private_key_content`.
 
 ##### `private_key_content`
 
 String: defaults to undef.  The file content for the private key of the user.
-Used when `mcollective::middleware_ssl` is true to connect to the middleware
-and by the 'ssl' securityprovider to sign messages as from this user. This is
-mutually exclusive with `private_key`.
+Used by the 'ssl' & 'sshkey' securityprovider to sign messages as from this user.  
+This is mutually exclusive with `private_key`.
+
+##### `sshkey_learn_public_keys`
+
+Boolean: defaults to false.  Allow writing sshkey public keys to 
+`sshkey_client_publickey_dir`.
+
+##### `sshkey_overwrite_stored_keys`
+
+Boolean: defaults to false.  Overwrite learned keys.
+
+##### `sshkey_publickey_dir`
+
+String: defaults to `${confdir}/sshkey_pubdir`.  Directory to store
+received keys.
+
+##### `sshkey_enable_private_key`
+
+Boolean: defaults to false.  Enable manual specification of the private key to
+sign requests with.  False is interpreted by sshkey to use the 
+user's ssh-agent.
+
+##### `sshkey_known_hosts`
+
+String: defaults to '${homedir}/${callerid}/.ssh/known\_hosts'.  The known\_hosts 
+file to use.
+
+##### `sshkey_enable_send_key`
+
+Boolean: defaults to false.  Enable sending the user public key inside the
+request.
 
 ### `mcollective::plugin` defined type
 

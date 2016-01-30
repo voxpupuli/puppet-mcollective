@@ -79,12 +79,6 @@ class mcollective (
   $sshkey_server_private_key            = '/etc/ssh/ssh_host_rsa_key',
   $sshkey_server_authorized_keys        = undef,
   $sshkey_server_send_key               = undef,
-  $sshkey_client_learn_public_keys      = false,
-  $sshkey_client_overwrite_stored_keys  = false,
-  $sshkey_client_publickey_dir          = undef, #overwritten below
-  $sshkey_client_private_key            = undef,
-  $sshkey_client_known_hosts            = undef,
-  $sshkey_client_send_key               = undef,
 ) inherits mcollective::defaults {
 
   # Because the correct default value for several parameters is based on another
@@ -111,16 +105,7 @@ class mcollective (
   if $sshkey_server_learn_public_keys {
     $sshkey_server_publickey_dir_real = pick($sshkey_server_publickey_dir,"${confdir}/sshkey_pubkeys")
   }
-  if $sshkey_client_learn_public_keys {
-    $sshkey_client_publickey_dir_real = pick($sshkey_client_publickey_dir,"${confdir}/sshkey_pubkeys")
-  }
   
-  # Convert boolean to integer since sshkey module requires it in that format
-  $sshkey_server_learn_public_keys_real     = bool2num($sshkey_server_learn_public_keys)
-  $sshkey_server_overwrite_stored_keys_real = bool2num($sshkey_server_overwrite_stored_keys)
-  $sshkey_client_learn_public_keys_real     = bool2num($sshkey_client_learn_public_keys)
-  $sshkey_client_overwrite_stored_keys_real = bool2num($sshkey_client_overwrite_stored_keys)
-
   if $client or $server {
     contain mcollective::common
   }

@@ -8,6 +8,14 @@ define mcollective::user(
   $certificate_content  = undef,
   $private_key = undef,
   $private_key_content  = undef,
+  $public_key = undef,
+  $public_key_content  = undef,
+  $sshkey_learn_public_keys      =   false,
+  $sshkey_overwrite_stored_keys  =   false,
+  $sshkey_publickey_dir          =   "${mcollective::confdir}/sshkey_pubkeys",
+  $sshkey_enable_private_key     =   false,
+  $sshkey_known_hosts            =   "${homedir}/${callerid}/.ssh/known_hosts",
+  $sshkey_enable_send_key        =   false,
 
   # duplication of $ssl_ca_cert, $ssl_server_public,$ssl_server_private, $connector,
   # $middleware_ssl, $middleware_hosts, and $securityprovider parameters to
@@ -34,6 +42,7 @@ define mcollective::user(
     "${homedir}/.mcollective.d/credentials",
     "${homedir}/.mcollective.d/credentials/certs",
     "${homedir}/.mcollective.d/credentials/private_keys",
+    "${homedir}/.mcollective.d/credentials/public_keys",
   ]:
     ensure => 'directory',
     owner  => $username,
@@ -72,7 +81,7 @@ define mcollective::user(
     }
   }
 
-  if $securityprovider == 'ssl' {
+  if $securityprovider == 'ssl' or ( $securityprovider == 'sshkey' and ($private_key_content or $private_key)) {
     $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem"
     $private_content = pick($private_key_content,file($private_key))
     file { $private_path:
@@ -111,6 +120,59 @@ define mcollective::user(
       username => $username,
       value    => "${homedir}/.mcollective.d/credentials/certs/server_public.pem",
       order    => '60',
+    }
+  }
+  
+  if $securityprovider == 'sshkey' {
+    $public_path = "${homedir}/.mcollective.d/credentials/public_keys/${callerid}.pem"
+    $public_content = pick_default($public_key_content,file($public_key))
+    if $public_content {
+      file { $public_path:
+        content => $public_content,
+        owner   => $username,
+        group   => $group,
+        mode    => '0400',
+      }
+    }
+    
+    mcollective::user::setting { "${username}:plugin.sshkey.client.learn_public_keys":
+      setting  => 'plugin.sshkey.client.learn_public_keys',
+      username => $username,
+      value    => bool2num($sshkey_learn_public_keys),
+    }
+    
+    mcollective::user::setting { "${username}:plugin.sshkey.client.overwrite_stored_keys":
+      setting  => 'plugin.sshkey.client.overwrite_stored_keys',
+      username => $username,
+      value    => bool2num($sshkey_overwrite_stored_keys),
+    }
+    
+    mcollective::user::setting { "${username}:plugin.sshkey.client.publickey_dir":
+      setting  => 'plugin.sshkey.client.publickey_dir',
+      username => $username,
+      value    => $sshkey_publickey_dir,
+    }
+    
+    if $sshkey_enable_private_key {
+      mcollective::user::setting { "${username}:plugin.sshkey.client.private_key":
+        setting  => 'plugin.sshkey.client.private_key',
+        username => $username,
+        value    => $private_path,
+      }
+    }
+    
+    mcollective::user::setting { "${username}:plugin.sshkey.client.known_hosts":
+      setting  => 'plugin.sshkey.client.known_hosts',
+      username => $username,
+      value    => $sshkey_known_hosts,
+    }
+    
+    if $sshkey_enable_send_key {
+      mcollective::user::setting { "${username}:plugin.sshkey.client.send_key":
+        setting  => 'plugin.sshkey.client.send_key',
+        username => $username,
+        value    => $public_path,
+      }
     }
   }
 
