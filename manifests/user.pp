@@ -80,15 +80,27 @@ define mcollective::user(
       mode   => '0400',
     }
   }
-
-  if $securityprovider == 'ssl' or ( $securityprovider == 'sshkey' and ($private_key_content or $private_key)) {
+  
+  if $securityprovider == 'ssl' or  $securityprovider == 'sshkey' {
     $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem"
-    $private_content = pick($private_key_content,file($private_key))
-    file { $private_path:
-      content => $private_content,
-      owner   => $username,
-      group   => $group,
-      mode    => '0400',
+    if $private_key {
+      file { $private_path:
+        source =>  $private_key,
+        owner  =>  $username,
+        group  =>  $group,
+        mode   =>  '0400',
+      }
+    }
+    elsif $private_key_content {
+      file { $private_path:
+        content => $private_key_content,
+        owner   => $username,
+        group   => $group,
+        mode    => '0400',
+      }
+    }
+    elsif $securityprovider == 'ssl' {
+      fail("A private key was not provided for user: ${username}")
     }
   }
 
@@ -125,10 +137,17 @@ define mcollective::user(
   
   if $securityprovider == 'sshkey' {
     $public_path = "${homedir}/.mcollective.d/credentials/public_keys/${callerid}.pem"
-    $public_content = pick_default($public_key_content,file($public_key))
-    if $public_content {
+    if $public_key {
       file { $public_path:
-        content => $public_content,
+        source => $public_key,
+        owner  => $username,
+        group  => $group,
+        mode   => '0400',
+      }
+    }
+    elsif $public_key_content {
+      file { $public_path:
+        content => $public_key_content,
         owner   => $username,
         group   => $group,
         mode    => '0400',
