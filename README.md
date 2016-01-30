@@ -452,13 +452,28 @@ install for.
 ##### `certificate`
 
 String: defaults to undef.  A file source for the certificate of the user.
-Used by the 'ssl' securityprovider to set the identity of the user.
+Used by the 'ssl' securityprovider to set the identity of the user. This is
+mutually exclusive with `certificate_content`.
+
+##### `certificate_content`
+
+String: defaults to undef.  The file content for the certificate of the user.
+Used by the 'ssl' securityprovider to set the identity of the user. This is
+mutually exclusive with `certificate`.
 
 ##### `private_key`
 
 String: defaults to undef.  A file source for the private key of the user.
 Used when `mcollective::middleware_ssl` is true to connect to the middleware
-and by the 'ssl' securityprovider to sign messages as from this user.
+and by the 'ssl' securityprovider to sign messages as from this user. This is
+mutually exclusive with `private_key_content`.
+
+##### `private_key_content`
+
+String: defaults to undef.  The file content for the private key of the user.
+Used when `mcollective::middleware_ssl` is true to connect to the middleware
+and by the 'ssl' securityprovider to sign messages as from this user. This is
+mutually exclusive with `private_key`.
 
 ### `mcollective::plugin` defined type
 
