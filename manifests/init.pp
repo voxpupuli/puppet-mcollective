@@ -109,17 +109,17 @@ class mcollective (
   $middleware_ssl_ca_path   = "${ssldir}/middleware_ca.pem"
   
   if $sshkey_server_learn_public_keys {
-    $sshkey_server_publickey_dir = pick($sshkey_server_publickey_dir,"${confdir}/sshkey_pubkeys")
+    $sshkey_server_publickey_dir_real = pick($sshkey_server_publickey_dir,"${confdir}/sshkey_pubkeys")
   }
   if $sshkey_client_learn_public_keys {
-    $sshkey_client_publickey_dir = pick($sshkey_client_publickey_dir,"${confdir}/sshkey_pubkeys")
+    $sshkey_client_publickey_dir_real = pick($sshkey_client_publickey_dir,"${confdir}/sshkey_pubkeys")
   }
   
   # Convert boolean to integer since sshkey module requires it in that format
-  $sshkey_server_learn_public_keys      = bool2num($sshkey_server_learn_public_keys)
-  $sshkey_server_overwrite_stored_keys  = bool2num($sshkey_server_overwrite_stored_keys)
-  $sshkey_client_learn_public_keys      = bool2num($sshkey_client_learn_public_keys)
-  $sshkey_client_overwrite_stored_keys  = bool2num($sshkey_client_overwrite_stored_keys)
+  $sshkey_server_learn_public_keys_real     = bool2num($sshkey_server_learn_public_keys)
+  $sshkey_server_overwrite_stored_keys_real = bool2num($sshkey_server_overwrite_stored_keys)
+  $sshkey_client_learn_public_keys_real     = bool2num($sshkey_client_learn_public_keys)
+  $sshkey_client_overwrite_stored_keys_real = bool2num($sshkey_client_overwrite_stored_keys)
 
   if $client or $server {
     contain mcollective::common
