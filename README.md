@@ -467,7 +467,8 @@ user's ssh-agent.
 ##### `sshkey_known_hosts`
 
 String: defaults to '${homedir}/${callerid}/.ssh/known\_hosts'.  The known\_hosts 
-file to use.
+file to use.  This is mutually exclusive with `sshkey_publickey_dir` and is disabled
+by `sshkey_learn_public_keys`.
 
 ##### `sshkey_enable_send_key`
 
