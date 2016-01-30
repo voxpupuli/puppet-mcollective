@@ -153,6 +153,14 @@ define mcollective::user(
         mode    => '0400',
       }
     }
+    else { 
+      exec { "recreate-public-key-${username}":
+        path    => '/usr/bin:/usr/local/bin',
+        command => "ssh-keygen -y -N '' -f ${private_path} > ${public_path}",
+        unless  => "/usr/bin/test -e ${public_path}",
+        require => File[ $private_path ],
+      }
+    }
     
     mcollective::user::setting { "${username}:plugin.sshkey.client.learn_public_keys":
       setting  => 'plugin.sshkey.client.learn_public_keys',
