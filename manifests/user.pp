@@ -9,11 +9,12 @@ define mcollective::user(
   $private_key = undef,
   $private_key_content  = undef,
 
-  # duplication of $ssl_ca_cert, $ssl_server_public, $connector,
+  # duplication of $ssl_ca_cert, $ssl_server_public,$ssl_server_private, $connector,
   # $middleware_ssl, $middleware_hosts, and $securityprovider parameters to
   # allow for spec testing.  These are otherwise considered private.
   $ssl_ca_cert = $mcollective::ssl_ca_cert,
   $ssl_server_public = $mcollective::ssl_server_public,
+  $ssl_server_private = $mcollective::ssl_server_private,
   $middleware_hosts = $mcollective::middleware_hosts,
   $middleware_ssl = $mcollective::middleware_ssl,
   $securityprovider = $mcollective::securityprovider,
@@ -62,7 +63,16 @@ define mcollective::user(
       group  => $group,
       mode   => '0444',
     }
+    
+    file { "${homedir}/.mcollective.d/credentials/private_keys/server_private.pem":
+      source => $ssl_server_private,
+      owner  => $username,
+      group  => $group,
+      mode   => '0400',
+    }
+  }
 
+  if $securityprovider == 'ssl' {
     $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem"
     $private_content = pick($private_key_content,file($private_key))
     file { $private_path:
