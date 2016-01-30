@@ -4,11 +4,6 @@ class mcollective::server::config::securityprovider::sshkey {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
   
-  ensure_packages('sshkeyauth', {
-    'ensure'   =>  'present',
-    'provider' =>  'puppet_gem', }
-  )
-  
   if $mcollective::sshkey_server_learn_public_keys {
     # In the event the node is both a server and a client and they share a public key directory
     ensure_resource('file', $mcollective::sshkey_server_publickey_dir_real, {
