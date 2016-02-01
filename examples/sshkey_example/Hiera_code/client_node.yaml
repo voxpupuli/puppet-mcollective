@@ -1,0 +1,7 @@
+mcollective::userconfigs:
+  jsmith:
+    group: 'wheel'
+    private_key_content: ENC[PKCS7,MIIOHQYJKoZIhvcNAQc...snip...bSBN7XAvw=]
+  bob:
+    group: 'admins'
+    private_key_content: ENC[PKCS7,ASDGADSIIFGHDFGNAQc...snip...bFKLAOXTW=]

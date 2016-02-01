@@ -164,6 +164,28 @@ node 'control.example.com' {
 }
 ```
 
+### I'd like to secure the transport channel and authenticate users with just their private key, how do I do that?
+
+The Mcollective standard deployment guide uses the 'ssl' securityprovider to handle 
+authentication.  If you're interested in performing the authentication without 
+creating SSL certificates for each user, one alternative is to use the 'sshkey' 
+securityprovider.  As far as the transport channel encryption goes, it's no different 
+than the above example's use of 'middleware_ssl*' parameters.
+
+Sshkey adds additional flexibility with regards to deployment as it currently supports 
+both a static and a dynamic key management philosophy.  You can seperate sshkey from 
+your normal system authentication's backend (known\_hosts / authorized\_keys) and 
+permit it to send and record its key data for you.  If you do this, you should strongly 
+consider using an authorization plugin with mcollective.  Alternatively, you can use 
+puppet to enforce the available set of key data to use with requests and responses. 
+Because this could reuse an existing user's ssh private key, it could work along-side 
+your existing user management module.
+
+The use of sshkey is optional.  For further information, you can review a sample 
+deployment in the /examples folder, review the [sshkey module documentation](https://github.com/puppetlabs/mcollective-sshkey-security),
+ and review the [sshkeyauth rubygem documentation](https://github.com/jordansissel/ruby-sshkeyauth) (helpful for debugging errors).
+
+
 ### The `::mcollective::` class
 
 The `mcollective` class is the main entry point to the module.  From here you
