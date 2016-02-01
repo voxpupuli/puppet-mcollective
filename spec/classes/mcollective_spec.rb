@@ -1,6 +1,49 @@
 require 'spec_helper'
 
+def mcollective_config_path
+  case Puppet.version
+  when /^4.+$/
+    '/etc/puppetlabs/mcollective'
+  else
+    '/etc/mcollective'
+  end
+end
+
+def mcollective_core_libdir_path
+  case Puppet.version
+  when /^4.+$/
+    '/opt/puppetlabs/mcollective/plugins'
+  else
+    '/usr/libexec/mcollective'
+  end
+end
+
+def mcollective_site_libdir_path
+  case Puppet.version
+  when /^4.+$/
+    '/opt/puppetlabs/mcollective'
+  else
+    '/usr/local/libexec/mcollective'
+  end
+end
+
 describe 'mcollective' do
+  let :facts do
+    {
+      :puppetversion => Puppet.version,
+      :facterversion => Facter.version,
+      :macaddress    => '00:00:00:26:28:8a',
+    }
+  end
+
+  shared_examples_for 'a refresh-mcollective-metadata file' do |metadata_regex|
+    describe 'a refresh-mcollective-metadata file' do
+      it do
+        should contain_file("#{mcollective_site_libdir_path}/refresh-mcollective-metadata").with_content(metadata_regex)
+      end
+    end
+  end
+
   it { should contain_class('mcollective') }
   it { should_not contain_class('mcollective::client') }
   it { should_not contain_class('mcollective::middleware') }
@@ -41,19 +84,27 @@ describe 'mcollective' do
     end
 
     describe '#ruby_stomp_ensure' do
-      let(:facts) { { :osfamily => 'Debian' } }
-      it 'should default to installed' do
-        should contain_package('ruby-stomp').with_ensure('installed')
-      end
+      context 'on Debian' do
+        let(:facts) do
+          {
+            :osfamily => 'Debian',
+            :puppetversion => Puppet.version,
+            :facterversion => Facter.version,
+          }
+        end
+        it 'should default to installed' do
+          should contain_package('ruby-stomp').with_ensure('installed')
+        end
 
-      context 'latest' do
-        let(:params) { { :ruby_stomp_ensure => 'latest' } }
-        it { should contain_package('ruby-stomp').with_ensure('latest') }
-      end
+        context 'latest' do
+          let(:params) { { :ruby_stomp_ensure => 'latest' } }
+          it { should contain_package('ruby-stomp').with_ensure('latest') }
+        end
 
-      context '1.2.10-1puppetlabs1' do
-        let(:params) { { :ruby_stomp_ensure => '1.2.10-1puppetlabs1' } }
-        it { should contain_package('ruby-stomp').with_ensure('1.2.10-1puppetlabs1') }
+        context '1.2.10-1puppetlabs1' do
+          let(:params) { { :ruby_stomp_ensure => '1.2.10-1puppetlabs1' } }
+          it { should contain_package('ruby-stomp').with_ensure('1.2.10-1puppetlabs1') }
+        end
       end
     end
 
@@ -80,8 +131,8 @@ describe 'mcollective' do
     end
 
     describe '#server_config_file' do
-      it 'should default to /etc/mcollective/server.cfg' do
-        should contain_file('mcollective::server').with_path('/etc/mcollective/server.cfg')
+      it 'should default to the right path' do
+        should contain_file('mcollective::server').with_path("#{mcollective_config_path}/server.cfg")
       end
 
       context '/foo' do
@@ -136,19 +187,40 @@ describe 'mcollective' do
       end
       describe '#Ubuntu workaround for https://tickets.puppetlabs.com/browse/MCO-167' do
         context 'when on Ubuntu 14.04' do
-          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '14.04' } }
+          let(:facts) do
+            {
+              :operatingsystem => 'Ubuntu',
+              :operatingsystemrelease => '14.04',
+              :puppetversion => Puppet.version,
+              :facterversion => Facter.version,
+            }
+          end
           it 'should default to false' do
             should contain_mcollective__server__setting('daemonize').with_value('0')
           end
         end
         context 'when on Ubuntu 14.10' do
-          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '14.10' } }
+          let(:facts) do
+            {
+              :operatingsystem => 'Ubuntu',
+              :operatingsystemrelease => '14.10',
+              :puppetversion => Puppet.version,
+              :facterversion => Facter.version,
+            }
+          end
           it 'should default to false' do
             should contain_mcollective__server__setting('daemonize').with_value('0')
           end
         end
         context 'when on Ubuntu 15.04' do
-          let(:facts) { { :operatingsystem => 'Ubuntu', :operatingsystemrelease => '15.04' } }
+          let(:facts) do
+            {
+              :operatingsystem => 'Ubuntu',
+              :operatingsystemrelease => '15.04',
+              :puppetversion => Puppet.version,
+              :facterversion => Facter.version
+            }
+          end
           it 'should default to true' do
             should contain_mcollective__server__setting('daemonize').with_value('1')
           end
@@ -162,44 +234,84 @@ describe 'mcollective' do
       end
 
       context 'yaml_facter2' do
-        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4' } }
+        let(:facts) do
+          {
+            :osfamily => 'RedHat',
+            :number_of_cores => '42',
+            :non_string => 69,
+            :facterversion => '2.4.4',
+            :puppetversion => Puppet.version,
+          }
+        end
 
         describe '#yaml_fact_path' do
           context 'default' do
             it 'should default to /etc/mcollective/facts.yaml' do
-              should contain_mcollective__server__setting('plugin.yaml').with_value('/etc/mcollective/facts.yaml')
+              should contain_mcollective__server__setting('plugin.yaml').with_value("#{mcollective_config_path}/facts.yaml")
             end
-            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{File.rename\('/etc/mcollective/facts.yaml.new', '/etc/mcollective/facts.yaml'\)}) }
+            it_should_behave_like 'a refresh-mcollective-metadata file', %r{File.rename\('#{mcollective_config_path}/facts.yaml.new', '#{mcollective_config_path}/facts.yaml'\)}
           end
 
           context '/tmp/facts' do
             let(:params) { { :yaml_fact_path => '/tmp/facts' } }
             it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
-            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{File.rename\('/tmp/facts.new', '/tmp/facts'\)}) }
+            it_should_behave_like 'a refresh-mcollective-metadata file', %r{File.rename\('/tmp/facts.new', '/tmp/facts'\)}
           end
         end
 
         describe '#ruby_shebang_path' do
-          context 'when is_pe undefined' do
-            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
-          end
-          context 'when is_pe == true' do
-            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => true } }
-            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/opt/puppet/bin/ruby}) }
-          end
-          context 'when is_pe == false' do
-            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => false } }
-            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
+          [nil, false, 'false'].each do |is_pe|
+            context "when is_pe == #{is_pe}" do
+              let(:facts) do
+                {
+                  :osfamily => 'RedHat',
+                  :number_of_cores => '42',
+                  :non_string => 69,
+                  :facterversion => '2.4.4',
+                  :is_pe => is_pe,
+                  :puppetversion => Puppet.version,
+                }
+              end
+              it_should_behave_like 'a refresh-mcollective-metadata file', %r{#!/usr/bin/env ruby}
+            end
           end
 
-          # Facts aren't being stringified automatically.  Maybe an rspec-puppet/puppetlabs-spec-helper bug???
-          context 'when is_pe == \'true\'' do
-            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => 'true' } }
-            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/opt/puppet/bin/ruby}) }
+          [true, 'true'].each do |is_pe|
+            context "when is_pe == #{is_pe}" do
+              let(:facts) do
+                {
+                  :osfamily => 'RedHat',
+                  :number_of_cores => '42',
+                  :non_string => 69,
+                  :facterversion => '2.4.4',
+                  :is_pe => is_pe,
+                  :puppetversion => Puppet.version,
+                }
+              end
+              it_should_behave_like 'a refresh-mcollective-metadata file', %r{#!/opt/puppet/bin/ruby}
+            end
           end
-          context 'when is_pe == \'false\'' do
-            let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '2.4.4', :is_pe => 'false' } }
-            it { should contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata').with_content(%r{#!/usr/bin/env ruby}) }
+        end
+
+        describe '#fact_cron_splay' do
+
+          let(:facts) do
+            {
+              :puppetversion => Puppet.version,
+              :facterversion => Facter.version,
+              :macaddress    => '00:00:00:26:28:8a',
+              # fqdn_rand gives better random numbers based on a longer fqdn
+              :fqdn          => 'somereallylongfqdnthatleadstobetterrandomnumbers.example.com'
+            }
+          end
+
+          context 'default (false)' do
+            it { should contain_cron('refresh-mcollective-metadata').with_minute(%w(0 15 30 45)) }
+          end
+
+          context 'true' do
+            let(:params) { { :fact_cron_splay => true } }
+            it { should contain_cron('refresh-mcollective-metadata').with_minute(%w(8 23 38 53)) }
           end
         end
 
@@ -216,20 +328,28 @@ describe 'mcollective' do
       end
 
       context 'yaml_facter3' do
-        let(:facts) { { :osfamily => 'RedHat', :number_of_cores => '42', :non_string => 69, :facterversion => '3.0.1' } }
+        let(:facts) do
+          {
+            :osfamily => 'RedHat',
+            :number_of_cores => '42',
+            :non_string => 69,
+            :facterversion => '3.0.1',
+            :puppetversion => Puppet.version,
+          }
+        end
 
         describe '#yaml_fact_path' do
           context 'default' do
             it 'should default to /etc/mcollective/facts.yaml' do
-              should contain_mcollective__server__setting('plugin.yaml').with_value('/etc/mcollective/facts.yaml')
+              should contain_mcollective__server__setting('plugin.yaml').with_value("#{mcollective_config_path}/facts.yaml")
             end
-            it { should_not contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata') }
+            it { should_not contain_file("#{mcollective_site_libdir_path}/refresh-mcollective-metadata") }
           end
 
           context '/tmp/facts' do
             let(:params) { { :yaml_fact_path => '/tmp/facts' } }
             it { should contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
-            it { should_not contain_file('/usr/local/libexec/mcollective/refresh-mcollective-metadata') }
+            it { should_not contain_file("#{mcollective_site_libdir_path}/refresh-mcollective-metadata") }
           end
         end
 
@@ -243,6 +363,19 @@ describe 'mcollective' do
             it { should_not contain_cron('refresh-mcollective-metadata') }
           end
         end
+      end
+
+      context 'facter' do
+        let(:params) { { :server => true, :factsource => 'facter' } }
+        it { should contain_mcollective__server__setting('factsource').with_value('facter') }
+        it { should contain_mcollective__server__setting('fact_cache_time').with_value('300') }
+        it { should contain_package('mcollective-facter-facts') }
+      end
+    end
+
+    describe '#factsource' do
+      it 'should default to yaml' do
+        should contain_mcollective__server__setting('factsource').with_value('yaml')
       end
 
       context 'facter' do
@@ -309,9 +442,9 @@ describe 'mcollective' do
           let(:params) { { :server => true, :middleware_hosts => %w( foo ) } }
           context 'default' do
             it { should_not contain_mcollective__common__setting('plugin.activemq.pool.1.ssl') }
-            it { should_not contain_file('/etc/mcollective/ca.pem') }
-            it { should_not contain_file('/etc/mcollective/server_public.pem') }
-            it { should_not contain_file('/etc/mcollective/server_private.pem') }
+            it { should_not contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem") }
+            it { should_not contain_file("#{mcollective_config_path}/ssl/middleware_cert.pem") }
+            it { should_not contain_file("#{mcollective_config_path}/ssl/middleware_key.pem") }
           end
 
           context 'true' do
@@ -320,28 +453,40 @@ describe 'mcollective' do
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
 
-            describe '#ssl_ca_cert' do
-              context 'set' do
+            describe '#middleware_ssl_ca' do
+              context 'when defaulting to ssl_ca_cert (backwards compatibility)' do
                 let(:params) { common_params.merge(:ssl_ca_cert => 'puppet:///modules/foo/ca_cert.pem') }
-                it { should contain_file('/etc/mcollective/ca.pem').with_source('puppet:///modules/foo/ca_cert.pem') }
+                it { should contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem").with_source('puppet:///modules/foo/ca_cert.pem') }
+              end
+              context 'when set' do
+                let(:params) { common_params.merge(:middleware_ssl_ca => '/var/lib/puppet/ssl/certs/ca.pem') }
+                it { should contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem").with_source('/var/lib/puppet/ssl/certs/ca.pem') }
               end
             end
 
-            describe '#ssl_server_public' do
-              context 'set' do
+            describe '#middleware_ssl_cert' do
+              context 'when defaulting to ssl_server_public (backwards compatibility)' do
                 let(:params) { common_params.merge(:ssl_server_public => 'puppet:///modules/foo/server_public.pem') }
-                it { should contain_file('/etc/mcollective/server_public.pem').with_source('puppet:///modules/foo/server_public.pem') }
+                it { should contain_file("#{mcollective_config_path}/ssl/middleware_cert.pem").with_source('puppet:///modules/foo/server_public.pem') }
+              end
+              context 'when set' do
+                let(:params) { common_params.merge(:middleware_ssl_cert => '/var/lib/puppet/ssl/certs/host.example.com.pem') }
+                it { should contain_file("#{mcollective_config_path}/ssl/middleware_cert.pem").with_source('/var/lib/puppet/ssl/certs/host.example.com.pem') }
               end
             end
 
-            describe '#ssl_server_private' do
-              context 'set' do
+            describe '#middleware_ssl_key' do
+              context 'when defaulting to ssl_server_private (backwards compatibility)' do
                 let(:params) { common_params.merge(:ssl_server_private => 'puppet:///modules/foo/server_private.pem') }
-                it { should contain_file('/etc/mcollective/server_private.pem').with_source('puppet:///modules/foo/server_private.pem') }
+                it { should contain_file("#{mcollective_config_path}/ssl/middleware_key.pem").with_source('puppet:///modules/foo/server_private.pem') }
+              end
+              context 'when set' do
+                let(:params) { common_params.merge(:middleware_ssl_key => '/var/lib/puppet/ssl/private_keys/host.example.com.pem') }
+                it { should contain_file("#{mcollective_config_path}/ssl/middleware_key.pem").with_source('/var/lib/puppet/ssl/private_keys/host.example.com.pem') }
               end
             end
 
-            describe '#ssl_server_fallback' do
+            describe '#middleware_ssl_fallback' do
               context 'set' do
                 let(:params) { common_params.merge(:middleware_ssl_fallback => true) }
                 it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
@@ -410,19 +555,20 @@ describe 'mcollective' do
 
       context 'ssl' do
         let(:params) { { :server => true, :securityprovider => 'ssl' } }
-        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
-        it { should contain_file('/etc/mcollective/server_public.pem') }
+        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value("#{mcollective_config_path}/ssl/server_public.pem") }
+        it { should contain_mcollective__server__setting('plugin.ssl_server_private').with_value("#{mcollective_config_path}/ssl/server_private.pem") }
+        it { should contain_file("#{mcollective_config_path}/ssl/server_public.pem") }
 
         describe '#ssl_client_certs' do
-          it { should contain_file('/etc/mcollective/clients') }
+          it { should contain_file("#{mcollective_config_path}/ssl/clients") }
 
           context 'default' do
-            it { should contain_file('/etc/mcollective/clients').with_source('puppet:///modules/mcollective/empty') }
+            it { should contain_file("#{mcollective_config_path}/ssl/clients").with_source('puppet:///modules/mcollective/empty') }
           end
 
           context 'set' do
             let(:params) { { :server => true, :securityprovider => 'ssl', :ssl_client_certs => 'puppet:///modules/foo/clients' } }
-            it { should contain_file('/etc/mcollective/clients').with_source('puppet:///modules/foo/clients') }
+            it { should contain_file("#{mcollective_config_path}/ssl/clients").with_source('puppet:///modules/foo/clients') }
           end
         end
       end
@@ -472,30 +618,6 @@ describe 'mcollective' do
       end
     end
 
-    describe '#core_libdir' do
-      context 'default' do
-        it { should contain_mcollective__common__setting('libdir').with_value('/usr/local/libexec/mcollective:/usr/libexec/mcollective') }
-      end
-
-      context 'set' do
-        let(:params) { { :core_libdir => '/usr/libexec/fishy/fishy' } }
-        it { should contain_mcollective__common__setting('libdir').with_value('/usr/local/libexec/mcollective:/usr/libexec/fishy/fishy') }
-      end
-    end
-
-    describe '#site_libdir' do
-      context 'default' do
-        it { should contain_file('/usr/local/libexec/mcollective').with_mode('0644') }
-        it { should contain_mcollective__common__setting('libdir').with_value('/usr/local/libexec/mcollective:/usr/libexec/mcollective') }
-      end
-
-      context 'set' do
-        let(:params) { { :site_libdir => '/usr/local/fishy/fishy' } }
-        it { should contain_file('/usr/local/fishy/fishy') }
-        it { should contain_mcollective__common__setting('libdir').with_value('/usr/local/fishy/fishy:/usr/libexec/mcollective') }
-      end
-    end
-
     describe '#registration' do
       it 'should default to undef' do
         should_not contain_mcollective__server__setting('registration')
@@ -517,6 +639,52 @@ describe 'mcollective' do
     context 'false' do
       let(:params) { { :client => false } }
       it { should_not contain_class('mcollective::client') }
+    end
+  end
+
+  describe '#core_libdir' do
+    context 'default' do
+      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}") }
+    end
+
+    context 'when mco_version < 2.8' do
+      let :facts do
+        {
+          :puppetversion => Puppet.version,
+          :facterversion => Facter.version,
+          :mco_version   => '2.7.0'
+        }
+      end
+      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
+    end
+
+    context 'set' do
+      let(:params) { { :core_libdir => '/usr/libexec/fishy/fishy' } }
+      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:/usr/libexec/fishy/fishy") }
+    end
+  end
+
+  describe '#site_libdir' do
+    context 'default' do
+      it { should contain_file(mcollective_site_libdir_path).with_mode('0644') }
+      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}") }
+    end
+
+    context 'when mco_version < 2.8' do
+      let :facts do
+        {
+          :puppetversion => Puppet.version,
+          :facterversion => Facter.version,
+          :mco_version   => '2.7.0'
+        }
+      end
+      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
+    end
+
+    context 'set' do
+      let(:params) { { :site_libdir => '/usr/local/fishy/fishy' } }
+      it { should contain_file('/usr/local/fishy/fishy') }
+      it { should contain_mcollective__common__setting('libdir').with_value('/usr/local/fishy/fishy') }
     end
   end
 
@@ -547,8 +715,8 @@ describe 'mcollective' do
     end
 
     describe '#client_config_file' do
-      it 'should default to /etc/mcollective/client.cfg' do
-        should contain_file('mcollective::client').with_path('/etc/mcollective/client.cfg')
+      it 'should default to the right path' do
+        should contain_file('mcollective::client').with_path("#{mcollective_config_path}/client.cfg")
       end
 
       context '/foo' do
@@ -637,8 +805,8 @@ describe 'mcollective' do
 
       context 'ssl' do
         let(:params) { { :server => true, :securityprovider => 'ssl' } }
-        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value('/etc/mcollective/server_public.pem') }
-        it { should contain_file('/etc/mcollective/server_public.pem') }
+        it { should contain_mcollective__server__setting('plugin.ssl_server_public').with_value("#{mcollective_config_path}/ssl/server_public.pem") }
+        it { should contain_file("#{mcollective_config_path}/ssl/server_public.pem") }
       end
 
       context 'psk' do

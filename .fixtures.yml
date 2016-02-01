@@ -9,6 +9,6 @@ fixtures:
       ref: '0.5.0'
     stdlib:
       repo: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
-      ref: '4.0.0'
+      ref: '4.2.0'
   symlinks:
     mcollective: '#{source_dir}'

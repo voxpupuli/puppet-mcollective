@@ -1,3 +1,23 @@
+2015-12-11 Release 2.1.3
+========================
+
+Summary:
+
+This release comes with no big changes since 2.1.1. The biggest news is that
+we ensure that the SSL directory for mcollective certs exists according to
+the new AIO puppet-agent package, and some tests are refactor according to
+Puppet > 4.
+
+Bugfixes:
+- Manage ssl directory for mcollective certs (9c845b23a6a3e734835725ba79d87bd3153babbd)
+
+Styles:
+- Moves `if...else` onto separate lines (a252f64c4cdb1d233b977b491fa107a6f6bb9b4d)
+- Fixes bracket to same line as else (8d148502f3be8dd5f7f30fc17b6eb0c95935b2fd)
+
+Improvements
+- Datacat version bump from 0.5.x (ed3d6acd0b02d8d87d9bbc72c1243143c1cdf572)
+
 2015-03-31 Release 2.1.1
 ========================
 

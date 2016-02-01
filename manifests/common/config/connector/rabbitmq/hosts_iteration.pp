@@ -33,7 +33,7 @@ define mcollective::common::config::connector::rabbitmq::hosts_iteration {
     }
 
     mcollective::common::setting { "plugin.rabbitmq.pool.${name}.ssl.ca":
-      value => "${mcollective::confdir}/ca.pem",
+      value => $::mcollective::middleware_ssl_ca_path,
     }
 
     mcollective::common::setting { "plugin.rabbitmq.pool.${name}.ssl.fallback":

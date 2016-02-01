@@ -33,8 +33,16 @@ define mcollective::common::config::connector::activemq::hosts_iteration {
       value => 1,
     }
 
+    mcollective::common::setting { "plugin.activemq.pool.${name}.ssl.cert":
+      value => '/etc/mcollective/server_public.pem',
+    }
+
+    mcollective::common::setting { "plugin.activemq.pool.${name}.ssl.key":
+      value => '/etc/mcollective/server_private.pem',
+    }
+
     mcollective::common::setting { "plugin.activemq.pool.${name}.ssl.ca":
-      value => "${mcollective::confdir}/ca.pem",
+      value => $::mcollective::middleware_ssl_ca_path,
     }
 
     mcollective::common::setting { "plugin.activemq.pool.${name}.ssl.fallback":

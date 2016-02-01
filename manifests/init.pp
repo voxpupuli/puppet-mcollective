@@ -19,6 +19,7 @@ class mcollective (
   $factsource       = 'yaml',
   $yaml_fact_path   = undef,
   $yaml_fact_cron   = true,
+  $fact_cron_splay  = false,
   $classesfile      = '/var/lib/puppet/state/classes.txt',
   $rpcauthprovider  = 'action_policy',
   $rpcauditprovider = 'logfile',
@@ -35,6 +36,9 @@ class mcollective (
   $middleware_ssl_port       = '61614',
   $middleware_ssl            = false,
   $middleware_ssl_fallback   = false,
+  $middleware_ssl_cert       = undef,
+  $middleware_ssl_key        = undef,
+  $middleware_ssl_ca         = undef,
   $middleware_admin_user     = 'admin',
   $middleware_admin_password = 'secret',
   $middleware_heartbeat_interval = '30',
@@ -77,7 +81,20 @@ class mcollective (
   $yaml_fact_path_real = pick($yaml_fact_path, "${confdir}/facts.yaml")
   $server_config_file_real = pick($server_config_file, "${confdir}/server.cfg")
   $client_config_file_real = pick($client_config_file, "${confdir}/client.cfg")
-  $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${confdir}/clients")
+
+  $ssldir = "${confdir}/ssl"
+
+  $ssl_client_certs_dir_real = pick($ssl_client_certs_dir, "${ssldir}/clients")
+  $ssl_server_public_path    = "${ssldir}/server_public.pem"
+  $ssl_server_private_path   = "${ssldir}/server_private.pem"
+
+  $middleware_ssl_ca_real   = pick_default($middleware_ssl_ca, $ssl_ca_cert)
+  $middleware_ssl_cert_real = pick_default($middleware_ssl_cert, $ssl_server_public)
+  $middleware_ssl_key_real  = pick_default($middleware_ssl_key, $ssl_server_private)
+
+  $middleware_ssl_key_path  = "${ssldir}/middleware_key.pem"
+  $middleware_ssl_cert_path = "${ssldir}/middleware_cert.pem"
+  $middleware_ssl_ca_path   = "${ssldir}/middleware_ca.pem"
 
   if $client or $server {
     contain mcollective::common

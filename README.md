@@ -1,4 +1,4 @@
-# mcollective
+# mcollective [![Build Status](https://travis-ci.org/puppet-community/puppet-mcollective.svg?branch=master)](https://travis-ci.org/puppet-community/puppet-mcollective)
 
 #### Table of Contents
 
@@ -120,13 +120,16 @@ node 'broker1.example.com' {
 
 node 'server1.example.com' {
   class { '::mcollective':
-    middleware_hosts   => [ 'broker1.example.com' ],
-    middleware_ssl     => true,
-    securityprovider   => 'ssl',
-    ssl_client_certs   => 'puppet:///modules/site_mcollective/client_certs',
-    ssl_ca_cert        => 'puppet:///modules/site_mcollective/certs/ca.pem',
-    ssl_server_public  => 'puppet:///modules/site_mcollective/certs/server.pem',
-    ssl_server_private => 'puppet:///modules/site_mcollective/private_keys/server.pem',
+    middleware_hosts    => [ 'broker1.example.com' ],
+    middleware_ssl      => true,
+    middleware_ssl_cert => "/var/lib/puppet/ssl/certs/${::clientcert}.pem",
+    middleware_ssl_key  => "/var/lib/puppet/ssl/private_keys/${::clientcert}.pem",
+    middleware_ssl_ca   => "/var/lib/puppet/ssl/certs/ca.pem",
+    securityprovider    => 'ssl',
+    ssl_client_certs    => 'puppet:///modules/site_mcollective/client_certs',
+    ssl_ca_cert         => 'puppet:///modules/site_mcollective/certs/ca.pem',
+    ssl_server_public   => 'puppet:///modules/site_mcollective/certs/server.pem',
+    ssl_server_private  => 'puppet:///modules/site_mcollective/private_keys/server.pem',
   }
 
   mcollective::actionpolicy { 'nrpe':
@@ -141,14 +144,17 @@ node 'server1.example.com' {
 
 node 'control.example.com' {
   class { '::mcollective':
-    client             => true,
-    middleware_hosts   => [ 'broker1.example.com' ],
-    middleware_ssl     => true,
-    securityprovider   => 'ssl',
-    ssl_client_certs   => 'puppet:///modules/site_mcollective/client_certs',
-    ssl_ca_cert        => 'puppet:///modules/site_mcollective/certs/ca.pem',
-    ssl_server_public  => 'puppet:///modules/site_mcollective/certs/server.pem',
-    ssl_server_private => 'puppet:///modules/site_mcollective/private_keys/server.pem',
+    client              => true,
+    middleware_hosts    => [ 'broker1.example.com' ],
+    middleware_ssl      => true,
+    middleware_ssl_cert => "/var/lib/puppet/ssl/certs/${::clientcert}.pem",
+    middleware_ssl_key  => "/var/lib/puppet/ssl/private_keys/${::clientcert}.pem",
+    middleware_ssl_ca   => "/var/lib/puppet/ssl/certs/ca.pem",
+    securityprovider    => 'ssl',
+    ssl_client_certs    => 'puppet:///modules/site_mcollective/client_certs',
+    ssl_ca_cert         => 'puppet:///modules/site_mcollective/certs/ca.pem',
+    ssl_server_public   => 'puppet:///modules/site_mcollective/certs/server.pem',
+    ssl_server_private  => 'puppet:///modules/site_mcollective/private_keys/server.pem',
   }
 
   mcollective::user { 'vagrant':
