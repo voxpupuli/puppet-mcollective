@@ -1,5 +1,7 @@
 #
-class mcollective::common::config {
+class mcollective::common::config (
+  $purge_libdir = true,
+) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
@@ -10,7 +12,7 @@ class mcollective::common::config {
     group        => '0',
     mode         => '0644',
     recurse      => true,
-    purge        => true,
+    purge        => $purge_libdir,
     force        => true,
     source       => [],
     sourceselect => 'all',
