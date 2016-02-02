@@ -116,12 +116,31 @@ define mcollective::user(
   }
 
   if $securityprovider == 'ssl' {
-    $cert_content = pick($certificate_content, file($certificate))
-    file { "${homedir_real}/.mcollective.d/credentials/certs/${callerid}.pem":
-      content => $cert_content,
-      owner   => $username,
-      group   => $group,
-      mode    => '0444',
+    $cert_path = "${homedir_real}/.mcollective.d/credentials/certs/${callerid}.pem"
+    if $certificate {
+      file { $cert_path:
+        source =>  $certificate,
+        owner  =>  $username,
+        group  =>  $group,
+        mode   =>  '0444',
+      }
+    }
+    elsif $certificate_content {
+      file { $cert_path:
+        content =>  $certificate_content,
+        owner   =>  $username,
+        group   =>  $group,
+        mode    =>  '0444',
+      }
+    }
+    #preserve old behavior
+    else {
+      file { $cert_path:
+        source =>  $ssl_server_public,
+        owner  =>  $username,
+        group  =>  $group,
+        mode   =>  '0444',
+      }
     }
 
     mcollective::user::setting { "${username}:plugin.ssl_client_public":
