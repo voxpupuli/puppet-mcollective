@@ -158,7 +158,7 @@ define mcollective::user(
         mode    => '0400',
       }
     }
-    else { 
+    else {
       exec { "recreate-public-key-${username}":
         path    => '/usr/bin:/usr/local/bin',
         command => "ssh-keygen -y -N '' -f ${private_path} > ${public_path}",
