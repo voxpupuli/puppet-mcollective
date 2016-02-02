@@ -104,8 +104,14 @@ define mcollective::user(
         mode    => '0400',
       }
     }
+    # Preserve old behavior
     elsif $securityprovider == 'ssl' {
-      fail("A private key was not provided for user: ${username}")
+      file { $private_path:
+        source =>  $ssl_server_private,
+        owner  =>  $username,
+        group  =>  $group,
+        mode   =>  '0400',
+      }
     }
   }
 
