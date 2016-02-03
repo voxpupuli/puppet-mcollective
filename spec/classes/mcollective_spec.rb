@@ -294,7 +294,6 @@ describe 'mcollective' do
         end
 
         describe '#fact_cron_splay' do
-
           let(:facts) do
             {
               :puppetversion => Puppet.version,
