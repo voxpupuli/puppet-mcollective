@@ -1,9 +1,9 @@
 # Define - mcollective::user
 define mcollective::user(
-  $username = $name,
-  $callerid = $name,
-  $group    = $name,
-  $homedir  = undef,
+  $username    = $name,
+  $callerid    = $name,
+  $group       = $name,
+  $homedir     = "/home/${name}",
   $certificate = undef,
   $certificate_content  = undef,
   $private_key = undef,
@@ -20,16 +20,17 @@ define mcollective::user(
   # duplication of $ssl_ca_cert, $ssl_server_public,$ssl_server_private, $connector,
   # $middleware_ssl, $middleware_hosts, and $securityprovider parameters to
   # allow for spec testing.  These are otherwise considered private.
-  $ssl_ca_cert = $mcollective::ssl_ca_cert,
-  $ssl_server_public = $mcollective::ssl_server_public,
-  $ssl_server_private = $mcollective::ssl_server_private,
-  $middleware_hosts = $mcollective::middleware_hosts,
-  $middleware_ssl = $mcollective::middleware_ssl,
-  $securityprovider = $mcollective::securityprovider,
-  $connector = $mcollective::connector,
+  $ssl_ca_cert        = undef,
+  $ssl_server_public  = undef,
+  $ssl_server_private = undef,
+  $middleware_hosts   = undef,
+  $middleware_ssl     = undef,
+  $securityprovider   = undef,
+  $connector          = undef,
 ) {
 
-  # Validate that both forms of data weren't given
+  include ::mcollective
+# Validate that both forms of data weren't given
   if $certificate and $certificate_content {
     fail("Both a source and content cannot be defined for ${username} certificate!")
   }
@@ -38,10 +39,17 @@ define mcollective::user(
   }
 
   # Variable interpolation in class parameters can be goofy (PUP-1080)
-  $homedir_real = pick($homedir,"/home/${username}")
+  $homedir_real              = pick($homedir,"/home/${username}")
   $sshkey_publickey_dir_real = pick($sshkey_publickey_dir,"${homedir_real}/.mcollective.d/credentials/public_keys")
-  $sshkey_known_hosts_real = pick($sshkey_known_hosts,"${homedir_real}/.ssh/known_hosts")
+  $sshkey_known_hosts_real   = pick($sshkey_known_hosts,"${homedir_real}/.ssh/known_hosts")
+  $_ssl_server_private       = pick_default($ssl_server_private, $::mcollective::ssl_server_private)
 
+  $_middleware_ssl    = pick_default($middleware_ssl, $::mcollective::middleware_ssl)
+  $_ssl_ca_cert       = pick_default($ssl_ca_cert, $::mcollective::ssl_ca_cert)
+  $_ssl_server_public = pick_default($ssl_server_public, $::mcollective::ssl_server_public)
+  $_middleware_hosts  = pick_default($middleware_hosts, $::mcollective::middleware_hosts)
+  $_securityprovider  = pick_default($securityprovider, $::mcollective::securityprovider)
+  $_connector         = pick_default($connector, $::mcollective::connector)
   file { [
     "${homedir_real}/.mcollective.d",
     "${homedir_real}/.mcollective.d/credentials",
@@ -63,30 +71,30 @@ define mcollective::user(
     template => 'mcollective/settings.cfg.erb',
   }
 
-  if $middleware_ssl or $securityprovider == 'ssl' {
+  if $_middleware_ssl or $_securityprovider == 'ssl' {
     file { "${homedir_real}/.mcollective.d/credentials/certs/ca.pem":
-      source => $ssl_ca_cert,
+      source => $_ssl_ca_cert,
       owner  => $username,
       group  => $group,
       mode   => '0444',
     }
 
     file { "${homedir_real}/.mcollective.d/credentials/certs/server_public.pem":
-      source => $ssl_server_public,
+      source => $_ssl_server_public,
       owner  => $username,
       group  => $group,
       mode   => '0444',
     }
 
     file { "${homedir_real}/.mcollective.d/credentials/private_keys/server_private.pem":
-      source => $ssl_server_private,
+      source => $_ssl_server_private,
       owner  => $username,
       group  => $group,
       mode   => '0400',
     }
   }
 
-  if $securityprovider == 'ssl' or  $securityprovider == 'sshkey' {
+  if $_securityprovider == 'ssl' or  $_securityprovider == 'sshkey' {
     $private_path = "${homedir_real}/.mcollective.d/credentials/private_keys/${callerid}.pem"
     if $private_key {
       file { $private_path:
@@ -105,9 +113,9 @@ define mcollective::user(
       }
     }
     # Preserve old behavior
-    elsif $securityprovider == 'ssl' {
+    elsif $_securityprovider == 'ssl' {
       file { $private_path:
-        source =>  $ssl_server_private,
+        source =>  $_ssl_server_private,
         owner  =>  $username,
         group  =>  $group,
         mode   =>  '0400',
@@ -115,7 +123,7 @@ define mcollective::user(
     }
   }
 
-  if $securityprovider == 'ssl' {
+  if $_securityprovider == 'ssl' {
     $cert_path = "${homedir_real}/.mcollective.d/credentials/certs/${callerid}.pem"
     if $certificate {
       file { $cert_path:
@@ -136,7 +144,7 @@ define mcollective::user(
     #preserve old behavior
     else {
       file { $cert_path:
-        source =>  $ssl_server_public,
+        source =>  $_ssl_server_public,
         owner  =>  $username,
         group  =>  $group,
         mode   =>  '0444',
@@ -165,7 +173,7 @@ define mcollective::user(
     }
   }
 
-  if $securityprovider == 'sshkey' {
+  if $_securityprovider == 'sshkey' {
     $public_path = "${homedir_real}/.mcollective.d/credentials/public_keys/${callerid}.pem"
     if $public_key {
       file { $public_path:
@@ -238,16 +246,16 @@ define mcollective::user(
   }
 
   # This is specific to connector, but refers to the user's certs
-  if $connector in [ 'activemq', 'rabbitmq' ] {
-    $pool_size = size(flatten([$middleware_hosts]))
+  if $_connector in [ 'activemq', 'rabbitmq' ] {
+    $pool_size = size(flatten([$_middleware_hosts]))
     $hosts = range( '1', $pool_size )
     $connectors = prefix( $hosts, "${username}_" )
     mcollective::user::connector { $connectors:
       username       => $username,
       callerid       => $callerid,
       homedir        => $homedir_real,
-      connector      => $connector,
-      middleware_ssl => $middleware_ssl,
+      connector      => $_connector,
+      middleware_ssl => $_middleware_ssl,
       order          => '60',
     }
   }
