@@ -1,4 +1,6 @@
 AllCops:
+  Include:
+    - ./**/*.rb
   Exclude:
     - vendor/**/*
     - pkg/**/*
@@ -50,3 +52,14 @@ Style/WordArray:
 # providers
 Style/ClassAndModuleChildren:
   Enabled: false
+
+Style/Documentation:
+  Description: 'Document classes and non-namespace modules.'
+  Enabled: false
+
+# More comfortable block layouts
+Style/BlockDelimiters:
+  Enabled: False
+
+Style/MultilineBlockLayout:
+  Enabled: False

@@ -3,20 +3,18 @@ require 'puppet-lint/tasks/puppet-lint'
 require 'puppet-syntax/tasks/puppet-syntax'
 require 'metadata-json-lint/rake_task'
 require 'puppet_blacksmith/rake_tasks'
+require 'voxpupuli/release/rake_tasks'
 require 'rubocop/rake_task'
 
 RuboCop::RakeTask.new
 
-PuppetLint.configuration.relative = true
-PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.log_format = '%{path}:%{linenumber}:%{check}:%{KIND}:%{message}'
 PuppetLint.configuration.fail_on_warnings = true
-
-# Forsake support for Puppet 2.6.2 for the benefit of cleaner code.
-# http://puppet-lint.com/checks/class_parameter_defaults/
-PuppetLint.configuration.send('disable_class_parameter_defaults')
-# http://puppet-lint.com/checks/class_inherits_from_params_class/
+PuppetLint.configuration.send('relative')
+PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
+PuppetLint.configuration.send('disable_documentation')
+PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 
 exclude_paths = %w(
   pkg/**/*
@@ -38,22 +36,3 @@ task test: [
   :syntax,
   :spec,
 ]
-
-Blacksmith::RakeTask.new do |t|
-  t.build = false # do not build the module nor push it to the Forge
-  # just do the tagging [:clean, :tag, :bump_commit]
-end
-
-desc 'Offload release process to Travis.'
-task travis_release: [
-  :check_changelog,  # check that the changelog contains an entry for the current release
-  :"module:release", # do everything except build / push to forge, travis will do that for us
-]
-
-desc 'Check Changelog.'
-task :check_changelog do
-  v = Blacksmith::Modulefile.new.version
-  if File.readlines('CHANGELOG.md').grep(/Releasing #{v}/).size == 0
-    fail "Unable to find a CHANGELOG.md entry for the #{v} release."
-  end
-end
