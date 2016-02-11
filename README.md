@@ -1,4 +1,4 @@
-# mcollective [![Build Status](https://travis-ci.org/puppet-community/puppet-mcollective.svg?branch=master)](https://travis-ci.org/puppet-community/puppet-mcollective)
+# mcollective [![Build Status](https://travis-ci.org/voxpupuli/puppet-mcollective.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-mcollective)
 
 #### Table of Contents
 

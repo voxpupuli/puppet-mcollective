@@ -49,17 +49,28 @@ The test suite will run [Puppet Lint](http://puppet-lint.com/) and
 [Puppet Syntax](https://github.com/gds-operations/puppet-syntax) to
 check various syntax and style things. You can run these locally with:
 
-    bundle exec rake test
+    bundle exec rake lint
+    bundle exec rake validate
 
 ## Running the unit tests
 
 The unit test suite covers most of the code, as mentioned above please
 add tests if you're adding new functionality. If you've not used
 [rspec-puppet](http://rspec-puppet.com/) before then feel free to ask
-about how best to test your new feature. To run your specific spec test
-you can pass it to `SPEC`:
+about how best to test your new feature.
+
+To run your all the unit tests
+
+    bundle exec rake spec SPEC_OPTS='--format documentation'
+
+To run a specific spec test set the `SPEC` variable:
 
     bundle exec rake spec SPEC=spec/foo_spec.rb
+
+To run the linter, the syntax checker and the unit tests:
+
+    bundle exec rake test
+
 
 ## Integration tests
 
