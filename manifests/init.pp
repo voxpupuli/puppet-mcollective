@@ -6,6 +6,7 @@ class mcollective (
 
   # installing packages
   $manage_packages   = true,
+  $package_install_options = [],
   $version           = 'present',
   $ruby_stomp_ensure = 'installed',
 
