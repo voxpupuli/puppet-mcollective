@@ -1,6 +1,11 @@
-.*.sw?
-pkg
-spec/fixtures
-.rspec_system
-.vagrant
+pkg/
 Gemfile.lock
+vendor/
+spec/fixtures/
+.vagrant/
+.bundle/
+coverage/
+log/
+.idea/
+*.iml
+.*.sw
