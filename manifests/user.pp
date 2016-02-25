@@ -39,6 +39,7 @@ define mcollective::user(
 
   if $middleware_ssl or $securityprovider == 'ssl' {
     file { "${homedir}/.mcollective.d/credentials/certs/ca.pem":
+      ensure => 'present',
       source => $ssl_ca_cert,
       owner  => $username,
       group  => $group,
@@ -46,6 +47,7 @@ define mcollective::user(
     }
 
     file { "${homedir}/.mcollective.d/credentials/certs/server_public.pem":
+      ensure => 'present',
       source => $ssl_server_public,
       owner  => $username,
       group  => $group,
@@ -54,6 +56,7 @@ define mcollective::user(
 
     $private_path = "${homedir}/.mcollective.d/credentials/private_keys/${callerid}.pem"
     file { $private_path:
+      ensure => 'present',
       source => $private_key,
       owner  => $username,
       group  => $group,
@@ -63,6 +66,7 @@ define mcollective::user(
 
   if $securityprovider == 'ssl' {
     file { "${homedir}/.mcollective.d/credentials/certs/${callerid}.pem":
+      ensure => 'present',
       source => $certificate,
       owner  => $username,
       group  => $group,
