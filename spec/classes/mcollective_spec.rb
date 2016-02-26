@@ -30,9 +30,13 @@ end
 describe 'mcollective' do
   let :facts do
     {
-      :puppetversion => Puppet.version,
-      :facterversion => Facter.version,
-      :macaddress    => '00:00:00:26:28:8a',
+      :puppetversion   => Puppet.version,
+      :facterversion   => Facter.version,
+      :macaddress      => '00:00:00:26:28:8a',
+      :osfamily        => 'RedHat',
+      :operatingsystem => 'CentOS',
+      :mco_version     => '2.8.4',
+      :path            => ['/usr/bin', '/usr/sbin'],
     }
   end
 
@@ -87,9 +91,12 @@ describe 'mcollective' do
       context 'on Debian' do
         let(:facts) do
           {
-            :osfamily => 'Debian',
-            :puppetversion => Puppet.version,
-            :facterversion => Facter.version,
+            :mco_version     => '2.8.4',
+            :osfamily        => 'Debian',
+            :path            => ['/usr/bin', '/usr/sbin'],
+            :operatingsystem => 'Debian',
+            :puppetversion   => Puppet.version,
+            :facterversion   => Facter.version,
           }
         end
         it 'should default to installed' do
@@ -189,10 +196,13 @@ describe 'mcollective' do
         context 'when on Ubuntu 14.04' do
           let(:facts) do
             {
-              :operatingsystem => 'Ubuntu',
+              :mco_version            => '2.8.4',
+              :osfamily               => 'Debian',
+              :path                   => ['/usr/bin', '/usr/sbin'],
+              :operatingsystem        => 'Ubuntu',
               :operatingsystemrelease => '14.04',
-              :puppetversion => Puppet.version,
-              :facterversion => Facter.version,
+              :puppetversion          => Puppet.version,
+              :facterversion          => Facter.version,
             }
           end
           it 'should default to false' do
@@ -202,10 +212,13 @@ describe 'mcollective' do
         context 'when on Ubuntu 14.10' do
           let(:facts) do
             {
-              :operatingsystem => 'Ubuntu',
+              :mco_version            => '2.8.4',
+              :osfamily               => 'Debian',
+              :path                   => ['/usr/bin', '/usr/sbin'],
+              :operatingsystem        => 'Ubuntu',
               :operatingsystemrelease => '14.10',
-              :puppetversion => Puppet.version,
-              :facterversion => Facter.version,
+              :puppetversion          => Puppet.version,
+              :facterversion          => Facter.version,
             }
           end
           it 'should default to false' do
@@ -215,10 +228,13 @@ describe 'mcollective' do
         context 'when on Ubuntu 15.04' do
           let(:facts) do
             {
-              :operatingsystem => 'Ubuntu',
+              :mco_version            => '2.8.4',
+              :osfamily               => 'Debian',
+              :path                   => ['/usr/bin', '/usr/sbin'],
+              :operatingsystem        => 'Ubuntu',
               :operatingsystemrelease => '15.04',
-              :puppetversion => Puppet.version,
-              :facterversion => Facter.version
+              :puppetversion          => Puppet.version,
+              :facterversion          => Facter.version
             }
           end
           it 'should default to true' do
@@ -236,11 +252,14 @@ describe 'mcollective' do
       context 'yaml_facter2' do
         let(:facts) do
           {
-            :osfamily => 'RedHat',
+            :mco_version     => '2.8.4',
+            :osfamily        => 'RedHat',
+            :operatingsystem => 'CentOS',
+            :path            => ['/usr/bin', '/usr/sbin'],
             :number_of_cores => '42',
-            :non_string => 69,
-            :facterversion => '2.4.4',
-            :puppetversion => Puppet.version,
+            :non_string      => 69,
+            :facterversion   => '2.4.4',
+            :puppetversion   => Puppet.version,
           }
         end
 
@@ -264,12 +283,15 @@ describe 'mcollective' do
             context "when is_pe == #{is_pe}" do
               let(:facts) do
                 {
-                  :osfamily => 'RedHat',
                   :number_of_cores => '42',
-                  :non_string => 69,
-                  :facterversion => '2.4.4',
-                  :is_pe => is_pe,
-                  :puppetversion => Puppet.version,
+                  :non_string      => 69,
+                  :facterversion   => '2.4.4',
+                  :is_pe           => is_pe,
+                  :puppetversion   => Puppet.version,
+                  :osfamily        => 'RedHat',
+                  :operatingsystem => 'CentOS',
+                  :path            => ['/usr/bin', '/usr/sbin'],
+                  :mco_version     => '2.8.4',
                 }
               end
               it_should_behave_like 'a refresh-mcollective-metadata file', %r{#!/usr/bin/env ruby}
@@ -280,12 +302,15 @@ describe 'mcollective' do
             context "when is_pe == #{is_pe}" do
               let(:facts) do
                 {
-                  :osfamily => 'RedHat',
                   :number_of_cores => '42',
-                  :non_string => 69,
-                  :facterversion => '2.4.4',
-                  :is_pe => is_pe,
-                  :puppetversion => Puppet.version,
+                  :non_string      => 69,
+                  :facterversion   => '2.4.4',
+                  :is_pe           => is_pe,
+                  :puppetversion   => Puppet.version,
+                  :osfamily        => 'RedHat',
+                  :operatingsystem => 'CentOS',
+                  :path            => ['/usr/bin', '/usr/sbin'],
+                  :mco_version     => '2.8.4',
                 }
               end
               it_should_behave_like 'a refresh-mcollective-metadata file', %r{#!/opt/puppet/bin/ruby}
@@ -296,11 +321,15 @@ describe 'mcollective' do
         describe '#fact_cron_splay' do
           let(:facts) do
             {
-              :puppetversion => Puppet.version,
-              :facterversion => Facter.version,
-              :macaddress    => '00:00:00:26:28:8a',
+              :puppetversion   => Puppet.version,
+              :facterversion   => Facter.version,
+              :macaddress      => '00:00:00:26:28:8a',
               # fqdn_rand gives better random numbers based on a longer fqdn
-              :fqdn          => 'somereallylongfqdnthatleadstobetterrandomnumbers.example.com'
+              :fqdn            => 'somereallylongfqdnthatleadstobetterrandomnumbers.example.com',
+              :osfamily        => 'RedHat',
+              :operatingsystem => 'CentOS',
+              :path            => ['/usr/bin', '/usr/sbin'],
+              :mco_version     => '2.8.4',
             }
           end
 
@@ -329,11 +358,14 @@ describe 'mcollective' do
       context 'yaml_facter3' do
         let(:facts) do
           {
-            :osfamily => 'RedHat',
             :number_of_cores => '42',
-            :non_string => 69,
-            :facterversion => '3.0.1',
-            :puppetversion => Puppet.version,
+            :non_string      => 69,
+            :facterversion   => '3.0.1',
+            :mco_version     => '2.8.4',
+            :puppetversion   => Puppet.version,
+            :osfamily        => 'RedHat',
+            :operatingsystem => 'CentOS',
+            :path            => ['/usr/bin', '/usr/sbin'],
           }
         end
 
@@ -652,15 +684,18 @@ describe 'mcollective' do
 
   describe '#core_libdir' do
     context 'default' do
-      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}") }
+      it { should contain_mcollective__common__setting('libdir').with_value(mcollective_site_libdir_path.to_s) }
     end
 
     context 'when mco_version < 2.8' do
       let :facts do
         {
-          :puppetversion => Puppet.version,
-          :facterversion => Facter.version,
-          :mco_version   => '2.7.0'
+          :puppetversion   => Puppet.version,
+          :facterversion   => Facter.version,
+          :mco_version     => '2.7.0',
+          :osfamily        => 'RedHat',
+          :operatingsystem => 'CentOS',
+          :path            => ['/usr/bin', '/usr/sbin'],
         }
       end
       it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
@@ -675,15 +710,18 @@ describe 'mcollective' do
   describe '#site_libdir' do
     context 'default' do
       it { should contain_file(mcollective_site_libdir_path).with_mode('0644') }
-      it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}") }
+      it { should contain_mcollective__common__setting('libdir').with_value(mcollective_site_libdir_path.to_s) }
     end
 
     context 'when mco_version < 2.8' do
       let :facts do
         {
-          :puppetversion => Puppet.version,
-          :facterversion => Facter.version,
-          :mco_version   => '2.7.0'
+          :puppetversion   => Puppet.version,
+          :facterversion   => Facter.version,
+          :mco_version     => '2.7.0',
+          :osfamily        => 'RedHat',
+          :operatingsystem => 'CentOS',
+          :path            => ['/usr/bin', '/usr/sbin'],
         }
       end
       it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }

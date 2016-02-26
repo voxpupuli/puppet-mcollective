@@ -31,7 +31,7 @@ class mcollective::defaults {
   # https://docs.puppetlabs.com/mcollective/releasenotes.html#libdirloadpath-changes-and-core-plugins
   $mco_assumed_version = '2.8.5'
 
-  $_mco_version = pick($::mco_version, $mco_assumed_version)
+  $_mco_version = pick_default($::mco_version, $mco_assumed_version)
   if versioncmp($_mco_version, '2.8') >= 0 {
     $core_libdir = undef
   } else {
@@ -56,5 +56,4 @@ class mcollective::defaults {
       }
     }
   }
-
 }

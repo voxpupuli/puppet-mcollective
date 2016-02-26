@@ -3,6 +3,9 @@
 # Install them with mcollective::plugin
 # Namevar will be the name of the agent to configure
 define mcollective::actionpolicy($default = 'deny') {
+
+  include ::mcollective
+
   datacat { "mcollective::actionpolicy ${name}":
     owner    => 'root',
     group    => '0',
