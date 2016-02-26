@@ -16,6 +16,7 @@ define mcollective::user(
   $middleware_ssl = $mcollective::middleware_ssl,
   $securityprovider = $mcollective::securityprovider,
   $connector = $mcollective::connector,
+  $ssl_ciphers = $mcollective::ssl_ciphers,
 ) {
   file { [
     "${homedir}/.mcollective.d",
@@ -102,6 +103,7 @@ define mcollective::user(
       homedir        => $homedir,
       connector      => $connector,
       middleware_ssl => $middleware_ssl,
+      ssl_ciphers    => $ssl_ciphers,
       order          => '60',
     }
   }
