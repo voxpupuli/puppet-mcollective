@@ -8,16 +8,18 @@ class mcollective::defaults {
   if versioncmp($::puppetversion, '4') < 0 {
     $confdir = '/etc/mcollective'
     $_core_libdir = $::osfamily ? {
-      'Debian' => '/usr/share/mcollective/plugins',
-      default  => '/usr/libexec/mcollective',
+      'Debian'  => '/usr/share/mcollective/plugins',
+      'OpenBSD' => '/usr/local/libexec/mcollective',
+      default   => '/usr/libexec/mcollective',
     }
     # Where this module will sync file-managed plugins to.
     # These paths may need revisiting by someone who understands FHS and
     # distribution standards for site-specific application-specific
     # library paths.
     $site_libdir = $::osfamily ? {
-      'Debian' => '/usr/local/share/mcollective',
-      default  => '/usr/local/libexec/mcollective',
+      'Debian'  => '/usr/local/share/mcollective',
+      'OpenBSD' => regsubst($::rubyversion, '^(\d+)\.(\d+)\.(\d+)$', '/usr/local/lib/ruby/vendor_ruby/\1.\2/mcollective'),
+      default   => '/usr/local/libexec/mcollective',
     }
   } else {
     $confdir     = '/etc/puppetlabs/mcollective'
@@ -40,6 +42,19 @@ class mcollective::defaults {
     $server_daemonize = false # See https://tickets.puppetlabs.com/browse/MCO-167
   } else {
     $server_daemonize = true
+  }
+
+  if defined('$is_pe') and str2bool($::is_pe) {
+    $ruby_interpreter = '/opt/puppet/bin/ruby'
+  } else {
+    case $::operatingsystem {
+      'OpenBSD': {
+        $ruby_interpreter = regsubst($::rubyversion, '^(\d+)\.(\d+)\.(\d+)$', '/usr/local/bin/ruby\1\2')
+      }
+      default: {
+        $ruby_interpreter = '/usr/bin/env ruby'
+      }
+    }
   }
 
 }

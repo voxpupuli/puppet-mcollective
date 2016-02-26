@@ -5,7 +5,9 @@ define mcollective::common::config::connector::rabbitmq::hosts_iteration {
     value => $mcollective::middleware_hosts[$name - 1], # puppet array 0-based
   }
 
-  $port = $mcollective::middleware_ssl ? {
+  $middleware_ssl = str2bool($mcollective::middleware_ssl)
+
+  $port = $middleware_ssl ? {
     true    => $mcollective::middleware_ssl_port,
     default => $mcollective::middleware_port,
   }
@@ -27,7 +29,7 @@ define mcollective::common::config::connector::rabbitmq::hosts_iteration {
     value => $mcollective::middleware_password,
   }
 
-  if $mcollective::middleware_ssl {
+  if $middleware_ssl {
     mcollective::common::setting { "plugin.rabbitmq.pool.${name}.ssl":
       value => 1,
     }

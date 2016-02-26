@@ -5,8 +5,11 @@ class mcollective::client::install {
   }
 
   if $mcollective::manage_packages {
-    package { $mcollective::client_package:
-      ensure => $mcollective::version,
+    # prevent conflict where client package name == server package name
+    if $mcollective::client_package != $mcollective::server_package {
+      package { $mcollective::client_package:
+        ensure => $mcollective::version,
+      }
     }
   }
 }
