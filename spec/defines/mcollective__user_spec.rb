@@ -42,9 +42,9 @@ describe 'mcollective::user' do
     context 'true and "true"' do
       [true, 'true',].each do |value|
         let(:params) { default_params.merge(:middleware_ssl => value) }
-        it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/nagios.pem') }
+        it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/server_private.pem') }
         it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert') }
-        it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert').with_value('/home/nagios/.mcollective.d/credentials/certs/nagios.pem') }
+        it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert').with_value('/home/nagios/.mcollective.d/credentials/certs/server_public.pem') }
       end
     end
 
