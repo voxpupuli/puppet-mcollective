@@ -1,5 +1,5 @@
 # Installs mcollective server components and configuration
-class profile::mco::server (
+class mco_profile::server  (
   $server_pubkey  = '/etc/ssh/ssh_host_rsa_key.pub',
   $server_privkey = '/etc/ssh/ssh_host_rsa_key',
 ) {
@@ -8,12 +8,12 @@ class profile::mco::server (
     ensure =>  'file',
     before =>  Class['mcollective'],
   }
-  
+
   # Install sshkey plugin
   # Requires you to have obtained the security directory from https://github.com/puppetlabs/mcollective-sshkey-security
   # and placed it on your puppetmaster's file server
   mcollective::plugin { 'sshkey':
-    source  =>  'puppet:///modules/profile/mco/plugins/sshkey'
+    source  =>  'puppet:///modules/profile/mco/plugins/sshkey',
   }
 
 # Enable syslog output
@@ -22,13 +22,13 @@ class profile::mco::server (
 #    value   => 'syslog',
 #    order   => '90',
 #  }
-  
+
 # Set syslog facility
 #  mcollective::common::setting { 'use_syslog_logging_facility':
 #    setting => 'logfacility',
 #    value   => 'user',
 #    order   => '90',
 #  }
-  
-  include mcollective
+
+  include ::mcollective
 }
