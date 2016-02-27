@@ -28,7 +28,7 @@ define mcollective::user(
   $securityprovider = $mcollective::securityprovider,
   $connector = $mcollective::connector,
 ) {
-  
+
   # Validate that both forms of data weren't given
   if $certificate and $certificate_content {
     fail("Both a source and content cannot be defined for ${username} certificate!")
@@ -36,12 +36,12 @@ define mcollective::user(
   if $private_key and $private_key_content {
     fail("Both a source and content cannot be defined for ${username} private key!")
   }
-  
+
   # Variable interpolation in class parameters can be goofy (PUP-1080)
   $homedir_real = pick($homedir,"/home/${username}")
   $sshkey_publickey_dir_real = pick($sshkey_publickey_dir,"${homedir_real}/.mcollective.d/credentials/public_keys")
   $sshkey_known_hosts_real = pick($sshkey_known_hosts,"${homedir_real}/.ssh/known_hosts")
-  
+
   file { [
     "${homedir_real}/.mcollective.d",
     "${homedir_real}/.mcollective.d/credentials",
@@ -77,7 +77,7 @@ define mcollective::user(
       group  => $group,
       mode   => '0444',
     }
-    
+
     file { "${homedir_real}/.mcollective.d/credentials/private_keys/server_private.pem":
       source => $ssl_server_private,
       owner  => $username,
@@ -85,7 +85,7 @@ define mcollective::user(
       mode   => '0400',
     }
   }
-  
+
   if $securityprovider == 'ssl' or  $securityprovider == 'sshkey' {
     $private_path = "${homedir_real}/.mcollective.d/credentials/private_keys/${callerid}.pem"
     if $private_key {
@@ -164,7 +164,7 @@ define mcollective::user(
       order    => '60',
     }
   }
-  
+
   if $securityprovider == 'sshkey' {
     $public_path = "${homedir_real}/.mcollective.d/credentials/public_keys/${callerid}.pem"
     if $public_key {
@@ -191,19 +191,19 @@ define mcollective::user(
         require => File[ $private_path ],
       }
     }
-    
+
     mcollective::user::setting { "${username}:plugin.sshkey.client.learn_public_keys":
       setting  => 'plugin.sshkey.client.learn_public_keys',
       username => $username,
       value    => bool2num($sshkey_learn_public_keys),
     }
-    
+
     mcollective::user::setting { "${username}:plugin.sshkey.client.overwrite_stored_keys":
       setting  => 'plugin.sshkey.client.overwrite_stored_keys',
       username => $username,
       value    => bool2num($sshkey_overwrite_stored_keys),
     }
-    
+
     # Learning public keys implies you want to ignore known_hosts
     if $sshkey_learn_public_keys {
       mcollective::user::setting { "${username}:plugin.sshkey.client.publickey_dir":
@@ -219,7 +219,7 @@ define mcollective::user(
         value    => $sshkey_known_hosts_real,
       }
     }
-    
+
     if $sshkey_enable_private_key {
       mcollective::user::setting { "${username}:plugin.sshkey.client.private_key":
         setting  => 'plugin.sshkey.client.private_key',
@@ -227,7 +227,7 @@ define mcollective::user(
         value    => $private_path,
       }
     }
-    
+
     if $sshkey_enable_send_key {
       mcollective::user::setting { "${username}:plugin.sshkey.client.send_key":
         setting  => 'plugin.sshkey.client.send_key',
