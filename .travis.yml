@@ -41,3 +41,4 @@ deploy:
     all_branches: true
     # Only publish if our main Ruby target builds
     rvm: 1.9.3
+    condition: "$FUTURE_PARSER = yes"
