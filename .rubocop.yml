@@ -27,6 +27,10 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Enabled: false
 
+# Module length is not necessarily an indicator of code quality
+Metrics/ModuleLength:
+  Enabled: false
+
 # Class length is not necessarily an indicator of code quality
 Metrics/ClassLength:
   Enabled: false
