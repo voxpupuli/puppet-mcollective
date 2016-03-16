@@ -4,8 +4,8 @@ class mcollective::client::config {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  if $mcollective::securityprovider == 'ssl' {
-    # if securityprovider == ssl each user will want their own ~/.mcollective
+  if $mcollective::securityprovider == 'ssl' or $mcollective::securityprovider == 'sshkey' {
+    # if using the ssl or sshkey securityprovider  each user will want their own ~/.mcollective
     # with their own identity in, so don't publish the global client.cfg
     file { 'mcollective::client':
       ensure => 'absent',
