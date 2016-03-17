@@ -52,6 +52,8 @@ class mcollective (
   $server_loglevel    = 'info',
   $server_daemonize   = $mcollective::defaults::server_daemonize,
   $service_name       = 'mcollective',
+  $service_ensure     = 'running',
+  $service_enable     = true,
   $server_package     = 'mcollective',
   $ruby_stomp_package = 'ruby-stomp',
   $ruby_interpreter   = $mcollective::defaults::ruby_interpreter,
