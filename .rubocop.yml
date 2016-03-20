@@ -43,10 +43,6 @@ Style/TrailingCommaInLiteral:
 Style/ClosingParenthesisIndentation:
   Enabled: false
 
-# we still support ruby 1.8
-Style/HashSyntax:
-  Enabled: false
-
 Lint/AmbiguousRegexpLiteral:
   Enabled: true
 Style/RegexpLiteral:
