@@ -1,4 +1,9 @@
-# mcollective [![Build Status](https://travis-ci.org/voxpupuli/puppet-mcollective.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-mcollective)
+# mcollective
+
+[![Puppet Forge](http://img.shields.io/puppetforge/v/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
+[![Puppet Forge downloads](https://img.shields.io/puppetforge/dt/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
+[![Puppet Forge score](https://img.shields.io/puppetforge/f/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-mcollective.png)](https://travis-ci.org/voxpupuli/puppet-mcollective)
 
 #### Table of Contents
 

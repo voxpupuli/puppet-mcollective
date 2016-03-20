@@ -16,15 +16,15 @@ RSpec.configure do |c|
   c.before :suite do
     puppet_install
 
-    rcp(:source_path => proj_root + '/spec/fixtures/hiera.yaml',
-        :destination_path => '/etc/puppet/hiera.yaml')
+    rcp(source_path: proj_root + '/spec/fixtures/hiera.yaml',
+        destination_path: '/etc/puppet/hiera.yaml')
 
-    rcp(:source_path => proj_root + '/spec/fixtures/data',
-        :destination_path => '/etc/puppet/data')
+    rcp(source_path: proj_root + '/spec/fixtures/data',
+        destination_path: '/etc/puppet/data')
 
-    puppet_module_install(:source => proj_root, :module_name => 'mcollective')
-    puppet_module_install(:source => proj_root + '/spec/fixtures/modules/site_mcollective', :module_name => 'site_mcollective')
-    puppet_module_install(:source => proj_root + '/spec/fixtures/modules/site_nagios', :module_name => 'site_nagios')
+    puppet_module_install(source: proj_root, module_name: 'mcollective')
+    puppet_module_install(source: proj_root + '/spec/fixtures/modules/site_mcollective', module_name: 'site_mcollective')
+    puppet_module_install(source: proj_root + '/spec/fixtures/modules/site_nagios', module_name: 'site_nagios')
     # XXX would be better if puppet_module_install parsed this out of the
     # Modulefile
     #
