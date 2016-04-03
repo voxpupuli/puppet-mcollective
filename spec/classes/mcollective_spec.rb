@@ -324,6 +324,7 @@ describe 'mcollective' do
               puppetversion: Puppet.version,
               facterversion: Facter.version,
               macaddress: '00:00:00:26:28:8a',
+              fqdn: 'somereallylongfqdnthatleadstobetterrandomnumbers.example.com',
               osfamily: 'RedHat',
               operatingsystem: 'CentOS',
               path: ['/usr/bin', '/usr/sbin'],
