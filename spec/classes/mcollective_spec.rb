@@ -324,8 +324,6 @@ describe 'mcollective' do
               puppetversion: Puppet.version,
               facterversion: Facter.version,
               macaddress: '00:00:00:26:28:8a',
-              # fqdn_rand gives better random numbers based on a longer fqdn
-              fqdn: 'somereallylongfqdnthatleadstobetterrandomnumbers.example.com',
               osfamily: 'RedHat',
               operatingsystem: 'CentOS',
               path: ['/usr/bin', '/usr/sbin'],
@@ -339,7 +337,8 @@ describe 'mcollective' do
 
           context 'true' do
             let(:params) { { fact_cron_splay: true } }
-            it { should contain_cron('refresh-mcollective-metadata').with_minute(%w(8 23 38 53)) }
+            it { should_not contain_cron('refresh-mcollective-metadata').with_minute(%w(0 15 30 45)) }
+            it { should contain_cron('refresh-mcollective-metadata') }
           end
         end
 
