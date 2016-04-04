@@ -13,7 +13,7 @@ describe 'mcollective::user' do
     }
   end
   let(:title) { 'nagios' }
-  let(:default_params) { { connector: 'activemq', middleware_hosts: ['localhost'] } }
+  let(:default_params) { { connector: 'activemq', middleware_hosts: ['localhost'], ssl_ciphers: nil } }
   let(:params) { default_params }
   it { should contain_file('/home/nagios/.mcollective.d') }
   it { should contain_file('mcollective::user nagios').with_path('/home/nagios/.mcollective') }
