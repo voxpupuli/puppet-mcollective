@@ -16,6 +16,7 @@ define mcollective::user(
   $middleware_ssl    = undef,
   $securityprovider  = undef,
   $connector         = undef,
+  $ssl_ciphers       = undef,
 ) {
 
   include ::mcollective
@@ -26,6 +27,7 @@ define mcollective::user(
   $_middleware_hosts  = pick_default($middleware_hosts, $::mcollective::middleware_hosts)
   $_securityprovider  = pick_default($securityprovider, $::mcollective::securityprovider)
   $_connector         = pick_default($connector, $::mcollective::connector)
+  $_ssl_ciphers       = pick_default($ssl_ciphers, $::mcollective::ssl_ciphers)
 
   file { [
     "${homedir}/.mcollective.d",
@@ -112,6 +114,7 @@ define mcollective::user(
       homedir        => $homedir,
       connector      => $_connector,
       middleware_ssl => $_middleware_ssl,
+      ssl_ciphers    => $_ssl_ciphers,
       order          => '60',
     }
   }
