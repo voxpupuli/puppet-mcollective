@@ -14,12 +14,13 @@ group :test do
   gem 'rake',                                                       :require => false
   gem 'rspec-puppet',                                               :require => false, :git => 'https://github.com/rodjek/rspec-puppet.git'
   gem 'puppet-lint',                                                :require => false, :git => 'https://github.com/rodjek/puppet-lint.git'
+  gem 'puppet-strings',                                             :require => false, :git => 'https://github.com/puppetlabs/puppetlabs-strings.git'
   gem 'metadata-json-lint',                                         :require => false
   gem 'rspec-puppet-facts',                                         :require => false
   gem 'rspec',                                                      :require => false
   gem 'puppet-blacksmith',                                          :require => false, :git => 'https://github.com/voxpupuli/puppet-blacksmith.git'
   gem 'voxpupuli-release',                                          :require => false, :git => 'https://github.com/voxpupuli/voxpupuli-release-gem.git'
-  gem 'rubocop', '~> 0.38',                                         :require => false
+  gem 'rubocop', '~> 0.39',                                         :require => false
   gem 'rspec-puppet-utils',                                         :require => false
   gem 'puppetlabs_spec_helper',                                     :require => false
   gem 'puppet-lint-absolute_classname-check',                       :require => false
@@ -58,7 +59,7 @@ else
 gem 'facter', :require => false, :groups => [:test]
 end
 
-ENV['PUPPET_VERSION'].nil? ? puppetversion = '~> 3.0' : puppetversion = ENV['PUPPET_VERSION'].to_s
+ENV['PUPPET_VERSION'].nil? ? puppetversion = '~> 4.0' : puppetversion = ENV['PUPPET_VERSION'].to_s
 gem 'puppet', puppetversion, :require => false, :groups => [:test]
 
 # vim:ft=ruby
