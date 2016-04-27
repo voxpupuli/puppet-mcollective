@@ -3,6 +3,7 @@ AllCops:
     - ./**/*.rb
   Exclude:
     - vendor/**/*
+    - .vendor/**/*
     - pkg/**/*
     - spec/fixtures/**/*
     - files/**/*

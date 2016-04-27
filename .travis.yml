@@ -2,8 +2,14 @@
 sudo: false
 language: ruby
 cache: bundler
-bundler_args: --without system_tests
-before_install: rm Gemfile.lock || true
+bundler_args: --without system_tests development
+before_install:
+  - bundle -v
+  - rm Gemfile.lock || true
+  - gem update --system
+  - gem update bundler
+  - gem --version
+  - bundle -v
 script:
   - 'bundle exec rake $CHECK'
 matrix:
