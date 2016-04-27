@@ -20,6 +20,7 @@ PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 exclude_paths = %w(
   pkg/**/*
   vendor/**/*
+  .vendor/**/*
   spec/**/*
 )
 PuppetLint.configuration.ignore_paths = exclude_paths
