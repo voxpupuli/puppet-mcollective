@@ -65,11 +65,12 @@ class mcollective::server::config::factsource::yaml (
         require => File["${mcollective::site_libdir}/refresh-mcollective-metadata"],
       }
     }
-    mcollective::server::setting { 'factsource':
-      value => 'yaml',
-    }
-    mcollective::server::setting { 'plugin.yaml':
-      value => $yaml_fact_path_real,
-    }
+  }
+
+  mcollective::server::setting { 'factsource':
+    value => 'yaml',
+  }
+  mcollective::server::setting { 'plugin.yaml':
+    value => $yaml_fact_path_real,
   }
 }
