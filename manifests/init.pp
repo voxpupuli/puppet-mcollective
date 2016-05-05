@@ -46,6 +46,9 @@ class mcollective (
   # middleware connector tweaking
   $rabbitmq_vhost = '/mcollective',
 
+  # common
+  $common_package = 'mcollective-common',
+
   # server-specific
   $server_config_file = undef, # default dependent on $confdir
   $server_logfile     = '/var/log/mcollective.log',
