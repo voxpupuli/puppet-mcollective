@@ -169,6 +169,28 @@ node 'control.example.com' {
 }
 ```
 
+### I'd like to secure the transport channel and authenticate users with just their private key, how do I do that?
+
+The Mcollective standard deployment guide uses the 'ssl' securityprovider to handle 
+authentication.  If you're interested in performing the authentication without 
+creating SSL certificates for each user, one alternative is to use the 'sshkey' 
+securityprovider.  As far as the transport channel encryption goes, it's no different 
+than the above example's use of 'middleware_ssl*' parameters.
+
+Sshkey adds additional flexibility with regards to deployment as it currently supports 
+both a static and a dynamic key management philosophy.  You can seperate sshkey from 
+your normal system authentication's backend (known\_hosts / authorized\_keys) and 
+permit it to send and record its key data for you.  If you do this, you should strongly 
+consider using an authorization plugin with mcollective.  Alternatively, you can use 
+puppet to enforce the available set of key data to use with requests and responses. 
+Because this could reuse an existing user's ssh private key, it could work along-side 
+your existing user management module.
+
+The use of sshkey is optional.  For further information, you can review a sample 
+deployment in the /examples folder, review the [sshkey module documentation](https://github.com/puppetlabs/mcollective-sshkey-security),
+ and review the [sshkeyauth rubygem documentation](https://github.com/jordansissel/ruby-sshkeyauth) (helpful for debugging errors).
+
+
 ### The `::mcollective::` class
 
 The `mcollective` class is the main entry point to the module.  From here you
@@ -393,6 +415,36 @@ String: defaults to 'puppet:///modules/mcollective/empty'.  A file source that
 contains a directory of user certificates which are used by the ssl security
 provider in authenticating user requests.
 
+##### `sshkey_server_learn_public_keys`
+
+Boolean: defaults to false.  Allow writing sshkey public keys to 
+`sshkey_server_publickey_dir`.
+
+##### `sshkey_server_overwrite_stored_keys`
+
+Boolean: defaults to false.  Overwrite learned keys.
+
+##### `sshkey_server_publickey_dir`
+
+String: defaults to `${confdir}/sshkey_pubdir`.  Directory to store
+received keys
+
+##### `sshkey_server_private_key`
+
+String: defaults to '/etc/ssh/ssh\_host\_rsa\_key'.  The private key used to
+sign replies with.
+
+##### `sshkey_server_authorized_keys`
+
+String: defaults to undefined.  The authorized_key file to use.  Undefined
+is interpreted by sshkey to mean the caller's authorized key file.
+
+##### `sshkey_server_send_key`
+
+String: defaults to undefined.  Specifies the public key
+sent back with the response for validation. You probably want
+'/etc/ssh/ssh\_host\_rsa\_key.pub'.
+
 ### `mcollective::user` defined type
 
 `mcollective::user` installs a client configuration and any needed client
@@ -416,13 +468,58 @@ install for.
 ##### `certificate`
 
 String: defaults to undef.  A file source for the certificate of the user.
-Used by the 'ssl' securityprovider to set the identity of the user.
+Used by the 'ssl' securityprovider to set the identity of the user. This is
+mutually exclusive with `certificate_content`.
+
+##### `certificate_content`
+
+String: defaults to undef.  The file content for the certificate of the user.
+Used by the 'ssl' securityprovider to set the identity of the user. This is
+mutually exclusive with `certificate`.
 
 ##### `private_key`
 
 String: defaults to undef.  A file source for the private key of the user.
-Used when `mcollective::middleware_ssl` is true to connect to the middleware
-and by the 'ssl' securityprovider to sign messages as from this user.
+Used by the 'ssl' & 'sshkey' securityprovider to sign messages as from this user.  
+When not supplied to sshkey, this is interpreted to use the user's ssh-agent.
+This is mutually exclusive with `private_key_content`.
+
+##### `private_key_content`
+
+String: defaults to undef.  The file content for the private key of the user.
+Used by the 'ssl' & 'sshkey' securityprovider to sign messages as from this user.  
+This is mutually exclusive with `private_key`.
+
+##### `sshkey_learn_public_keys`
+
+Boolean: defaults to false.  Allow writing sshkey public keys to 
+`sshkey_client_publickey_dir`.
+
+##### `sshkey_overwrite_stored_keys`
+
+Boolean: defaults to false.  Overwrite learned keys.
+
+##### `sshkey_publickey_dir`
+
+String: defaults to `${homedir}/.mcollective.d/public_keys`.  Directory to store
+received keys.
+
+##### `sshkey_enable_private_key`
+
+Boolean: defaults to false.  Enable manual specification of the private key to
+sign requests with.  False is interpreted by sshkey to use the 
+user's ssh-agent.
+
+##### `sshkey_known_hosts`
+
+String: defaults to '${homedir}/${callerid}/.ssh/known\_hosts'.  The known\_hosts 
+file to use.  This is mutually exclusive with `sshkey_publickey_dir` and is disabled
+by `sshkey_learn_public_keys`.
+
+##### `sshkey_enable_send_key`
+
+Boolean: defaults to false.  Enable sending the user public key inside the
+request.
 
 ### `mcollective::plugin` defined type
 
