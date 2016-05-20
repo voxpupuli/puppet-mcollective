@@ -17,11 +17,12 @@ define mcollective::user(
   $sshkey_known_hosts            =   undef,
   $sshkey_enable_send_key        =   false,
 
-  # duplication of $ssl_ca_cert, $ssl_server_public,$ssl_server_private, $connector,
+  # duplication of $ssl_ca_cert, $ssl_server_public, $ssl_server_private, $connector,
   # $middleware_ssl, $middleware_hosts, and $securityprovider parameters to
   # allow for spec testing.  These are otherwise considered private.
   $ssl_ca_cert       = undef,
   $ssl_server_public = undef,
+  $ssl_server_private= undef,
   $middleware_hosts  = undef,
   $middleware_ssl    = undef,
   $securityprovider  = undef,
@@ -34,6 +35,7 @@ define mcollective::user(
   $_middleware_ssl    = pick_default($middleware_ssl, $::mcollective::middleware_ssl)
   $_ssl_ca_cert       = pick_default($ssl_ca_cert, $::mcollective::ssl_ca_cert)
   $_ssl_server_public = pick_default($ssl_server_public, $::mcollective::ssl_server_public)
+  $_ssl_server_private= pick_default($ssl_server_private, $::mcollective::ssl_server_private)
   $_middleware_hosts  = pick_default($middleware_hosts, $::mcollective::middleware_hosts)
   $_securityprovider  = pick_default($securityprovider, $::mcollective::securityprovider)
   $_connector         = pick_default($connector, $::mcollective::connector)
@@ -89,7 +91,7 @@ define mcollective::user(
     }
 
     file { "${homedir_real}/.mcollective.d/credentials/private_keys/server_private.pem":
-      source => $ssl_server_private,
+      source => $_ssl_server_private,
       owner  => $username,
       group  => $group,
       mode   => '0400',
@@ -117,7 +119,7 @@ define mcollective::user(
     # Preserve old behavior
     elsif $securityprovider == 'ssl' {
       file { $private_path:
-        source =>  $ssl_server_private,
+        source =>  $_ssl_server_private,
         owner  =>  $username,
         group  =>  $group,
         mode   =>  '0400',
