@@ -1,5 +1,4 @@
-2016-05-21 Release 2.2.0
-========================
+## 2016-05-21 Release 2.2.0
 
 Improvements:
 - fix a few typos
@@ -18,8 +17,7 @@ Bugfixes:
 - set correct runtime dependency for mcollective class and mcollectibe::plugin (#285)
 - always set factsource and plugin.yaml settings with mcollective::server::setting
 
-2015-12-11 Release 2.1.3
-========================
+## 2015-12-11 Release 2.1.3
 
 Summary:
 
@@ -38,14 +36,13 @@ Styles:
 Improvements
 - Datacat version bump from 0.5.x (ed3d6acd0b02d8d87d9bbc72c1243143c1cdf572)
 
-2015-03-31 Release 2.1.1
-========================
+## 2015-03-31 Release 2.1.1
 
 Summary:
 
 This release comes with no big changes since 2.0.0. The biggest news is that
-we've moved to the "puppet" namespace on the forge, and the puppet-community
-space on GitHub.
+we've moved to the "puppet" namespace on the forge, and the Voxpupuli space on
+GitHub.
 
 Bugfixes:
 - fix propagation of middleware\_ssl\_fallback for rabbitmq
@@ -53,8 +50,7 @@ Bugfixes:
 - Fix our Rakefile release task
 
 
-2014-09-03 Release 2.0.0
-========================
+## 2014-09-03 Release 2.0.0
 
 Summary:
 
@@ -97,8 +93,7 @@ Bugfixes:
 - Use string for host\_iteration titles in future parser, as integers are not
 allowed as titles
 
-2014-07-15 Release 1.1.6
-========================
+## 2014-07-15 Release 1.1.6
 
 Summary:
 
@@ -106,8 +101,7 @@ This release updates metadata.json so the module can be uninstalled and
 upgraded via the puppet module command, as well as fixes a documentation
 typo.
 
-2014-06-06 Release 1.1.5
-========================
+## 2014-06-06 Release 1.1.5
 
 Summary:
 
@@ -116,8 +110,7 @@ This is a bugfix release to get around dependency issues in PMT 3.6.
 Fixes:
 - Remove deprecated Modulefile as it was causing duplicate dependencies with PMT.
 
-2014-06-04 Release 1.1.4
-========================
+## 2014-06-04 Release 1.1.4
 
 Summary:
 
@@ -130,23 +123,20 @@ Features:
 - Add support for $excluded\_facts
 - Add support for $$middleware\_ssl\_fallback
 
-2013-11-13 Release 1.1.3
-========================
+## 2013-11-13 Release 1.1.3
 
 Summary:
 
 STOP IT PUPPET STOP. We've now fixed the problem for REAL, it was a missing
 source and author field in the Modulefile.
 
-2013-11-12 Release 1.1.2
-========================
+## 2013-11-12 Release 1.1.2
 
 Summary:
 
 Metadata.json is persistent and made it into the tarball.
 
-2013-10-21 Release 1.1.1
-========================
+## 2013-10-21 Release 1.1.1
 
 Summary:
 
@@ -159,8 +149,7 @@ Fixes:
 - Grant the rabbitmq admin user configure permissions.
 - Add last\_run to the list of dynamic facts that are filtered out.
 
-2013-10-11 Release 1.1.0
-========================
+## 2013-10-11 Release 1.1.0
 
 Summary:
 
@@ -178,8 +167,7 @@ Features:
 Fixes:
 - Use hash to build anonymous hash (in order to not require future parser)
 
-2013-10-03 Release 1.0.1
-========================
+## 2013-10-03 Release 1.0.1
 
 Summary:
 
@@ -192,8 +180,7 @@ Fixes:
 - Update .travis.yml to test appropriately.
 
 
-2013-09-27 Release 1.0.0
-========================
+## 2013-09-27 Release 1.0.0
 
 Summary:
 The initial stable release of the mcollective module.
