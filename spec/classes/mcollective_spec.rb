@@ -77,7 +77,7 @@ describe 'mcollective' do
     end
 
     describe '#version' do
-      it 'should default to present' do
+      it 'defaults to present' do
         should contain_package('mcollective').with_ensure('present')
       end
 
@@ -99,7 +99,7 @@ describe 'mcollective' do
             facterversion: Facter.version,
           }
         end
-        it 'should default to installed' do
+        it 'defaults to installed' do
           should contain_package('ruby-stomp').with_ensure('installed')
         end
 
@@ -138,7 +138,7 @@ describe 'mcollective' do
     end
 
     describe '#server_config_file' do
-      it 'should default to the right path' do
+      it 'defaults to the right path' do
         should contain_file('mcollective::server').with_path("#{mcollective_config_path}/server.cfg")
       end
 
@@ -149,7 +149,7 @@ describe 'mcollective' do
     end
 
     describe '#server_logfile' do
-      it 'should default to /var/log/mcollective.log' do
+      it 'defaults to /var/log/mcollective.log' do
         should contain_mcollective__server__setting('logfile').with_value('/var/log/mcollective.log')
       end
 
@@ -160,7 +160,7 @@ describe 'mcollective' do
     end
 
     describe '#server_loglevel' do
-      it 'should default to info' do
+      it 'defaults to info' do
         should contain_mcollective__server__setting('loglevel').with_value('info')
       end
 
@@ -171,7 +171,7 @@ describe 'mcollective' do
     end
 
     describe '#server_daemonize' do
-      it 'should default to true' do
+      it 'defaults to true' do
         should contain_mcollective__server__setting('daemonize').with_value('1')
       end
       context 'when true' do
@@ -205,7 +205,7 @@ describe 'mcollective' do
               facterversion: Facter.version,
             }
           end
-          it 'should default to false' do
+          it 'defaults to false' do
             should contain_mcollective__server__setting('daemonize').with_value('0')
           end
         end
@@ -221,7 +221,7 @@ describe 'mcollective' do
               facterversion: Facter.version,
             }
           end
-          it 'should default to false' do
+          it 'defaults to false' do
             should contain_mcollective__server__setting('daemonize').with_value('0')
           end
         end
@@ -237,7 +237,7 @@ describe 'mcollective' do
               facterversion: Facter.version
             }
           end
-          it 'should default to true' do
+          it 'defaults to true' do
             should contain_mcollective__server__setting('daemonize').with_value('1')
           end
         end
@@ -245,7 +245,7 @@ describe 'mcollective' do
     end
 
     describe '#factsource' do
-      it 'should default to yaml' do
+      it 'defaults to yaml' do
         should contain_mcollective__server__setting('factsource').with_value('yaml')
       end
 
@@ -265,7 +265,7 @@ describe 'mcollective' do
 
         describe '#yaml_fact_path' do
           context 'default' do
-            it 'should default to /etc/mcollective/facts.yaml' do
+            it 'defaults to /etc/mcollective/facts.yaml' do
               should contain_mcollective__server__setting('plugin.yaml').with_value("#{mcollective_config_path}/facts.yaml")
             end
             it_should_behave_like 'a refresh-mcollective-metadata file', %r{File.rename\('#{mcollective_config_path}/facts.yaml.new', '#{mcollective_config_path}/facts.yaml'\)}
@@ -371,7 +371,7 @@ describe 'mcollective' do
 
         describe '#yaml_fact_path' do
           context 'default' do
-            it 'should default to /etc/mcollective/facts.yaml' do
+            it 'defaults to /etc/mcollective/facts.yaml' do
               should contain_mcollective__server__setting('plugin.yaml').with_value("#{mcollective_config_path}/facts.yaml")
             end
             it { should_not contain_file("#{mcollective_site_libdir_path}/refresh-mcollective-metadata") }
@@ -405,7 +405,7 @@ describe 'mcollective' do
     end
 
     describe '#factsource' do
-      it 'should default to yaml' do
+      it 'defaults to yaml' do
         should contain_mcollective__server__setting('factsource').with_value('yaml')
       end
 
@@ -418,7 +418,7 @@ describe 'mcollective' do
     end
 
     describe '#connector' do
-      it 'should default to activemq' do
+      it 'defaults to activemq' do
         should contain_mcollective__common__setting('connector').with_value('activemq')
       end
 
@@ -447,7 +447,7 @@ describe 'mcollective' do
 
         describe '#middleware_user' do
           let(:params) { { server: true, middleware_hosts: %w( foo ) } }
-          it 'should default to mcollective' do
+          it 'defaults to mcollective' do
             should contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('mcollective')
           end
 
@@ -459,7 +459,7 @@ describe 'mcollective' do
 
         describe '#middleware_password' do
           let(:params) { { server: true, middleware_hosts: %w( foo ) } }
-          it 'should default to marionette' do
+          it 'defaults to marionette' do
             should contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('marionette')
           end
 
@@ -589,7 +589,7 @@ describe 'mcollective' do
     end
 
     describe '#securityprovider' do
-      it 'should default to psk' do
+      it 'defaults to psk' do
         should contain_mcollective__common__setting('securityprovider').with_value('psk')
       end
 
@@ -621,7 +621,7 @@ describe 'mcollective' do
     end
 
     describe '#rpcauthprovider' do
-      it 'should default to action_policy' do
+      it 'defaults to action_policy' do
         should contain_mcollective__server__setting('rpcauthprovider').with_value('action_policy')
       end
 
@@ -637,7 +637,7 @@ describe 'mcollective' do
     end
 
     describe '#rpcauditprovider' do
-      it 'should default to logfile' do
+      it 'defaults to logfile' do
         should contain_mcollective__server__setting('rpcauditprovider').with_value('logfile')
       end
 
@@ -648,7 +648,7 @@ describe 'mcollective' do
     end
 
     describe '#classesfile' do
-      it 'should default to /var/lib/puppet/state/classes.txt' do
+      it 'defaults to /var/lib/puppet/state/classes.txt' do
         should contain_mcollective__server__setting('classesfile').with_value('/var/lib/puppet/state/classes.txt')
       end
 
@@ -659,7 +659,7 @@ describe 'mcollective' do
     end
 
     describe '#registration' do
-      it 'should default to undef' do
+      it 'defaults to undef' do
         should_not contain_mcollective__server__setting('registration')
       end
 
@@ -750,7 +750,7 @@ describe 'mcollective' do
     end
 
     describe '#version' do
-      it 'should default to present' do
+      it 'defaults to present' do
         should contain_package('mcollective-client').with_ensure('present')
       end
 
@@ -761,7 +761,7 @@ describe 'mcollective' do
     end
 
     describe '#client_config_file' do
-      it 'should default to the right path' do
+      it 'defaults to the right path' do
         should contain_file('mcollective::client').with_path("#{mcollective_config_path}/client.cfg")
       end
 
@@ -772,7 +772,7 @@ describe 'mcollective' do
     end
 
     describe '#connector' do
-      it 'should default to activemq' do
+      it 'defaults to activemq' do
         should contain_mcollective__common__setting('connector').with_value('activemq')
       end
 
@@ -788,7 +788,7 @@ describe 'mcollective' do
 
         describe '#middleware_user' do
           let(:params) { { server: false, client: true, middleware_hosts: %w( foo ) } }
-          it 'should default to mcollective' do
+          it 'defaults to mcollective' do
             should contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('mcollective')
           end
 
@@ -800,7 +800,7 @@ describe 'mcollective' do
 
         describe '#middleware_password' do
           let(:params) { { server: false, client: true, middleware_hosts: %w( foo ) } }
-          it 'should default to marionette' do
+          it 'defaults to marionette' do
             should contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('marionette')
           end
 
@@ -812,7 +812,7 @@ describe 'mcollective' do
 
         describe '#middleware_ssl' do
           let(:params) { { server: false, client: true, middleware_hosts: %w( foo ) } }
-          it 'should default to false' do
+          it 'defaults to false' do
             should_not contain_mcollective__common__setting('plugin.activemq.pool.1.ssl')
           end
 
@@ -854,7 +854,7 @@ describe 'mcollective' do
     end
 
     describe '#securityprovider' do
-      it 'should default to psk' do
+      it 'defaults to psk' do
         should contain_mcollective__common__setting('securityprovider').with_value('psk')
       end
 
