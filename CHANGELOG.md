@@ -1,3 +1,23 @@
+2016-05-21 Release 2.2.0
+========================
+
+Improvements:
+- fix a few typos
+- modulesync with latest voxpupuli defaults (0.6.2)
+- enable splay for cron (#276)
+- configure correct ssl (#281)
+- add OpenBSD support (#220)
+- update hiera lookup support (#220)
+- Remove unneeded puppetlabs-concat dependency (#289)
+- Add possibility to not purge the libdir directory (#291)
+- Add service management configuration option (#292)
+- Enable SSL Ciphers configuration (#290)
+
+Bugfixes:
+- Set correct libdir depending on mco version (#260)
+- set correct runtime dependency for mcollective class and mcollectibe::plugin (#285)
+- always set factsource and plugin.yaml settings with mcollective::server::setting
+
 2015-12-11 Release 2.1.3
 ========================
 
