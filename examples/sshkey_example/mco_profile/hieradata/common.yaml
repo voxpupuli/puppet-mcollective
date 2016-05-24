@@ -1,0 +1,22 @@
+---
+  mcollective::middleware_hosts:
+    - 'middleware.domain.com'
+  mcollective::middleware_user: 'mcollective'
+  mcollective::middleware_password: ENC[PKCS7,MIIBuQYJKoZIh...snip...qn8NT9EkEJenQ==]
+  mcollective::middleware_ssl_port: '61614'
+  mcollective::middleware_ssl: true
+  mcollective::middleware_admin_user: 'admin'
+  mcollective::middleware_admin_password: ENC[PKCS7,MIIBeQYJKoZIh...snip...+AzSGTSq]
+  mcollective::securityprovider: 'sshkey'
+  # Adjusted for puppet 4
+  mcollective::confdir: '/etc/puppetlabs/mcollective'
+  # Adjusted for puppet 4
+  mcollective::libdir: '/usr/local/libexec/mcollective:/usr/libexec/mcollective:/opt/puppetlabs/mcollective'
+  # Reuse puppet ssl infrastructure for secure communications
+  mcollective::middleware_ssl_cert: "/etc/puppetlabs/puppet/ssl/certs/%{::clientcert}.pem"
+  mcollective::middleware_ssl_key: "/etc/puppetlabs/puppet/ssl/private_keys/%{::clientcert}.pem"
+  mcollective::middleware_ssl_ca: "/etc/puppetlabs/puppet/ssl/certs/ca.pem"
+  # Use the dynamic learning method for sshkey
+  mcollective::sshkey_server_learn_public_keys: true
+  mcollective::sshkey_server_overwrite_stored_keys: true
+  mcollective::sshkey_server_send_key: '/etc/ssh/ssh_host_rsa_key.pub'
