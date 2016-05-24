@@ -15,23 +15,20 @@ script:
 matrix:
   fast_finish: true
   include:
-  - rvm: jruby-19mode
+  - rvm: 1.9.3
     env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" CHECK=test
-  - rvm: jruby-19mode
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
+  - rvm: 1.9.3
+    env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" FUTURE_PARSER="yes" CHECK=test
   - rvm: 2.1
     env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" CHECK=test
   - rvm: 2.1
     env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
   - rvm: 2.2
     env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
-  - rvm: 2.3.0
+  - rvm: 2.3.1
     env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=rubocop
-  - rvm: 2.3.0
+  - rvm: 2.3.1
     env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
-  allow_failures:
-    - rvm: 2.3.0
-      env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
 notifications:
   email: false
 deploy:
@@ -44,5 +41,4 @@ deploy:
     # all_branches is required to use tags
     all_branches: true
     # Only publish if our main Ruby target builds
-    rvm: 1.9.3
-    condition: "$FUTURE_PARSER = yes"
+    rvm: 2.2

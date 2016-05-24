@@ -1,5 +1,6 @@
 pkg/
 Gemfile.lock
+Gemfile.local
 vendor/
 .vendor/
 spec/fixtures/

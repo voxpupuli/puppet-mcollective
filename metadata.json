@@ -1,13 +1,16 @@
 {
   "name": "puppet-mcollective",
-  "version": "2.1.3",
+  "version": "2.2.1-rc0",
   "author": "voxpupuli",
   "summary": "Installs, configures, and manages MCollective agents, clients, and middleware of an MCollective cluster.",
   "license": "Apache-2.0",
   "source": "https://github.com/voxpupuli/puppet-mcollective.git",
   "project_page": "https://github.com/voxpupuli/puppet-mcollective",
   "issues_url": "https://github.com/voxpupuli/puppet-mcollective/issues",
-  "tags": [ "voxpupuli", "mcollective" ],
+  "tags": [
+    "voxpupuli",
+    "mcollective"
+  ],
   "requirements": [
     {
       "name": "puppet",

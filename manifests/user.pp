@@ -77,6 +77,7 @@ define mcollective::user(
 
   if $_middleware_ssl or $_securityprovider == 'ssl' {
     file { "${homedir_real}/.mcollective.d/credentials/certs/ca.pem":
+      ensure => 'file',
       source => $_ssl_ca_cert,
       owner  => $username,
       group  => $group,
@@ -84,6 +85,7 @@ define mcollective::user(
     }
 
     file { "${homedir_real}/.mcollective.d/credentials/certs/server_public.pem":
+      ensure => 'file',
       source => $_ssl_server_public,
       owner  => $username,
       group  => $group,
@@ -91,6 +93,7 @@ define mcollective::user(
     }
 
     file { "${homedir_real}/.mcollective.d/credentials/private_keys/server_private.pem":
+      ensure => 'file',
       source => $_ssl_server_private,
       owner  => $username,
       group  => $group,
@@ -102,6 +105,7 @@ define mcollective::user(
     $private_path = "${homedir_real}/.mcollective.d/credentials/private_keys/${callerid}.pem"
     if $private_key {
       file { $private_path:
+        ensure => 'file',
         source =>  $private_key,
         owner  =>  $username,
         group  =>  $group,
@@ -110,6 +114,7 @@ define mcollective::user(
     }
     elsif $private_key_content {
       file { $private_path:
+        ensure  => 'file',
         content => $private_key_content,
         owner   => $username,
         group   => $group,
@@ -119,6 +124,7 @@ define mcollective::user(
     # Preserve old behavior
     elsif $securityprovider == 'ssl' {
       file { $private_path:
+        ensure => 'file',
         source =>  $_ssl_server_private,
         owner  =>  $username,
         group  =>  $group,
@@ -131,6 +137,7 @@ define mcollective::user(
     $cert_path = "${homedir_real}/.mcollective.d/credentials/certs/${callerid}.pem"
     if $certificate {
       file { $cert_path:
+        ensure => 'file',
         source =>  $certificate,
         owner  =>  $username,
         group  =>  $group,
@@ -139,6 +146,7 @@ define mcollective::user(
     }
     elsif $certificate_content {
       file { $cert_path:
+        ensure  => 'file',
         content =>  $certificate_content,
         owner   =>  $username,
         group   =>  $group,
@@ -148,6 +156,7 @@ define mcollective::user(
     #preserve old behavior
     else {
       file { $cert_path:
+        ensure => 'file',
         source =>  $ssl_server_public,
         owner  =>  $username,
         group  =>  $group,
@@ -181,6 +190,7 @@ define mcollective::user(
     $public_path = "${homedir_real}/.mcollective.d/credentials/public_keys/${callerid}.pem"
     if $public_key {
       file { $public_path:
+        ensure => 'file',
         source => $public_key,
         owner  => $username,
         group  => $group,
@@ -189,6 +199,7 @@ define mcollective::user(
     }
     elsif $public_key_content {
       file { $public_path:
+        ensure  => 'file',
         content => $public_key_content,
         owner   => $username,
         group   => $group,

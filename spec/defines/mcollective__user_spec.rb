@@ -21,8 +21,8 @@ describe 'mcollective::user' do
   describe '#securityprovider' do
     context 'ssl' do
       let(:params) { default_params.merge(securityprovider: 'ssl') }
-      it { should contain_file('/home/nagios/.mcollective.d/credentials/certs/nagios.pem') }
-      it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/nagios.pem') }
+      it { should contain_file('/home/nagios/.mcollective.d/credentials/certs/nagios.pem').with_ensure('file') }
+      it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/nagios.pem').with_ensure('file') }
       it { should contain_mcollective__user__setting('nagios:plugin.ssl_client_public') }
       it { should contain_mcollective__user__setting('nagios:plugin.ssl_client_public').with_value('/home/nagios/.mcollective.d/credentials/certs/nagios.pem') }
       it { should contain_mcollective__user__setting('nagios:plugin.ssl_client_private') }
@@ -31,7 +31,7 @@ describe 'mcollective::user' do
 
     context 'pies' do
       let(:params) { default_params.merge(securityprovider: 'pies') }
-      it { should_not contain_file('/home/nagios/.mcollective.d/credentials/certs/nagios.pem') }
+      it { should_not contain_file('/home/nagios/.mcollective.d/credentials/certs/nagios.pem').with_ensure('file') }
       it { should_not contain_mcollective__user__setting('nagios:plugin.ssl_client_public') }
       it { should_not contain_mcollective__user__setting('nagios:plugin.ssl_client_private') }
       it { should_not contain_mcollective__user__setting('nagios:plugin.ssl_server_public') }
@@ -42,7 +42,7 @@ describe 'mcollective::user' do
     context 'true and "true"' do
       [true, 'true',].each do |value|
         let(:params) { default_params.merge(middleware_ssl: value) }
-        it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/server_private.pem') }
+        it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/server_private.pem').with_ensure('file') }
         it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert') }
         it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert').with_value('/home/nagios/.mcollective.d/credentials/certs/server_public.pem') }
       end

@@ -1,3 +1,4 @@
+---
 HOSTS:
   debian-78-x64:
     roles:
@@ -7,3 +8,5 @@ HOSTS:
     hypervisor: vagrant
 CONFIG:
   type: foss
+...
+# vim: syntax=yaml
