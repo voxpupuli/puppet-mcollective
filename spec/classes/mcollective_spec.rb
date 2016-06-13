@@ -2,7 +2,7 @@ require 'spec_helper'
 
 def mcollective_config_path
   case Puppet.version
-  when /^4.+$/
+  when %r{^4.+$}
     '/etc/puppetlabs/mcollective'
   else
     '/etc/mcollective'
@@ -11,7 +11,7 @@ end
 
 def mcollective_core_libdir_path
   case Puppet.version
-  when /^4.+$/
+  when %r{^4.+$}
     '/opt/puppetlabs/mcollective/plugins'
   else
     '/usr/libexec/mcollective'
@@ -20,7 +20,7 @@ end
 
 def mcollective_site_libdir_path
   case Puppet.version
-  when /^4.+$/
+  when %r{^4.+$}
     '/opt/puppetlabs/mcollective'
   else
     '/usr/local/libexec/mcollective'
@@ -848,7 +848,7 @@ describe 'mcollective' do
 
         context 'psk' do
           let(:params) { { server: false, client: true, securityprovider: 'psk' } }
-          it { should contain_file('mcollective::client').with_content(/datacat/) }
+          it { should contain_file('mcollective::client').with_content(%r{datacat}) }
         end
       end
     end
