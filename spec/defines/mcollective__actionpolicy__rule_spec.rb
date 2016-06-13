@@ -31,7 +31,7 @@ describe 'mcollective::actionpolicy::rule', type: :define do
                        'facts'    => '*',
                        'classes'  => '*'
                      }
-                   ],)
+                   ])
     end
   end
 
@@ -55,7 +55,7 @@ describe 'mcollective::actionpolicy::rule', type: :define do
                        'facts'    => 'environment=dev and !customer=acme',
                        'classes'  => '*'
                      }
-                   ],)
+                   ])
     end
   end
 end
