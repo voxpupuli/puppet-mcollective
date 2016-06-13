@@ -9,7 +9,7 @@ describe 'mcollective::user' do
       osfamily: 'RedHat',
       operatingsystem: 'CentOS',
       mco_version: '2.8.4',
-      path: ['/usr/bin', '/usr/sbin'],
+      path: ['/usr/bin', '/usr/sbin']
     }
   end
   let(:title) { 'nagios' }
@@ -40,7 +40,7 @@ describe 'mcollective::user' do
 
   describe '#middleware_ssl' do
     context 'true and "true"' do
-      [true, 'true',].each do |value|
+      [true, 'true'].each do |value|
         let(:params) { default_params.merge(middleware_ssl: value) }
         it { should contain_file('/home/nagios/.mcollective.d/credentials/private_keys/server_private.pem').with_ensure('file') }
         it { should contain_mcollective__user__setting('nagios plugin.activemq.pool.1.ssl.cert') }

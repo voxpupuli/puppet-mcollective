@@ -9,7 +9,7 @@ describe 'mcollective::user::setting' do
       osfamily: 'RedHat',
       operatingsystem: 'CentOS',
       mco_version: '2.8.4',
-      path: ['/usr/bin', '/usr/sbin'],
+      path: ['/usr/bin', '/usr/sbin']
     }
   end
   context 'nagios:some_setting' do

@@ -36,7 +36,7 @@ describe 'mcollective' do
       osfamily: 'RedHat',
       operatingsystem: 'CentOS',
       mco_version: '2.8.4',
-      path: ['/usr/bin', '/usr/sbin'],
+      path: ['/usr/bin', '/usr/sbin']
     }
   end
 
@@ -96,7 +96,7 @@ describe 'mcollective' do
             path: ['/usr/bin', '/usr/sbin'],
             operatingsystem: 'Debian',
             puppetversion: Puppet.version,
-            facterversion: Facter.version,
+            facterversion: Facter.version
           }
         end
         it 'defaults to installed' do
@@ -202,7 +202,7 @@ describe 'mcollective' do
               operatingsystem: 'Ubuntu',
               operatingsystemrelease: '14.04',
               puppetversion: Puppet.version,
-              facterversion: Facter.version,
+              facterversion: Facter.version
             }
           end
           it 'defaults to false' do
@@ -218,7 +218,7 @@ describe 'mcollective' do
               operatingsystem: 'Ubuntu',
               operatingsystemrelease: '14.10',
               puppetversion: Puppet.version,
-              facterversion: Facter.version,
+              facterversion: Facter.version
             }
           end
           it 'defaults to false' do
@@ -259,7 +259,7 @@ describe 'mcollective' do
             number_of_cores: '42',
             non_string: 69,
             facterversion: '2.4.4',
-            puppetversion: Puppet.version,
+            puppetversion: Puppet.version
           }
         end
 
@@ -291,7 +291,7 @@ describe 'mcollective' do
                   osfamily: 'RedHat',
                   operatingsystem: 'CentOS',
                   path: ['/usr/bin', '/usr/sbin'],
-                  mco_version: '2.8.4',
+                  mco_version: '2.8.4'
                 }
               end
               it_should_behave_like 'a refresh-mcollective-metadata file', %r{#!/usr/bin/env ruby}
@@ -310,7 +310,7 @@ describe 'mcollective' do
                   osfamily: 'RedHat',
                   operatingsystem: 'CentOS',
                   path: ['/usr/bin', '/usr/sbin'],
-                  mco_version: '2.8.4',
+                  mco_version: '2.8.4'
                 }
               end
               it_should_behave_like 'a refresh-mcollective-metadata file', %r{#!/opt/puppet/bin/ruby}
@@ -328,7 +328,7 @@ describe 'mcollective' do
               osfamily: 'RedHat',
               operatingsystem: 'CentOS',
               path: ['/usr/bin', '/usr/sbin'],
-              mco_version: '2.8.4',
+              mco_version: '2.8.4'
             }
           end
 
@@ -365,7 +365,7 @@ describe 'mcollective' do
             puppetversion: Puppet.version,
             osfamily: 'RedHat',
             operatingsystem: 'CentOS',
-            path: ['/usr/bin', '/usr/sbin'],
+            path: ['/usr/bin', '/usr/sbin']
           }
         end
 
@@ -479,7 +479,7 @@ describe 'mcollective' do
           end
 
           context 'true and "true"' do
-            [true, 'true',].each do |value|
+            [true, 'true'].each do |value|
               let(:common_params) { { server: true, middleware_hosts: %w( foo ), middleware_ssl: value } }
               let(:params) { common_params }
               it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
@@ -695,7 +695,7 @@ describe 'mcollective' do
           mco_version: '2.7.0',
           osfamily: 'RedHat',
           operatingsystem: 'CentOS',
-          path: ['/usr/bin', '/usr/sbin'],
+          path: ['/usr/bin', '/usr/sbin']
         }
       end
       it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
@@ -721,7 +721,7 @@ describe 'mcollective' do
           mco_version: '2.7.0',
           osfamily: 'RedHat',
           operatingsystem: 'CentOS',
-          path: ['/usr/bin', '/usr/sbin'],
+          path: ['/usr/bin', '/usr/sbin']
         }
       end
       it { should contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
@@ -817,7 +817,7 @@ describe 'mcollective' do
           end
 
           context 'true and "true"' do
-            [true, 'true',].each do |value|
+            [true, 'true'].each do |value|
               let(:common_params) { { server: true, middleware_hosts: %w( foo ), middleware_ssl: value } }
               let(:params) { common_params }
               it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }

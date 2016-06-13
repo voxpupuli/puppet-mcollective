@@ -9,14 +9,14 @@ describe 'mcollective::actionpolicy::rule', type: :define do
       osfamily: 'RedHat',
       operatingsystem: 'CentOS',
       mco_version: '2.8.4',
-      path: ['/usr/bin', '/usr/sbin'],
+      path: ['/usr/bin', '/usr/sbin']
     }
   end
   context 'default-puppet' do
     let(:title) { 'default-puppet' }
     let(:params) do
       {
-        agent: 'puppet',
+        agent: 'puppet'
       }
     end
 
@@ -29,8 +29,8 @@ describe 'mcollective::actionpolicy::rule', type: :define do
                        'callerid' => '*',
                        'actions'  => '*',
                        'facts'    => '*',
-                       'classes'  => '*',
-                     },
+                       'classes'  => '*'
+                     }
                    ],)
     end
   end
@@ -40,7 +40,7 @@ describe 'mcollective::actionpolicy::rule', type: :define do
     let(:params) do
       {
         agent: 'puppet',
-        fact_filter: 'environment=dev and !customer=acme',
+        fact_filter: 'environment=dev and !customer=acme'
       }
     end
 
@@ -53,8 +53,8 @@ describe 'mcollective::actionpolicy::rule', type: :define do
                        'callerid' => '*',
                        'actions'  => '*',
                        'facts'    => 'environment=dev and !customer=acme',
-                       'classes'  => '*',
-                     },
+                       'classes'  => '*'
+                     }
                    ],)
     end
   end
