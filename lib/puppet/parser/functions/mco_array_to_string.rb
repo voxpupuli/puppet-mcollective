@@ -5,5 +5,5 @@ Puppet::Parser::Functions.newfunction(:mco_array_to_string, type: :rvalue) do |a
     raise ArgumentError, "Expected an array, but got a #{args[0].class}"
   end
 
-  args[0].collect(&:to_s)
+  args[0].map(&:to_s)
 end
