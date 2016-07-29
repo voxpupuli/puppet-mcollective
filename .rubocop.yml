@@ -259,7 +259,7 @@ Style/Documentation:
 Style/DefWithParentheses:
   Enabled: true
 
-Style/DeprecatedHashMethods:
+Style/PreferredHashMethods:
   Enabled: true
 
 Style/DotPosition:
