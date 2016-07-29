@@ -124,12 +124,12 @@ class mcollective (
   }
 
   if $client or $server {
-    contain mcollective::common
+    contain ::mcollective::common
   }
   if $client {
-    contain mcollective::client
+    contain ::mcollective::client
   }
   if $server {
-    contain mcollective::server
+    contain ::mcollective::server
   }
 }

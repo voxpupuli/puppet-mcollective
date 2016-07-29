@@ -6,8 +6,8 @@ class mcollective::client {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  contain mcollective::client::install
-  contain mcollective::client::config
+  contain ::mcollective::client::install
+  contain ::mcollective::client::config
 
   Class['mcollective::client::install'] ->
   Class['mcollective::client::config']
