@@ -424,7 +424,7 @@ describe 'mcollective' do
 
       context 'activemq' do
         describe '#middleware_hosts' do
-          let(:params) { { server: true, middleware_hosts: %w( foo bar ) } }
+          let(:params) { { server: true, middleware_hosts: %w(foo bar) } }
           it { should contain_mcollective__common__setting('plugin.activemq.pool.size').with_value(2) }
           it { should contain_mcollective__common__setting('plugin.activemq.pool.1.host').with_value('foo') }
           it { should contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61613') }
@@ -446,31 +446,31 @@ describe 'mcollective' do
         end
 
         describe '#middleware_user' do
-          let(:params) { { server: true, middleware_hosts: %w( foo ) } }
+          let(:params) { { server: true, middleware_hosts: %w(foo) } }
           it 'defaults to mcollective' do
             should contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('mcollective')
           end
 
           context 'bob' do
-            let(:params) { { server: true, middleware_hosts: %w( foo ), middleware_user: 'bob' } }
+            let(:params) { { server: true, middleware_hosts: %w(foo), middleware_user: 'bob' } }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('bob') }
           end
         end
 
         describe '#middleware_password' do
-          let(:params) { { server: true, middleware_hosts: %w( foo ) } }
+          let(:params) { { server: true, middleware_hosts: %w(foo) } }
           it 'defaults to marionette' do
             should contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('marionette')
           end
 
           context 'bob' do
-            let(:params) { { server: true, middleware_hosts: %w( foo ), middleware_password: 'bob' } }
+            let(:params) { { server: true, middleware_hosts: %w(foo), middleware_password: 'bob' } }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('bob') }
           end
         end
 
         describe '#middleware_ssl' do
-          let(:params) { { server: true, middleware_hosts: %w( foo ) } }
+          let(:params) { { server: true, middleware_hosts: %w(foo) } }
           context 'default' do
             it { should_not contain_mcollective__common__setting('plugin.activemq.pool.1.ssl') }
             it { should_not contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem") }
@@ -480,7 +480,7 @@ describe 'mcollective' do
 
           context 'true and "true"' do
             [true, 'true'].each do |value|
-              let(:common_params) { { server: true, middleware_hosts: %w( foo ), middleware_ssl: value } }
+              let(:common_params) { { server: true, middleware_hosts: %w(foo), middleware_ssl: value } }
               let(:params) { common_params }
               it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
               it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
@@ -488,7 +488,7 @@ describe 'mcollective' do
           end
 
           context 'true' do
-            let(:common_params) { { server: true, middleware_hosts: %w( foo ), middleware_ssl: true } }
+            let(:common_params) { { server: true, middleware_hosts: %w(foo), middleware_ssl: true } }
             let(:params) { common_params }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
@@ -536,7 +536,7 @@ describe 'mcollective' do
         end
 
         describe '#middleware_port' do
-          let(:common_params) { { server: true, middleware_hosts: %w( foo ) } }
+          let(:common_params) { { server: true, middleware_hosts: %w(foo) } }
           let(:params) { common_params }
           context 'default' do
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61613') }
@@ -549,7 +549,7 @@ describe 'mcollective' do
         end
 
         describe '#middleware_ssl_port' do
-          let(:common_params) { { server: true, middleware_hosts: %w( foo ), middleware_ssl: true } }
+          let(:common_params) { { server: true, middleware_hosts: %w(foo), middleware_ssl: true } }
           let(:params) { common_params }
           context 'default' do
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61614') }
@@ -778,7 +778,7 @@ describe 'mcollective' do
 
       context 'activemq' do
         describe '#middleware_hosts' do
-          let(:params) { { server: false, client: true, middleware_hosts: %w( foo bar ) } }
+          let(:params) { { server: false, client: true, middleware_hosts: %w(foo bar) } }
           it { should contain_mcollective__common__setting('plugin.activemq.pool.size').with_value(2) }
           it { should contain_mcollective__common__setting('plugin.activemq.pool.1.host').with_value('foo') }
           it { should contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61613') }
@@ -787,38 +787,38 @@ describe 'mcollective' do
         end
 
         describe '#middleware_user' do
-          let(:params) { { server: false, client: true, middleware_hosts: %w( foo ) } }
+          let(:params) { { server: false, client: true, middleware_hosts: %w(foo) } }
           it 'defaults to mcollective' do
             should contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('mcollective')
           end
 
           context 'bob' do
-            let(:params) { { server: false, client: true, middleware_hosts: %w( foo ), middleware_user: 'bob' } }
+            let(:params) { { server: false, client: true, middleware_hosts: %w(foo), middleware_user: 'bob' } }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('bob') }
           end
         end
 
         describe '#middleware_password' do
-          let(:params) { { server: false, client: true, middleware_hosts: %w( foo ) } }
+          let(:params) { { server: false, client: true, middleware_hosts: %w(foo) } }
           it 'defaults to marionette' do
             should contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('marionette')
           end
 
           context 'bob' do
-            let(:params) { { server: false, client: true, middleware_hosts: %w( foo ), middleware_password: 'bob' } }
+            let(:params) { { server: false, client: true, middleware_hosts: %w(foo), middleware_password: 'bob' } }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('bob') }
           end
         end
 
         describe '#middleware_ssl' do
-          let(:params) { { server: false, client: true, middleware_hosts: %w( foo ) } }
+          let(:params) { { server: false, client: true, middleware_hosts: %w(foo) } }
           it 'defaults to false' do
             should_not contain_mcollective__common__setting('plugin.activemq.pool.1.ssl')
           end
 
           context 'true and "true"' do
             [true, 'true'].each do |value|
-              let(:common_params) { { server: true, middleware_hosts: %w( foo ), middleware_ssl: value } }
+              let(:common_params) { { server: true, middleware_hosts: %w(foo), middleware_ssl: value } }
               let(:params) { common_params }
               it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
               it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
@@ -826,13 +826,13 @@ describe 'mcollective' do
           end
 
           context 'true' do
-            let(:params) { { server: false, client: true, middleware_hosts: %w( foo ), middleware_ssl: true } }
+            let(:params) { { server: false, client: true, middleware_hosts: %w(foo), middleware_ssl: true } }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
             it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
 
             describe '#ssl_server_fallback' do
               context 'set' do
-                let(:params) { { server: false, client: true, middleware_hosts: %w( foo ), middleware_ssl: true, middleware_ssl_fallback: true } }
+                let(:params) { { server: false, client: true, middleware_hosts: %w(foo), middleware_ssl: true, middleware_ssl_fallback: true } }
                 it { should contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
               end
             end
