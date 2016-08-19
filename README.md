@@ -114,7 +114,7 @@ for more information about how to generate these.
 ```puppet
 node 'broker1.example.com' {
   # Please see
-  # https://github.com/puppetlabs/puppetlabs-mcollective/blob/master/examples/mco_profile/manifests/middleware/activemq.pp
+  # https://github.com/voxpupuli/puppet-mcollective/blob/master/examples/ssl_example/mco_profile/manifests/middleware/activemq.pp
   # for this as setting up activemq with a truststore can be quite complex.
 }
 
@@ -701,5 +701,5 @@ contributors to follow so that we can have a chance of keeping on top of things.
 
 You can read the complete module contribution guide [on the Puppet Labs wiki.](http://projects.puppetlabs.com/projects/module-site/wiki/Module_contributing)
 
-Current build status is: [![Build Status](https://travis-ci.org/puppetlabs/puppetlabs-mcollective.png)](https://travis-ci.org/puppetlabs/puppetlabs-mcollective)
+Current build status is: [![Build Status](https://api.travis-ci.org/voxpupuli/puppet-mcollective.png)](https://travis-ci.org/voxpupuli/puppet-mcollective)
 
