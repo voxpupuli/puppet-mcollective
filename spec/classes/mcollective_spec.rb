@@ -645,6 +645,11 @@ describe 'mcollective' do
         let(:params) { { server: true, rpcauditprovider: 'logfile' } }
         it { should contain_mcollective__server__setting('plugin.rpcaudit.logfile').with_value('/var/log/mcollective-audit.log') }
       end
+
+      context 'defined logfile path' do
+        let(:params) { { server: true, rpcauditprovider: 'logfile', rpcauditlogfile: '/var/log/mcollective-audit-alt.log' } }
+        it { should contain_mcollective__server__setting('plugin.rpcaudit.logfile').with_value('/var/log/mcollective-audit-alt.log') }
+      end
     end
 
     describe '#classesfile' do

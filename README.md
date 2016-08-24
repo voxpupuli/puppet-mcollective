@@ -302,6 +302,10 @@ the server.
 String: defaults to 'logfile'.  Name of the RPC Audit Provider to use on the
 server.
 
+##### `rpcauditlogfile`
+String: defaults to '/var/log/mcollective-audit.log'.  Name of the audit
+logfile.
+
 ##### `registration`
 
 String: defaults to undef.  Name of the registration plugin to use on the
