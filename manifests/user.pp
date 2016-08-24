@@ -122,7 +122,7 @@ define mcollective::user(
       }
     }
     # Preserve old behavior
-    elsif $securityprovider == 'ssl' {
+    elsif $_securityprovider == 'ssl' {
       file { $private_path:
         ensure => 'file',
         source =>  $_ssl_server_private,
@@ -133,7 +133,7 @@ define mcollective::user(
     }
   }
 
-  if $securityprovider == 'ssl' {
+  if $_securityprovider == 'ssl' {
     $cert_path = "${homedir_real}/.mcollective.d/credentials/certs/${callerid}.pem"
     if $certificate {
       file { $cert_path:
@@ -186,7 +186,7 @@ define mcollective::user(
     }
   }
 
-  if $securityprovider == 'sshkey' {
+  if $_securityprovider == 'sshkey' {
     $public_path = "${homedir_real}/.mcollective.d/credentials/public_keys/${callerid}.pem"
     if $public_key {
       file { $public_path:
