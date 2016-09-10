@@ -7,8 +7,8 @@ RSpec.configure do |c|
     puppetversion: Puppet.version,
     facterversion: Facter.version
   }
-  default_facts += YAML.read_file('default_facts.yml') if File.exist?('default_facts.yml')
-  default_facts += YAML.read_file('default_facts.yml') if File.exist?('default_module_facts.yml')
+  default_facts.merge!(YAML.load(File.read(File.expand_path('../default_facts.yml', __FILE__)))) if File.exist?(File.expand_path('../default_facts.yml', __FILE__))
+  default_facts.merge!(YAML.load(File.read(File.expand_path('../default_module_facts.yml', __FILE__)))) if File.exist?(File.expand_path('../default_module_facts.yml', __FILE__))
   c.default_facts = default_facts
 end
 

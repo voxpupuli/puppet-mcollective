@@ -1,3 +1,13 @@
+## 2016-09-08 Release 2.3.0
+
+- Modulesync with latest Vox Pupuli defaults
+- Create mco client config if also using sshkeyauth
+- Add missing ssl_server_private
+- User ssl files should thave an ensure parameter
+- Fix puppet>=4 path handling
+- Fix \_securityprovider call in user.pp
+- Fix broken links in the README.md
+
 ## 2016-05-21 Release 2.2.0
 
 Improvements:
