@@ -13,6 +13,6 @@ class mcollective::server::config::rpcauditprovider::logfile {
   }
 
   mcollective::server::setting { 'plugin.rpcaudit.logfile':
-    value => '/var/log/mcollective-audit.log',
+    value => $mcollective::rpcauditlogfile,
   }
 }

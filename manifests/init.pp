@@ -24,6 +24,7 @@ class mcollective (
   $classesfile      = '/var/lib/puppet/state/classes.txt',
   $rpcauthprovider  = 'action_policy',
   $rpcauditprovider = 'logfile',
+  $rpcauditlogfile  = '/var/log/mcollective-audit.log',
   $registration     = undef,
   $core_libdir      = $mcollective::defaults::core_libdir,
   $site_libdir      = $mcollective::defaults::site_libdir,
