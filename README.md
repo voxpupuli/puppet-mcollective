@@ -1,9 +1,11 @@
 # MCollective module for Puppet
 
-[![Puppet Forge](http://img.shields.io/puppetforge/v/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
-[![Puppet Forge downloads](https://img.shields.io/puppetforge/dt/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
-[![Puppet Forge score](https://img.shields.io/puppetforge/f/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-mcollective.png)](https://travis-ci.org/voxpupuli/puppet-mcollective)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-mcollective.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-mcollective)
+[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-mcollective/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-mcollective)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
 
 #### Table of Contents
 
