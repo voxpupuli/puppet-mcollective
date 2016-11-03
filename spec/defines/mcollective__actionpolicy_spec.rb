@@ -14,6 +14,6 @@ describe 'mcollective::actionpolicy' do
   end
   context 'dummy' do
     let(:title) { 'dummy' }
-    it { should contain_datacat('mcollective::actionpolicy dummy') }
+    it { is_expected.to contain_datacat('mcollective::actionpolicy dummy') }
   end
 end
