@@ -21,7 +21,7 @@ describe 'mcollective::actionpolicy::rule', type: :define do
     end
 
     it do
-      should contain_datacat_fragment('mcollective::actionpolicy::rule default-puppet'). \
+      is_expected.to contain_datacat_fragment('mcollective::actionpolicy::rule default-puppet'). \
         with_target('mcollective::actionpolicy puppet'). \
         with_data('lines' => [
                     {
@@ -45,7 +45,7 @@ describe 'mcollective::actionpolicy::rule', type: :define do
     end
 
     it do
-      should contain_datacat_fragment('mcollective::actionpolicy::rule default-puppet'). \
+      is_expected.to contain_datacat_fragment('mcollective::actionpolicy::rule default-puppet'). \
         with_target('mcollective::actionpolicy puppet'). \
         with_data('lines' => [
                     {
