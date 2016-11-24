@@ -274,6 +274,10 @@ the pre-shared key to secure the collective with.
 String: defaults to 'yaml'.  Name of the factsource plugin to use on the
 server.
 
+##### `fact_cron_splay`
+Boolean: defaults to false. Spread the cron tasks so that not all the nodes
+runs the facter cronjob at the exact same time.
+
 ##### `yaml_fact_path`
 
 String: defaults to '/etc/mcollective/facts.yaml'.  Name of the file the
