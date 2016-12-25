@@ -1,6 +1,6 @@
 {
   "name": "puppet-mcollective",
-  "version": "2.4.0",
+  "version": "2.4.1-rc0",
   "author": "Vox Pupuli",
   "summary": "Installs, configures, and manages MCollective agents, clients, and middleware of an MCollective cluster.",
   "license": "Apache-2.0",
