@@ -1,3 +1,12 @@
+# Changelog
+
+## 2016-12-25 Release 2.4.0
+
+- Modulesync with latest Vox Pupuli defaults
+- Avoid compilation failure with strict_variables=true
+- Make the rpcaudit.logfile configurable
+- Add documentation for fact_cron_splay parameter
+
 ## 2016-09-08 Release 2.3.0
 
 - Modulesync with latest Vox Pupuli defaults
