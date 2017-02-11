@@ -7,7 +7,7 @@ before_install:
   - bundle -v
   - rm Gemfile.lock || true
   - gem update --system
-  - gem update bundler
+  - gem install bundler -v '~>1.13.0'
   - gem --version
   - bundle -v
 script:
