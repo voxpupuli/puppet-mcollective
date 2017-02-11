@@ -1,5 +1,10 @@
 # Changelog
 
+## 2017-02-11 Release 2.5.0
+
+This is the last release with Puppet3 support!
+* Modulesync
+
 ## 2016-12-25 Release 2.4.0
 
 - Modulesync with latest Vox Pupuli defaults
@@ -83,15 +88,15 @@ Backwards-incompatible Features:
 - Removed the following parameters:
   - mcollective::middleware
   - mcollective::activemq\_template
-	- mcollective::activemq\_memoryUsage
-	- mcollective::activemq\_storeUsage
-	- mcollective::activemq\_tempUsage
-	- mcollective::activemq\_console
-	- mcollective::activemq\_config
-	- mcollective::activemq\_confdir
-	- mcollective::rabbitmq\_confdir
-	- mcollective::rabbitmq\_vhost
-	- mcollective::delete\_guest\_user
+  - mcollective::activemq\_memoryUsage
+  - mcollective::activemq\_storeUsage
+  - mcollective::activemq\_tempUsage
+  - mcollective::activemq\_console
+  - mcollective::activemq\_config
+  - mcollective::activemq\_confdir
+  - mcollective::rabbitmq\_confdir
+  - mcollective::rabbitmq\_vhost
+  - mcollective::delete\_guest\_user
 
 Features:
 - Make the confdir configurable
@@ -100,12 +105,12 @@ Features:
 - Allow mcollective::collectives to be an array
 - Added the following parameters to class mcollective:
   - client\_package
-	- confdir
-	- rabbitmq\_vhost
-	- service\_name
-	- server\_package
-	- ruby\_stomp\_package
-	- ssl\_client\_certs\_dir
+  - confdir
+  - rabbitmq\_vhost
+  - service\_name
+  - server\_package
+  - ruby\_stomp\_package
+  - ssl\_client\_certs\_dir
 
 Bugfixes:
 - Honor yaml\_fact\_path parameter in all the relevant places
