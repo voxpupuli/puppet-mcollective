@@ -4,10 +4,9 @@ define mcollective::actionpolicy::rule(
   $action      = 'allow',
   $callerid    = '*',
   $actions     = '*',
-  $fact_filter = '*',
+  String $fact_filter = '*',
   $classes     = '*'
 ) {
-  validate_string($fact_filter)
   datacat_fragment { "mcollective::actionpolicy::rule ${title}":
     target => "mcollective::actionpolicy ${agent}",
     data   => {
