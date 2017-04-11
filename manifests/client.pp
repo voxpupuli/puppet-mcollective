@@ -9,6 +9,6 @@ class mcollective::client {
   contain ::mcollective::client::install
   contain ::mcollective::client::config
 
-  Class['mcollective::client::install'] ->
-  Class['mcollective::client::config']
+  Class['mcollective::client::install']
+  -> Class['mcollective::client::config']
 }
