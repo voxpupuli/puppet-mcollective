@@ -8,7 +8,7 @@ class mcollective::server {
   contain ::mcollective::server::config
   contain ::mcollective::server::service
 
-  Class['mcollective::server::install'] ->
-  Class['mcollective::server::config']  ~>
-  Class['mcollective::server::service']
+  Class['mcollective::server::install']
+  -> Class['mcollective::server::config']
+  ~> Class['mcollective::server::service']
 }

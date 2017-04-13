@@ -7,7 +7,7 @@ class mcollective::common {
   contain ::mcollective::common::install
   contain ::mcollective::common::config
 
-  Class['mcollective::common::install'] ->
-  Class['mcollective::common::config']
+  Class['mcollective::common::install']
+  -> Class['mcollective::common::config']
 
 }

@@ -68,7 +68,7 @@ class mco_profile::middleware::activemq (
     trustcacerts => true,
     notify       => Class['activemq::service'],
     require      => File["${confdir}/ca.pem"],
-  } ->
+  }
 
   file { "${confdir}/truststore.jks":
     owner   => 'activemq',
@@ -90,8 +90,8 @@ class mco_profile::middleware::activemq (
       File["${confdir}/server_cert.pem"],
       File["${confdir}/server_private.pem"],
     ],
-  } ->
-  file { "${confdir}/keystore.jks":
+  }
+  -> file { "${confdir}/keystore.jks":
     owner   => 'activemq',
     group   => 'activemq',
     mode    => '0400',
