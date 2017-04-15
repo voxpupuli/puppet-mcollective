@@ -12,6 +12,7 @@ describe 'mcollective::actionpolicy::rule', type: :define do
       path: ['/usr/bin', '/usr/sbin']
     }
   end
+
   context 'default-puppet' do
     let(:title) { 'default-puppet' }
     let(:params) do

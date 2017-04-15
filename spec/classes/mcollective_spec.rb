@@ -59,6 +59,7 @@ describe 'mcollective' do
 
     context 'false' do
       let(:params) { { server: false } }
+
       it { is_expected.not_to contain_class('mcollective::server') }
     end
   end
@@ -67,11 +68,13 @@ describe 'mcollective' do
     describe '#manage_packages' do
       context 'true' do
         let(:params) { { server: true, manage_packages: true } }
+
         it { is_expected.to contain_package('mcollective') }
       end
 
       context 'false' do
         let(:params) { { server: true, manage_packages: false } }
+
         it { is_expected.not_to contain_package('mcollective') }
       end
     end
@@ -83,6 +86,7 @@ describe 'mcollective' do
 
       context '42' do
         let(:params) { { version: '42' } }
+
         it { is_expected.to contain_package('mcollective').with_ensure('42') }
       end
     end
@@ -99,17 +103,20 @@ describe 'mcollective' do
             facterversion: Facter.version
           }
         end
+
         it 'defaults to installed' do
           is_expected.to contain_package('ruby-stomp').with_ensure('installed')
         end
 
         context 'latest' do
           let(:params) { { ruby_stomp_ensure: 'latest' } }
+
           it { is_expected.to contain_package('ruby-stomp').with_ensure('latest') }
         end
 
         context '1.2.10-1puppetlabs1' do
           let(:params) { { ruby_stomp_ensure: '1.2.10-1puppetlabs1' } }
+
           it { is_expected.to contain_package('ruby-stomp').with_ensure('1.2.10-1puppetlabs1') }
         end
       end
@@ -122,6 +129,7 @@ describe 'mcollective' do
 
       context 'set' do
         let(:params) { { main_collective: 'bob' } }
+
         it { is_expected.to contain_mcollective__common__setting('main_collective').with_value('bob') }
       end
     end
@@ -133,6 +141,7 @@ describe 'mcollective' do
 
       context 'set' do
         let(:params) { { collectives: 'henry' } }
+
         it { is_expected.to contain_mcollective__common__setting('collectives').with_value('henry') }
       end
     end
@@ -144,6 +153,7 @@ describe 'mcollective' do
 
       context '/foo' do
         let(:params) { { server_config_file: '/foo' } }
+
         it { is_expected.to contain_file('mcollective::server').with_path('/foo') }
       end
     end
@@ -155,6 +165,7 @@ describe 'mcollective' do
 
       context '/tmp/log' do
         let(:params) { { server_logfile: '/tmp/log' } }
+
         it { is_expected.to contain_mcollective__server__setting('logfile').with_value('/tmp/log') }
       end
     end
@@ -166,6 +177,7 @@ describe 'mcollective' do
 
       context 'debug' do
         let(:params) { { server_loglevel: 'debug' } }
+
         it { is_expected.to contain_mcollective__server__setting('loglevel').with_value('debug') }
       end
     end
@@ -176,19 +188,23 @@ describe 'mcollective' do
       end
       context 'when true' do
         let(:params) { { server_daemonize: true } }
+
         it { is_expected.to contain_mcollective__server__setting('daemonize').with_value('1') }
       end
       context 'when false' do
         let(:params) { { server_daemonize: false } }
+
         it { is_expected.to contain_mcollective__server__setting('daemonize').with_value('0') }
       end
       describe '#backwards compatibility' do
         context 'when \'1\'' do
           let(:params) { { server_daemonize: '1' } }
+
           it { is_expected.to contain_mcollective__server__setting('daemonize').with_value('1') }
         end
         context 'when \'0\'' do
           let(:params) { { server_daemonize: '0' } }
+
           it { is_expected.to contain_mcollective__server__setting('daemonize').with_value('0') }
         end
       end
@@ -205,6 +221,7 @@ describe 'mcollective' do
               facterversion: Facter.version
             }
           end
+
           it 'defaults to false' do
             is_expected.to contain_mcollective__server__setting('daemonize').with_value('0')
           end
@@ -221,6 +238,7 @@ describe 'mcollective' do
               facterversion: Facter.version
             }
           end
+
           it 'defaults to false' do
             is_expected.to contain_mcollective__server__setting('daemonize').with_value('0')
           end
@@ -237,6 +255,7 @@ describe 'mcollective' do
               facterversion: Facter.version
             }
           end
+
           it 'defaults to true' do
             is_expected.to contain_mcollective__server__setting('daemonize').with_value('1')
           end
@@ -268,13 +287,14 @@ describe 'mcollective' do
             it 'defaults to /etc/mcollective/facts.yaml' do
               is_expected.to contain_mcollective__server__setting('plugin.yaml').with_value("#{mcollective_config_path}/facts.yaml")
             end
-            it_should_behave_like 'a refresh-mcollective-metadata file', %r{File.rename\('#{mcollective_config_path}/facts.yaml.new', '#{mcollective_config_path}/facts.yaml'\)}
+            it_behaves_like 'a refresh-mcollective-metadata file', %r{File.rename\('#{mcollective_config_path}/facts.yaml.new', '#{mcollective_config_path}/facts.yaml'\)}
           end
 
           context '/tmp/facts' do
             let(:params) { { yaml_fact_path: '/tmp/facts' } }
+
             it { is_expected.to contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
-            it_should_behave_like 'a refresh-mcollective-metadata file', %r{File.rename\('/tmp/facts.new', '/tmp/facts'\)}
+            it_behaves_like 'a refresh-mcollective-metadata file', %r{File.rename\('/tmp/facts.new', '/tmp/facts'\)}
           end
         end
 
@@ -294,7 +314,8 @@ describe 'mcollective' do
                   mco_version: '2.8.4'
                 }
               end
-              it_should_behave_like 'a refresh-mcollective-metadata file', %r{#!/usr/bin/env ruby}
+
+              it_behaves_like 'a refresh-mcollective-metadata file', %r{#!/usr/bin/env ruby}
             end
           end
 
@@ -313,7 +334,8 @@ describe 'mcollective' do
                   mco_version: '2.8.4'
                 }
               end
-              it_should_behave_like 'a refresh-mcollective-metadata file', %r{#!/opt/puppet/bin/ruby}
+
+              it_behaves_like 'a refresh-mcollective-metadata file', %r{#!/opt/puppet/bin/ruby}
             end
           end
         end
@@ -333,12 +355,13 @@ describe 'mcollective' do
           end
 
           context 'default (false)' do
-            it { is_expected.to contain_cron('refresh-mcollective-metadata').with_minute(%w(0 15 30 45)) }
+            it { is_expected.to contain_cron('refresh-mcollective-metadata').with_minute(%w[0 15 30 45]) }
           end
 
           context 'true' do
             let(:params) { { fact_cron_splay: true } }
-            it { is_expected.not_to contain_cron('refresh-mcollective-metadata').with_minute(%w(0 15 30 45)) }
+
+            it { is_expected.not_to contain_cron('refresh-mcollective-metadata').with_minute(%w[0 15 30 45]) }
             it { is_expected.to contain_cron('refresh-mcollective-metadata') }
           end
         end
@@ -350,6 +373,7 @@ describe 'mcollective' do
 
           context 'false' do
             let(:params) { { yaml_fact_cron: false } }
+
             it { is_expected.not_to contain_cron('refresh-mcollective-metadata') }
           end
         end
@@ -379,6 +403,7 @@ describe 'mcollective' do
 
           context '/tmp/facts' do
             let(:params) { { yaml_fact_path: '/tmp/facts' } }
+
             it { is_expected.to contain_mcollective__server__setting('plugin.yaml').with_value('/tmp/facts') }
             it { is_expected.not_to contain_file("#{mcollective_site_libdir_path}/refresh-mcollective-metadata") }
           end
@@ -391,6 +416,7 @@ describe 'mcollective' do
 
           context 'false' do
             let(:params) { { yaml_fact_cron: false } }
+
             it { is_expected.not_to contain_cron('refresh-mcollective-metadata') }
           end
         end
@@ -398,6 +424,7 @@ describe 'mcollective' do
 
       context 'facter' do
         let(:params) { { server: true, factsource: 'facter' } }
+
         it { is_expected.to contain_mcollective__server__setting('factsource').with_value('facter') }
         it { is_expected.to contain_mcollective__server__setting('fact_cache_time').with_value('300') }
         it { is_expected.to contain_package('mcollective-facter-facts') }
@@ -411,6 +438,7 @@ describe 'mcollective' do
 
       context 'facter' do
         let(:params) { { server: true, factsource: 'facter' } }
+
         it { is_expected.to contain_mcollective__server__setting('factsource').with_value('facter') }
         it { is_expected.to contain_mcollective__server__setting('fact_cache_time').with_value('300') }
         it { is_expected.to contain_package('mcollective-facter-facts') }
@@ -424,7 +452,8 @@ describe 'mcollective' do
 
       context 'activemq' do
         describe '#middleware_hosts' do
-          let(:params) { { server: true, middleware_hosts: %w(foo bar) } }
+          let(:params) { { server: true, middleware_hosts: %w[foo bar] } }
+
           it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.size').with_value(2) }
           it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.host').with_value('foo') }
           it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61613') }
@@ -435,42 +464,49 @@ describe 'mcollective' do
         describe '#activemq_heartbeat' do
           let(:common_params) { { server: true } }
           let(:params) { common_params }
+
           context 'default' do
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.heartbeat_interval').with_value('30') }
           end
 
           context 'set' do
             let(:params) { common_params.merge(middleware_heartbeat_interval: '20') }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.heartbeat_interval').with_value('20') }
           end
         end
 
         describe '#middleware_user' do
-          let(:params) { { server: true, middleware_hosts: %w(foo) } }
+          let(:params) { { server: true, middleware_hosts: %w[foo] } }
+
           it 'defaults to mcollective' do
             is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('mcollective')
           end
 
           context 'bob' do
-            let(:params) { { server: true, middleware_hosts: %w(foo), middleware_user: 'bob' } }
+            let(:params) { { server: true, middleware_hosts: %w[foo], middleware_user: 'bob' } }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('bob') }
           end
         end
 
         describe '#middleware_password' do
-          let(:params) { { server: true, middleware_hosts: %w(foo) } }
+          let(:params) { { server: true, middleware_hosts: %w[foo] } }
+
           it 'defaults to marionette' do
             is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('marionette')
           end
 
           context 'bob' do
-            let(:params) { { server: true, middleware_hosts: %w(foo), middleware_password: 'bob' } }
+            let(:params) { { server: true, middleware_hosts: %w[foo], middleware_password: 'bob' } }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('bob') }
           end
         end
 
         describe '#middleware_ssl' do
-          let(:params) { { server: true, middleware_hosts: %w(foo) } }
+          let(:params) { { server: true, middleware_hosts: %w[foo] } }
+
           context 'default' do
             it { is_expected.not_to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl') }
             it { is_expected.not_to contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem") }
@@ -480,26 +516,30 @@ describe 'mcollective' do
 
           context 'true and "true"' do
             [true, 'true'].each do |value|
-              let(:common_params) { { server: true, middleware_hosts: %w(foo), middleware_ssl: value } }
+              let(:common_params) { { server: true, middleware_hosts: %w[foo], middleware_ssl: value } }
               let(:params) { common_params }
+
               it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
               it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
             end
           end
 
           context 'true' do
-            let(:common_params) { { server: true, middleware_hosts: %w(foo), middleware_ssl: true } }
+            let(:common_params) { { server: true, middleware_hosts: %w[foo], middleware_ssl: true } }
             let(:params) { common_params }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
 
             describe '#middleware_ssl_ca' do
               context 'when defaulting to ssl_ca_cert (backwards compatibility)' do
                 let(:params) { common_params.merge(ssl_ca_cert: 'puppet:///modules/foo/ca_cert.pem') }
+
                 it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem").with_source('puppet:///modules/foo/ca_cert.pem') }
               end
               context 'when set' do
                 let(:params) { common_params.merge(middleware_ssl_ca: '/var/lib/puppet/ssl/certs/ca.pem') }
+
                 it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem").with_source('/var/lib/puppet/ssl/certs/ca.pem') }
               end
             end
@@ -507,10 +547,12 @@ describe 'mcollective' do
             describe '#middleware_ssl_cert' do
               context 'when defaulting to ssl_server_public (backwards compatibility)' do
                 let(:params) { common_params.merge(ssl_server_public: 'puppet:///modules/foo/server_public.pem') }
+
                 it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_cert.pem").with_source('puppet:///modules/foo/server_public.pem') }
               end
               context 'when set' do
                 let(:params) { common_params.merge(middleware_ssl_cert: '/var/lib/puppet/ssl/certs/host.example.com.pem') }
+
                 it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_cert.pem").with_source('/var/lib/puppet/ssl/certs/host.example.com.pem') }
               end
             end
@@ -518,10 +560,12 @@ describe 'mcollective' do
             describe '#middleware_ssl_key' do
               context 'when defaulting to ssl_server_private (backwards compatibility)' do
                 let(:params) { common_params.merge(ssl_server_private: 'puppet:///modules/foo/server_private.pem') }
+
                 it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_key.pem").with_source('puppet:///modules/foo/server_private.pem') }
               end
               context 'when set' do
                 let(:params) { common_params.merge(middleware_ssl_key: '/var/lib/puppet/ssl/private_keys/host.example.com.pem') }
+
                 it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_key.pem").with_source('/var/lib/puppet/ssl/private_keys/host.example.com.pem') }
               end
             end
@@ -529,6 +573,7 @@ describe 'mcollective' do
             describe '#middleware_ssl_fallback' do
               context 'set' do
                 let(:params) { common_params.merge(middleware_ssl_fallback: true) }
+
                 it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
               end
             end
@@ -536,27 +581,31 @@ describe 'mcollective' do
         end
 
         describe '#middleware_port' do
-          let(:common_params) { { server: true, middleware_hosts: %w(foo) } }
+          let(:common_params) { { server: true, middleware_hosts: %w[foo] } }
           let(:params) { common_params }
+
           context 'default' do
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61613') }
           end
 
           context 'set' do
             let(:params) { common_params.merge(middleware_port: '1701') }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('1701') }
           end
         end
 
         describe '#middleware_ssl_port' do
-          let(:common_params) { { server: true, middleware_hosts: %w(foo), middleware_ssl: true } }
+          let(:common_params) { { server: true, middleware_hosts: %w[foo], middleware_ssl: true } }
           let(:params) { common_params }
+
           context 'default' do
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61614') }
           end
 
           context 'set' do
             let(:params) { common_params.merge(middleware_ssl_port: '1702') }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('1702') }
           end
         end
@@ -565,6 +614,7 @@ describe 'mcollective' do
       context 'rabbitmq' do
         let(:common_params) { { server: true, connector: 'rabbitmq' } }
         let(:params) { common_params }
+
         describe '#rabbitmq_vhost' do
           context 'default' do
             it { is_expected.to contain_mcollective__common__setting('plugin.rabbitmq.vhost').with_value('/mcollective') }
@@ -572,6 +622,7 @@ describe 'mcollective' do
 
           context 'set' do
             let(:params) { common_params.merge(rabbitmq_vhost: '/pies') }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.rabbitmq.vhost').with_value('/pies') }
           end
         end
@@ -582,6 +633,7 @@ describe 'mcollective' do
 
           context 'set' do
             let(:params) { common_params.merge(middleware_heartbeat_interval: '20') }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.rabbitmq.heartbeat_interval').with_value('20') }
           end
         end
@@ -595,6 +647,7 @@ describe 'mcollective' do
 
       context 'ssl' do
         let(:params) { { server: true, securityprovider: 'ssl' } }
+
         it { is_expected.to contain_mcollective__server__setting('plugin.ssl_server_public').with_value("#{mcollective_config_path}/ssl/server_public.pem") }
         it { is_expected.to contain_mcollective__server__setting('plugin.ssl_server_private').with_value("#{mcollective_config_path}/ssl/server_private.pem") }
         it { is_expected.to contain_file("#{mcollective_config_path}/ssl/server_public.pem") }
@@ -608,6 +661,7 @@ describe 'mcollective' do
 
           context 'set' do
             let(:params) { { server: true, securityprovider: 'ssl', ssl_client_certs: 'puppet:///modules/foo/clients' } }
+
             it { is_expected.to contain_file("#{mcollective_config_path}/ssl/clients").with_source('puppet:///modules/foo/clients') }
           end
         end
@@ -615,6 +669,7 @@ describe 'mcollective' do
 
       context 'psk' do
         let(:params) { { server: true, securityprovider: 'psk' } }
+
         it { is_expected.to contain_mcollective__common__setting('securityprovider').with_value('psk') }
         it { is_expected.to contain_mcollective__common__setting('plugin.psk').with_value('changemeplease') }
       end
@@ -627,11 +682,13 @@ describe 'mcollective' do
 
       context 'action_policy' do
         let(:params) { { server: true, rpcauthprovider: 'action_policy' } }
+
         it { is_expected.to contain_mcollective__server__setting('plugin.actionpolicy.allow_unconfigured').with_value('1') }
       end
 
       context 'allow_unconfigured' do
         let(:params) { { server: true, rpcauthprovider: 'action_policy', allowunconfigured: '0' } }
+
         it { is_expected.to contain_mcollective__server__setting('plugin.actionpolicy.allow_unconfigured').with_value('0') }
       end
     end
@@ -643,11 +700,13 @@ describe 'mcollective' do
 
       context 'logfile' do
         let(:params) { { server: true, rpcauditprovider: 'logfile' } }
+
         it { is_expected.to contain_mcollective__server__setting('plugin.rpcaudit.logfile').with_value('/var/log/mcollective-audit.log') }
       end
 
       context 'defined logfile path' do
         let(:params) { { server: true, rpcauditprovider: 'logfile', rpcauditlogfile: '/var/log/mcollective-audit-alt.log' } }
+
         it { is_expected.to contain_mcollective__server__setting('plugin.rpcaudit.logfile').with_value('/var/log/mcollective-audit-alt.log') }
       end
     end
@@ -659,6 +718,7 @@ describe 'mcollective' do
 
       context '/tmp/classes.txt' do
         let(:params) { { server: true, classesfile: '/tmp/classes.txt' } }
+
         it { is_expected.to contain_mcollective__server__setting('classesfile').with_value('/tmp/classes.txt') }
       end
     end
@@ -670,6 +730,7 @@ describe 'mcollective' do
 
       context 'redis' do
         let(:params) { { server: true, registration: 'redis' } }
+
         it { is_expected.to contain_mcollective__server__setting('registration').with_value('redis') }
       end
     end
@@ -678,11 +739,13 @@ describe 'mcollective' do
   describe '#client' do
     context 'true' do
       let(:params) { { client: true } }
+
       it { is_expected.to contain_class('mcollective::client') }
     end
 
     context 'false' do
       let(:params) { { client: false } }
+
       it { is_expected.not_to contain_class('mcollective::client') }
     end
   end
@@ -703,11 +766,13 @@ describe 'mcollective' do
           path: ['/usr/bin', '/usr/sbin']
         }
       end
+
       it { is_expected.to contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
     end
 
     context 'set' do
       let(:params) { { core_libdir: '/usr/libexec/fishy/fishy' } }
+
       it { is_expected.to contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:/usr/libexec/fishy/fishy") }
     end
   end
@@ -729,11 +794,13 @@ describe 'mcollective' do
           path: ['/usr/bin', '/usr/sbin']
         }
       end
+
       it { is_expected.to contain_mcollective__common__setting('libdir').with_value("#{mcollective_site_libdir_path}:#{mcollective_core_libdir_path}") }
     end
 
     context 'set' do
       let(:params) { { site_libdir: '/usr/local/fishy/fishy' } }
+
       it { is_expected.to contain_file('/usr/local/fishy/fishy') }
       it { is_expected.to contain_mcollective__common__setting('libdir').with_value('/usr/local/fishy/fishy') }
     end
@@ -745,11 +812,13 @@ describe 'mcollective' do
     describe '#manage_packages' do
       context 'true' do
         let(:params) { { client: true, manage_packages: true } }
+
         it { is_expected.to contain_package('mcollective-client') }
       end
 
       context 'false' do
         let(:params) { { client: true, manage_packages: false } }
+
         it { is_expected.not_to contain_package('mcollective-client') }
       end
     end
@@ -761,6 +830,7 @@ describe 'mcollective' do
 
       context '42' do
         let(:params) { { client: true, version: '42' } }
+
         it { is_expected.to contain_package('mcollective-client').with_ensure('42') }
       end
     end
@@ -772,6 +842,7 @@ describe 'mcollective' do
 
       context '/foo' do
         let(:params) { { client: true, client_config_file: '/foo' } }
+
         it { is_expected.to contain_file('mcollective::client').with_path('/foo') }
       end
     end
@@ -783,7 +854,8 @@ describe 'mcollective' do
 
       context 'activemq' do
         describe '#middleware_hosts' do
-          let(:params) { { server: false, client: true, middleware_hosts: %w(foo bar) } }
+          let(:params) { { server: false, client: true, middleware_hosts: %w[foo bar] } }
+
           it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.size').with_value(2) }
           it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.host').with_value('foo') }
           it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61613') }
@@ -792,52 +864,60 @@ describe 'mcollective' do
         end
 
         describe '#middleware_user' do
-          let(:params) { { server: false, client: true, middleware_hosts: %w(foo) } }
+          let(:params) { { server: false, client: true, middleware_hosts: %w[foo] } }
+
           it 'defaults to mcollective' do
             is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('mcollective')
           end
 
           context 'bob' do
-            let(:params) { { server: false, client: true, middleware_hosts: %w(foo), middleware_user: 'bob' } }
+            let(:params) { { server: false, client: true, middleware_hosts: %w[foo], middleware_user: 'bob' } }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.user').with_value('bob') }
           end
         end
 
         describe '#middleware_password' do
-          let(:params) { { server: false, client: true, middleware_hosts: %w(foo) } }
+          let(:params) { { server: false, client: true, middleware_hosts: %w[foo] } }
+
           it 'defaults to marionette' do
             is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('marionette')
           end
 
           context 'bob' do
-            let(:params) { { server: false, client: true, middleware_hosts: %w(foo), middleware_password: 'bob' } }
+            let(:params) { { server: false, client: true, middleware_hosts: %w[foo], middleware_password: 'bob' } }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.password').with_value('bob') }
           end
         end
 
         describe '#middleware_ssl' do
-          let(:params) { { server: false, client: true, middleware_hosts: %w(foo) } }
+          let(:params) { { server: false, client: true, middleware_hosts: %w[foo] } }
+
           it 'defaults to false' do
             is_expected.not_to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl')
           end
 
           context 'true and "true"' do
             [true, 'true'].each do |value|
-              let(:common_params) { { server: true, middleware_hosts: %w(foo), middleware_ssl: value } }
+              let(:common_params) { { server: true, middleware_hosts: %w[foo], middleware_ssl: value } }
               let(:params) { common_params }
+
               it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
               it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
             end
           end
 
           context 'true' do
-            let(:params) { { server: false, client: true, middleware_hosts: %w(foo), middleware_ssl: true } }
+            let(:params) { { server: false, client: true, middleware_hosts: %w[foo], middleware_ssl: true } }
+
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
 
             describe '#ssl_server_fallback' do
               context 'set' do
-                let(:params) { { server: false, client: true, middleware_hosts: %w(foo), middleware_ssl: true, middleware_ssl_fallback: true } }
+                let(:params) { { server: false, client: true, middleware_hosts: %w[foo], middleware_ssl: true, middleware_ssl_fallback: true } }
+
                 it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('1') }
               end
             end
@@ -848,11 +928,13 @@ describe 'mcollective' do
       describe '#securityprovider' do
         context 'ssl' do
           let(:params) { { server: false, client: true, securityprovider: 'ssl' } }
+
           it { is_expected.to contain_file('mcollective::client').with_ensure('absent') }
         end
 
         context 'psk' do
           let(:params) { { server: false, client: true, securityprovider: 'psk' } }
+
           it { is_expected.to contain_file('mcollective::client').with_content(%r{datacat}) }
         end
       end
@@ -865,12 +947,14 @@ describe 'mcollective' do
 
       context 'ssl' do
         let(:params) { { server: true, securityprovider: 'ssl' } }
+
         it { is_expected.to contain_mcollective__server__setting('plugin.ssl_server_public').with_value("#{mcollective_config_path}/ssl/server_public.pem") }
         it { is_expected.to contain_file("#{mcollective_config_path}/ssl/server_public.pem") }
       end
 
       context 'psk' do
         let(:params) { { server: true, securityprovider: 'psk' } }
+
         it { is_expected.to contain_mcollective__common__setting('securityprovider').with_value('psk') }
         it { is_expected.to contain_mcollective__common__setting('plugin.psk').with_value('changemeplease') }
       end
