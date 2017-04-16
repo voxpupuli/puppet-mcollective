@@ -13,6 +13,7 @@ describe 'mcollective::plugin' do
     }
   end
   let(:title) { 'fishcakes' }
+
   context '#source' do
     context 'default (unset)' do
       it { is_expected.to contain_datacat_fragment('mcollective::plugin fishcakes') }
@@ -22,6 +23,7 @@ describe 'mcollective::plugin' do
 
     context 'set' do
       let(:params) { { source: 'puppet:///modules/my_module/fishcakes' } }
+
       it { is_expected.to contain_datacat_fragment('mcollective::plugin fishcakes') }
       it { is_expected.to contain_datacat_fragment('mcollective::plugin fishcakes').with_target('mcollective::site_libdir') }
       it { is_expected.to contain_datacat_fragment('mcollective::plugin fishcakes').with_data('source_path' => ['puppet:///modules/my_module/fishcakes']) }
@@ -36,6 +38,7 @@ describe 'mcollective::plugin' do
 
     context 'true' do
       let(:params) { { package: true } }
+
       it { is_expected.to contain_package('mcollective-fishcakes-agent') }
 
       context '#client' do
@@ -45,6 +48,7 @@ describe 'mcollective::plugin' do
 
         context 'true' do
           let(:params) { { package: true, client: true } }
+
           it { is_expected.to contain_package('mcollective-fishcakes-client') }
         end
       end

@@ -12,9 +12,11 @@ describe 'mcollective::user::setting' do
       path: ['/usr/bin', '/usr/sbin']
     }
   end
+
   context 'nagios:some_setting' do
     let(:title) { 'nagios:some_setting' }
     let(:params) { { 'username' => 'nagios', 'value' => 'pie', :setting => 'some_setting' } }
+
     it { is_expected.to contain_mcollective__setting('mcollective::user::setting nagios:some_setting') }
     it { is_expected.to contain_mcollective__setting('mcollective::user::setting nagios:some_setting').with_setting('some_setting') }
     it { is_expected.to contain_mcollective__setting('mcollective::user::setting nagios:some_setting').with_value('pie') }

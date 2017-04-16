@@ -12,9 +12,11 @@ describe 'mcollective::server::setting' do
       path: ['/usr/bin', '/usr/sbin']
     }
   end
+
   context 'some_setting' do
     let(:title) { 'some_setting' }
     let(:params) { { 'value' => 'pie' } }
+
     it { is_expected.to contain_mcollective__setting('mcollective::server::setting some_setting') }
     it { is_expected.to contain_mcollective__setting('mcollective::server::setting some_setting').with_setting('some_setting') }
     it { is_expected.to contain_mcollective__setting('mcollective::server::setting some_setting').with_value('pie') }
