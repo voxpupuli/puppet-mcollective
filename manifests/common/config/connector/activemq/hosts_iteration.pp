@@ -7,10 +7,17 @@ define mcollective::common::config::connector::activemq::hosts_iteration {
   }
 
   $middleware_ssl = str2bool($mcollective::middleware_ssl)
+  $middleware_multiple_ports = str2bool($mcollective::middleware_multiple_ports)
 
-  $port = $middleware_ssl ? {
-    true    => $mcollective::middleware_ssl_port,
-    default => $mcollective::middleware_port,
+  $port = $middleware_multiple_ports ? {
+    true    => $middleware_ssl ? {
+      true    => $mcollective::middleware_ssl_ports[$name - 1],
+      default => $mcollective::middleware_ports[$name - 1],
+    },
+    default => $middleware_ssl ? {
+      true    => $mcollective::middleware_ssl_port,
+      default => $mcollective::middleware_port,
+    }
   }
 
   $fallback = $mcollective::middleware_ssl_fallback ? {
