@@ -609,6 +609,58 @@ describe 'mcollective' do
             it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('1702') }
           end
         end
+
+        describe '#middleware_multiple_ports' do
+          describe '#middleware_ports' do
+            let(:common_params) { { server: true, middleware_multiple_ports: true } }
+
+            context 'default' do
+              let(:params) { common_params.merge(middleware_hosts: %w[foo]) }
+
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61613') }
+            end
+
+            context 'set' do
+              let(:params) { common_params.merge(middleware_hosts: %w[foo], middleware_ports: %w[1701]) }
+
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('1701') }
+            end
+
+            context 'set lists hosts and ports' do
+              let(:params) { common_params.merge(middleware_hosts: %w[foo bar], middleware_ports: %w[1701 1702]) }
+
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.host').with_value('foo') }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.2.host').with_value('bar') }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('1701') }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.2.port').with_value('1702') }
+            end
+          end
+
+          describe '#middleware_ssl_ports' do
+            let(:common_params) { { server: true, middleware_multiple_ports: true, middleware_ssl: true } }
+
+            context 'default' do
+              let(:params) { common_params.merge(middleware_hosts: %w[foo]) }
+
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('61614') }
+            end
+
+            context 'set' do
+              let(:params) { common_params.merge(middleware_hosts: %w[foo], middleware_ssl_ports: %w[1702]) }
+
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('1702') }
+            end
+
+            context 'set lists hosts and ports' do
+              let(:params) { common_params.merge(middleware_hosts: %w[foo bar], middleware_ssl_ports: %w[1702 1703]) }
+
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.host').with_value('foo') }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.2.host').with_value('bar') }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.port').with_value('1702') }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.2.port').with_value('1703') }
+            end
+          end
+        end
       end
 
       context 'rabbitmq' do
