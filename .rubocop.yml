@@ -11,6 +11,7 @@ AllCops:
     - spec/fixtures/**/*
     - Gemfile
     - Rakefile
+    - Guardfile
     - files/**/*
 Lint/ConditionPosition:
   Enabled: True
@@ -503,6 +504,10 @@ Style/ClosingParenthesisIndentation:
 
 # RSpec
 
+RSpec/BeforeAfterAll:
+  Exclude:
+    - spec/acceptance/**/*
+
 # We don't use rspec in this way
 RSpec/DescribeClass:
   Enabled: False
@@ -520,6 +525,10 @@ RSpec/RepeatedDescription:
   Enabled: False
 
 RSpec/NestedGroups:
+  Enabled: False
+
+# this is broken on ruby1.9
+Style/IndentHeredoc:
   Enabled: False
 
 # disable Yaml safe_load. This is needed to support ruby2.0.0 development envs
