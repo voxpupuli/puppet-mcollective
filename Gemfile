@@ -35,6 +35,7 @@ group :test do
   gem 'github_changelog_generator', '~> 1.13.0',                    :require => false if RUBY_VERSION < '2.2.2'
   gem 'rack', '~> 1.0',                                             :require => false if RUBY_VERSION < '2.2.2'
   gem 'github_changelog_generator',                                 :require => false if RUBY_VERSION >= '2.2.2'
+  gem 'parallel_tests',                                             :require => false
 end
 
 group :development do
