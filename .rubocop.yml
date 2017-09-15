@@ -52,7 +52,7 @@ Lint/AmbiguousOperator:
 Lint/AssignmentInCondition:
   Enabled: True
 
-Style/SpaceBeforeComment:
+Layout/SpaceBeforeComment:
   Enabled: True
 
 Style/AndOr:
@@ -120,7 +120,7 @@ Lint/UselessAssignment:
 Lint/Void:
   Enabled: True
 
-Style/AccessModifierIndentation:
+Layout/AccessModifierIndentation:
   Enabled: True
 
 Style/AccessorMethodName:
@@ -129,13 +129,13 @@ Style/AccessorMethodName:
 Style/Alias:
   Enabled: True
 
-Style/AlignArray:
+Layout/AlignArray:
   Enabled: True
 
-Style/AlignHash:
+Layout/AlignHash:
   Enabled: True
 
-Style/AlignParameters:
+Layout/AlignParameters:
   Enabled: True
 
 Metrics/BlockNesting:
@@ -153,7 +153,7 @@ Style/BracesAroundHashParameters:
 Style/CaseEquality:
   Enabled: True
 
-Style/CaseIndentation:
+Layout/CaseIndentation:
   Enabled: True
 
 Style/CharacterLiteral:
@@ -187,64 +187,64 @@ Style/WordArray:
 Style/UnneededPercentQ:
   Enabled: True
 
-Style/Tab:
+Layout/Tab:
   Enabled: True
 
-Style/SpaceBeforeSemicolon:
+Layout/SpaceBeforeSemicolon:
   Enabled: True
 
-Style/TrailingBlankLines:
+Layout/TrailingBlankLines:
   Enabled: True
 
-Style/SpaceInsideBlockBraces:
+Layout/SpaceInsideBlockBraces:
   Enabled: True
 
-Style/SpaceInsideBrackets:
+Layout/SpaceInsideBrackets:
   Enabled: True
 
-Style/SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   Enabled: True
 
-Style/SpaceInsideParens:
+Layout/SpaceInsideParens:
   Enabled: True
 
-Style/LeadingCommentSpace:
+Layout/LeadingCommentSpace:
   Enabled: True
 
-Style/SpaceBeforeFirstArg:
+Layout/SpaceBeforeFirstArg:
   Enabled: True
 
-Style/SpaceAfterColon:
+Layout/SpaceAfterColon:
   Enabled: True
 
-Style/SpaceAfterComma:
+Layout/SpaceAfterComma:
   Enabled: True
 
-Style/SpaceAfterMethodName:
+Layout/SpaceAfterMethodName:
   Enabled: True
 
-Style/SpaceAfterNot:
+Layout/SpaceAfterNot:
   Enabled: True
 
-Style/SpaceAfterSemicolon:
+Layout/SpaceAfterSemicolon:
   Enabled: True
 
-Style/SpaceAroundEqualsInParameterDefault:
+Layout/SpaceAroundEqualsInParameterDefault:
   Enabled: True
 
-Style/SpaceAroundOperators:
+Layout/SpaceAroundOperators:
   Enabled: True
 
-Style/SpaceBeforeBlockBraces:
+Layout/SpaceBeforeBlockBraces:
   Enabled: True
 
-Style/SpaceBeforeComma:
+Layout/SpaceBeforeComma:
   Enabled: True
 
 Style/CollectionMethods:
   Enabled: True
 
-Style/CommentIndentation:
+Layout/CommentIndentation:
   Enabled: True
 
 Style/ColonMethodCall:
@@ -269,7 +269,7 @@ Style/DefWithParentheses:
 Style/PreferredHashMethods:
   Enabled: True
 
-Style/DotPosition:
+Layout/DotPosition:
   EnforcedStyle: trailing
 
 Style/DoubleNegation:
@@ -278,25 +278,25 @@ Style/DoubleNegation:
 Style/EachWithObject:
   Enabled: True
 
-Style/EmptyLineBetweenDefs:
+Layout/EmptyLineBetweenDefs:
   Enabled: True
 
-Style/IndentArray:
+Layout/IndentArray:
   Enabled: True
 
-Style/IndentHash:
+Layout/IndentHash:
   Enabled: True
 
-Style/IndentationConsistency:
+Layout/IndentationConsistency:
   Enabled: True
 
-Style/IndentationWidth:
+Layout/IndentationWidth:
   Enabled: True
 
-Style/EmptyLines:
+Layout/EmptyLines:
   Enabled: True
 
-Style/EmptyLinesAroundAccessModifier:
+Layout/EmptyLinesAroundAccessModifier:
   Enabled: True
 
 Style/EmptyLiteral:
@@ -315,7 +315,7 @@ Style/MethodDefParentheses:
 Style/LineEndConcatenation:
   Enabled: True
 
-Style/TrailingWhitespace:
+Layout/TrailingWhitespace:
   Enabled: True
 
 Style/StringLiterals:
@@ -467,9 +467,6 @@ Metrics/ParameterLists:
 Lint/RequireParentheses:
   Enabled: True
 
-Style/SpaceBeforeFirstArg:
-  Enabled: True
-
 Style/ModuleFunction:
   Enabled: True
 
@@ -485,7 +482,7 @@ Style/Encoding:
 Style/BlockDelimiters:
   Enabled: True
 
-Style/MultilineBlockLayout:
+Layout/MultilineBlockLayout:
   Enabled: True
 
 # 'Complexity' is very relative
@@ -499,7 +496,7 @@ Metrics/PerceivedComplexity:
 Lint/UselessAssignment:
   Enabled: True
 
-Style/ClosingParenthesisIndentation:
+Layout/ClosingParenthesisIndentation:
   Enabled: True
 
 # RSpec
@@ -528,7 +525,7 @@ RSpec/NestedGroups:
   Enabled: False
 
 # this is broken on ruby1.9
-Style/IndentHeredoc:
+Layout/IndentHeredoc:
   Enabled: False
 
 # disable Yaml safe_load. This is needed to support ruby2.0.0 development envs
