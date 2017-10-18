@@ -1,30 +1,15 @@
 require 'spec_helper'
 
 def mcollective_config_path
-  case Puppet.version
-  when %r{^4.+$}
-    '/etc/puppetlabs/mcollective'
-  else
-    '/etc/mcollective'
-  end
+  '/etc/puppetlabs/mcollective'
 end
 
 def mcollective_core_libdir_path
-  case Puppet.version
-  when %r{^4.+$}
-    '/opt/puppetlabs/mcollective/plugins'
-  else
-    '/usr/libexec/mcollective'
-  end
+  '/opt/puppetlabs/mcollective/plugins'
 end
 
 def mcollective_site_libdir_path
-  case Puppet.version
-  when %r{^4.+$}
-    '/opt/puppetlabs/mcollective'
-  else
-    '/usr/local/libexec/mcollective'
-  end
+  '/opt/puppetlabs/mcollective'
 end
 
 describe 'mcollective' do
