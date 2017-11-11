@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="puppet_class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1>MCollective module for Puppet</h1>
+
+<p><a href="https://travis-ci.org/voxpupuli/puppet-mcollective"><img src="https://travis-ci.org/voxpupuli/puppet-mcollective.png?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/voxpupuli/puppet-mcollective"><img src="https://coveralls.io/repos/github/voxpupuli/puppet-mcollective/badge.svg?branch=master" alt="Code Coverage"></a>
+<a href="https://forge.puppetlabs.com/puppet/mcollective"><img src="https://img.shields.io/puppetforge/v/puppet/mcollective.svg" alt="Puppet Forge"></a>
+<a href="https://forge.puppetlabs.com/puppet/mcollective"><img src="https://img.shields.io/puppetforge/dt/puppet/mcollective.svg" alt="Puppet Forge - downloads"></a>
+<a href="https://forge.puppetlabs.com/puppet/mcollective"><img src="https://img.shields.io/puppetforge/e/puppet/mcollective.svg" alt="Puppet Forge - endorsement"></a>
+<a href="https://forge.puppetlabs.com/puppet/mcollective"><img src="https://img.shields.io/puppetforge/f/puppet/mcollective.svg" alt="Puppet Forge - scores"></a></p>
+
+<h4>Table of Contents</h4>
+
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#module-description">Module Description - What the module does and why it is useful</a></li>
+<li><a href="#setup">Setup - The basics of getting started with mcollective</a>
+
+<ul>
+<li><a href="#what-the-mcollective-module-affects">What the mcollective module affects</a></li>
+<li><a href="#beginning-with-mcollective">Beginning with mcollective</a></li>
+</ul></li>
+<li><a href="#usage">Usage - Configuration options and additional functionality</a></li>
+<li><a href="#reference">Reference - An under-the-hood peek at what the module is doing and how</a></li>
+<li><a href="#limitations">Limitations - OS compatibility, etc.</a></li>
+<li><a href="#development">Development - Guide for contributing to the module</a></li>
+</ol>
+
+<h2>Overview</h2>
+
+<p>The mcollective module installs, configures, and manages the mcollective
+agents, and clients of an MCollective cluster.</p>
+
+<h2>Module Description</h2>
+
+<p>The mcollective module handles installing and configuring mcollective across a
+range of operating systems and distributions.  Where possible we follow the
+standards laid down by the
+<a href="http://docs.puppetlabs.com/mcollective/deploy/standard.html">MCollective Standard Deployment guide</a>.</p>
+
+<h3>MCollective Terminology</h3>
+
+<p>A quick aside, mcollective&#39;s terminology differs a little from what you might
+be used to in puppet.  There are 3 main components, the client (the mco
+commands you run to control your servers), the server (a daemon that runs on
+all of your managed nodes and executes the commands), and the middleware (a
+message broker the servers and agent connect to).</p>
+
+<p>If it helps to map these to puppet concepts you loosely have:</p>
+
+<ul>
+<li>Middleware -&gt; Puppet Master</li>
+<li>MCollective Server -&gt; Puppet Agent</li>
+<li>MCollective Client -&gt; no direct equivalent</li>
+</ul>
+
+<h2>Setup</h2>
+
+<h3>What the mcollective module affects</h3>
+
+<p>On a server</p>
+
+<ul>
+<li>mcollective package</li>
+<li>mcollective server configuration file</li>
+<li>mcollective service</li>
+</ul>
+
+<p>On a client</p>
+
+<ul>
+<li>mcollective-client package</li>
+<li>mcollective client configuration file</li>
+<li>optionally user configuration files (~/.mcollective and ~/.mcollective.d)</li>
+</ul>
+
+<h3>Beginning with mcollective</h3>
+
+<p>Your main entrypoint to the mcollective module is the mcollective class, so
+assuming you have your middleware configured on a node this is all you need to
+add a server to mcollective.</p>
+
+<pre class="code puppet"><code class="puppet">class { &#39;::mcollective&#39;:
+  middleware_hosts =&gt; [ &#39;broker1.example.com&#39; ],
+}
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>Your primary interaction with the mcollective module will be though the main
+mcollective class, with secondary configuration managed by the defined types
+<code>mcollective::user</code>, <code>mcollective::plugin</code>, <code>mcollective::actionpolicy</code>, and
+<code>mcollective::actionpolicy::rule</code>.</p>
+
+<h3>I just want to run it, what&#39;s the minimum I need?</h3>
+
+<pre class="code puppet"><code class="puppet">node &#39;broker1.example.com&#39; {
+  include activemq
+}
+
+node &#39;server1.example.com&#39; {
+  class { &#39;::mcollective&#39;:
+    middleware_hosts =&gt; [ &#39;broker1.example.com&#39; ],
+  }
+}
+
+node &#39;control1.example.com&#39; {
+  class { &#39;::mcollective&#39;:
+    client            =&gt; true,
+    middleware_hosts =&gt; [ &#39;broker1.example.com&#39; ],
+  }
+}
+</code></pre>
+
+<p>This default install will be using <em>no</em> TLS, a set of well-known usernames and
+passwords, and the psk securityprovider.  This is against the recommendataion
+of the standard deploy guide but does save you from having to deal with ssl
+certificates to begin with.</p>
+
+<h3>I&#39;d like to secure the transport channel and authenticate users, how do I do that?</h3>
+
+<p>Gather some credentials for the server and users.  You&#39;ll need the ca
+certificate, and a keypair for the server to use, and a keypair for each user
+to allow.</p>
+
+<p>See the <a href="http://docs.puppetlabs.com/mcollective/deploy/standard.html#step-1-create-and-collect-credentials">standard deploy guide</a>
+for more information about how to generate these.</p>
+
+<pre class="code puppet"><code class="puppet">node &#39;broker1.example.com&#39; {
+  # Please see
+  # https://github.com/voxpupuli/puppet-mcollective/blob/master/examples/ssl_example/mco_profile/manifests/middleware/activemq.pp
+  # for this as setting up activemq with a truststore can be quite complex.
+}
+
+node &#39;server1.example.com&#39; {
+  class { &#39;::mcollective&#39;:
+    middleware_hosts    =&gt; [ &#39;broker1.example.com&#39; ],
+    middleware_ssl      =&gt; true,
+    middleware_ssl_cert =&gt; &quot;/var/lib/puppet/ssl/certs/${::clientcert}.pem&quot;,
+    middleware_ssl_key  =&gt; &quot;/var/lib/puppet/ssl/private_keys/${::clientcert}.pem&quot;,
+    middleware_ssl_ca   =&gt; &quot;/var/lib/puppet/ssl/certs/ca.pem&quot;,
+    securityprovider    =&gt; &#39;ssl&#39;,
+    ssl_client_certs    =&gt; &#39;puppet:///modules/site_mcollective/client_certs&#39;,
+    ssl_ca_cert         =&gt; &#39;puppet:///modules/site_mcollective/certs/ca.pem&#39;,
+    ssl_server_public   =&gt; &#39;puppet:///modules/site_mcollective/certs/server.pem&#39;,
+    ssl_server_private  =&gt; &#39;puppet:///modules/site_mcollective/private_keys/server.pem&#39;,
+  }
+
+  mcollective::actionpolicy { &#39;nrpe&#39;:
+    default =&gt; &#39;deny&#39;,
+  }
+
+  mcollective::actionpolicy::rule { &#39;vagrant user can use nrpe agent&#39;:
+    agent    =&gt; &#39;nrpe&#39;,
+    callerid =&gt; &#39;cert=vagrant&#39;,
+  }
+}
+
+node &#39;control.example.com&#39; {
+  class { &#39;::mcollective&#39;:
+    client              =&gt; true,
+    middleware_hosts    =&gt; [ &#39;broker1.example.com&#39; ],
+    middleware_ssl      =&gt; true,
+    middleware_ssl_cert =&gt; &quot;/var/lib/puppet/ssl/certs/${::clientcert}.pem&quot;,
+    middleware_ssl_key  =&gt; &quot;/var/lib/puppet/ssl/private_keys/${::clientcert}.pem&quot;,
+    middleware_ssl_ca   =&gt; &quot;/var/lib/puppet/ssl/certs/ca.pem&quot;,
+    securityprovider    =&gt; &#39;ssl&#39;,
+    ssl_client_certs    =&gt; &#39;puppet:///modules/site_mcollective/client_certs&#39;,
+    ssl_ca_cert         =&gt; &#39;puppet:///modules/site_mcollective/certs/ca.pem&#39;,
+    ssl_server_public   =&gt; &#39;puppet:///modules/site_mcollective/certs/server.pem&#39;,
+    ssl_server_private  =&gt; &#39;puppet:///modules/site_mcollective/private_keys/server.pem&#39;,
+  }
+
+  mcollective::user { &#39;vagrant&#39;:
+    certificate =&gt; &#39;puppet:///modules/site_mcollective/client_certs/vagrant.pem&#39;,
+    private_key =&gt; &#39;puppet:///modules/site_mcollective/private_keys/vagrant.pem&#39;,
+  }
+}
+</code></pre>
+
+<h3>I&#39;d like to secure the transport channel and authenticate users with just their private key, how do I do that?</h3>
+
+<p>The Mcollective standard deployment guide uses the &#39;ssl&#39; securityprovider to handle
+authentication.  If you&#39;re interested in performing the authentication without
+creating SSL certificates for each user, one alternative is to use the &#39;sshkey&#39;
+securityprovider.  As far as the transport channel encryption goes, it&#39;s no different
+than the above example&#39;s use of &#39;middleware_ssl*&#39; parameters.</p>
+
+<p>Sshkey adds additional flexibility with regards to deployment as it currently supports
+both a static and a dynamic key management philosophy.  You can seperate sshkey from
+your normal system authentication&#39;s backend (known_hosts / authorized_keys) and
+permit it to send and record its key data for you.  If you do this, you should strongly
+consider using an authorization plugin with mcollective. Alternatively, you can use
+puppet to enforce the available set of key data to use with requests and responses.
+Because this could reuse an existing user&#39;s ssh private key, it could work along-side
+your existing user management module.</p>
+
+<p>The use of sshkey is optional.  For further information, you can review a sample
+deployment in the /examples folder, review the <a href="https://github.com/puppetlabs/mcollective-sshkey-security">sshkey module documentation</a>,
+and review the <a href="https://github.com/jordansissel/ruby-sshkeyauth">sshkeyauth rubygem documentation</a>
+(helpful for debugging errors).</p>
+
+<h3>The <code>::mcollective::</code> class</h3>
+
+<p>The <code>mcollective</code> class is the main entry point to the module.  From here you
+can configure the behaviour of your mcollective install of server, client, and
+middleware.</p>
+
+<h4>Parameters</h4>
+
+<p>The following parameters are available to the mcollective class:</p>
+
+<h5><code>server</code></h5>
+
+<p>Boolean: defaults to true.  Whether to install the mcollective server on this
+node.</p>
+
+<h5><code>client</code></h5>
+
+<p>Boolean: defaults to false.  Whether to install the mcollective client
+application on this node.</p>
+
+<h5><code>rabbitmq_vhost</code></h5>
+
+<p>String: defaults to &#39;/mcollective&#39;.  The vhost to connect to/manage when using
+rabbitmq middleware.</p>
+
+<h5><code>manage_packages</code></h5>
+
+<p>Boolean: defaults to true.  Whether to install mcollective and mcollective-
+client packages when installing the server and client components.</p>
+
+<h5><code>version</code></h5>
+
+<p>String: defaults to &#39;present&#39;.  What version of packages to <code>ensure</code> when
+<code>mcollective::manage_packages</code> is true.</p>
+
+<h5><code>client_package</code></h5>
+
+<p>String: defaults to &#39;mcollective-client&#39;. The name of the package to install for
+the client part. In the case that there is only one package package handling both,
+client and server, give the same name for &#39;client_package&#39; and &#39;server_package&#39;.</p>
+
+<h5><code>server_package</code></h5>
+
+<p>String: defaults to &#39;mcollective&#39;. The name of the package to install for
+the server. In the case that there is only one package package handling both,
+client and server, give the same name for &#39;client_package&#39; and &#39;server_package&#39;.</p>
+
+<h5><code>ruby_stomp_ensure</code></h5>
+
+<p>String: defaults to &#39;installed&#39;.  What version of the ruby-stomp package to
+<code>ensure</code> when <code>mcollective::manage_packages</code> is true. Only relevant on the
+Debian OS family.</p>
+
+<h5><code>main_collective</code></h5>
+
+<p>String: defaults to &#39;mcollective&#39;.  The name of the main collective for this
+client/server.</p>
+
+<h5><code>collectives</code></h5>
+
+<p>String: defaults to &#39;mcollective&#39;.  Comma seperated list of collectives this
+server should join.</p>
+
+<h5><code>connector</code></h5>
+
+<p>String: defaults to &#39;activemq&#39;.  Name of the connector plugin to use.</p>
+
+<p>Currently supported are <code>activemq</code>, <code>rabbitmq</code>, and <code>redis</code></p>
+
+<h5><code>securityprovider</code></h5>
+
+<p>String: defaults to &#39;psk&#39;.  Name of the security provider plugin to use.
+&#39;ssl&#39; is recommended but requires some additional setup.</p>
+
+<h5><code>psk</code></h5>
+
+<p>String: defaults to &#39;changemeplease&#39;.  Used by the &#39;psk&#39; security provider as
+the pre-shared key to secure the collective with.</p>
+
+<h5><code>factsource</code></h5>
+
+<p>String: defaults to &#39;yaml&#39;.  Name of the factsource plugin to use on the
+server.</p>
+
+<h5><code>fact_cron_splay</code></h5>
+
+<p>Boolean: defaults to false. Spread the cron tasks so that not all the nodes
+runs the facter cronjob at the exact same time.</p>
+
+<h5><code>yaml_fact_path</code></h5>
+
+<p>String: defaults to &#39;/etc/mcollective/facts.yaml&#39;.  Name of the file the
+&#39;yaml&#39; factsource plugin should load facts from.</p>
+
+<h5><code>ruby_interpreter</code></h5>
+
+<p>String: defaults to &#39;/usr/bin/env ruby&#39; for non PE installations, and to
+&#39;/opt/puppet/bin/ruby&#39; for PE installations. With <code>factsource</code> &#39;yaml&#39;, a ruby
+script is installed as cron job, which needs to find the ruby interpreter.
+This parameter allows overriding the default interpreter.</p>
+
+<h5><code>classesfile</code></h5>
+
+<p>String: defaults to &#39;/var/lib/puppet/state/classes.txt&#39;.  Name of the file the
+server will load the configuration management class for filtering.</p>
+
+<h5><code>rpcauthprovider</code></h5>
+
+<p>String: defaults to &#39;action_policy&#39;.  Name of the RPC Auth Provider to use on
+the server.</p>
+
+<h5><code>rpcauditprovider</code></h5>
+
+<p>String: defaults to &#39;logfile&#39;.  Name of the RPC Audit Provider to use on the
+server.</p>
+
+<h5><code>rpcauditlogfile</code></h5>
+
+<p>String: defaults to &#39;/var/log/mcollective-audit.log&#39;.  Name of the audit
+logfile.</p>
+
+<h5><code>registration</code></h5>
+
+<p>String: defaults to undef.  Name of the registration plugin to use on the
+server.</p>
+
+<h5><code>core_libdir</code></h5>
+
+<p>String: default is based on platform.  Path to the core plugins that are
+installed by the mcollective-common package.</p>
+
+<h5><code>site_libdir</code></h5>
+
+<p>String: default is based on platform.  Path to the site-specific plugins that
+the <code>mcollective::plugin</code> type will install with its <code>source</code> parameter.</p>
+
+<p>This path will be managed and purged by puppet, so don&#39;t point it at
+core_libdir or any other non-dedicated path.</p>
+
+<h5><code>middleware_hosts</code></h5>
+
+<p>Array of strings: defaults to [].  Where the middleware servers this
+client/server should talk to are.</p>
+
+<h5><code>middleware_user</code></h5>
+
+<p>String: defaults to &#39;mcollective&#39;. Username to use when connecting to the
+middleware.</p>
+
+<h5><code>middleware_password</code></h5>
+
+<p>String: defaults to &#39;marionette&#39;.  Password to use when connecting to the
+middleware.</p>
+
+<h5><code>middleware_multiple_ports</code></h5>
+
+<p>Boolean: defaults to false. Wheter to use different ports for each host
+defined in <code>middleware_hosts</code> list.</p>
+
+<h5><code>middleware_port</code></h5>
+
+<p>String: defaults to &#39;61613&#39; (for <code>activemq</code>).  Port number to use when
+connecting to the middleware over an unencrypted connection.</p>
+
+<h5><code>middleware_ssl_port</code></h5>
+
+<p>String: defaults to &#39;61614&#39;. Port number to use when connecting to the
+middleware over a ssl connection.</p>
+
+<h5><code>middleware_ports</code></h5>
+
+<p>Array of strings: defaults to <a href="for%20%60activemq%60">&#39;61613&#39;</a>. List of port numbers to use
+when connecting to the middleware over an unencrypted connection. Port defined in the
+array position <code>i</code> will be assigned to the host defined in the same position
+in <code>middleware_hosts</code> key.</p>
+
+<h5><code>middleware_ssl_ports</code></h5>
+
+<p>Array of strings: defaults to [&#39;61614&#39;]. List of ports numbers to use when connecting to the
+middleware over a ssl connection. Port defined in the array position <code>i</code> will be assigned
+to the host defined in the same position in <code>middleware_hosts</code> key.</p>
+
+<h5><code>middleware_ssl</code></h5>
+
+<p>Boolean: defaults to false.  Whether to talk to the middleware over a ssl
+protected channel.  Highly recommended.  Requires <code>mcollective::ssl_ca_cert</code>,
+<code>mcollective::ssl_server_public</code>, <code>mcollective::ssl_server_private</code> parameters
+for the server/client install.</p>
+
+<h5><code>middleware_admin_user</code></h5>
+
+<p>String: defaults to &#39;admin&#39;.  Username for the middleware admin user.</p>
+
+<h5><code>middleware_admin_password</code></h5>
+
+<p>String: defaults to &#39;secret&#39;.  Password to for the middleware
+admin user.</p>
+
+<h5><code>server_config_file</code></h5>
+
+<p>String: default is &#39;$confdir/server.cfg&#39;.  Path to the server
+configuration file.</p>
+
+<h5><code>server_logfile</code></h5>
+
+<p>String: defaults to &#39;/var/log/mcollective.log&#39;.  Logfile the mcollective
+server should log to.</p>
+
+<h5><code>server_loglevel</code></h5>
+
+<p>String: defaults to &#39;info&#39;.  Level the mcollective server should log at.</p>
+
+<h5><code>server_daemonize</code></h5>
+
+<p>Boolean: defaults to true.  Should the mcollective server daemonize when
+started.</p>
+
+<h5><code>client_config_file</code></h5>
+
+<p>String: defaults to &#39;$confdir/client.cfg&#39;.  Path to the client
+configuration file.</p>
+
+<h5><code>client_logger_type</code></h5>
+
+<p>String: defaults to &#39;console&#39;.  What type of logger the client should use.</p>
+
+<h5><code>client_loglevel</code></h5>
+
+<p>String: defaults to &#39;warn&#39;.  Level the mcollective client should log at.</p>
+
+<h5><code>ssl_ca_cert</code></h5>
+
+<p>String: defaults to undef.  A file source that points to the ca certificate
+used to manage the ssl keys of the mcollective install.</p>
+
+<h5><code>ssl_server_public</code></h5>
+
+<p>String: defaults to undef.  A file source that points to the public key or
+certificate of the server keypair.</p>
+
+<h5><code>ssl_server_private</code></h5>
+
+<p>String: defaults to undef.  A file source that points to the private key of
+the server keypair.</p>
+
+<h5><code>ssl_client_certs</code></h5>
+
+<p>String: defaults to &#39;puppet:///modules/mcollective/empty&#39;.  A file source that
+contains a directory of user certificates which are used by the ssl security
+provider in authenticating user requests.</p>
+
+<h5><code>sshkey_server_learn_public_keys</code></h5>
+
+<p>Boolean: defaults to false.  Allow writing sshkey public keys to
+<code>sshkey_server_publickey_dir</code>.</p>
+
+<h5><code>sshkey_server_overwrite_stored_keys</code></h5>
+
+<p>Boolean: defaults to false.  Overwrite learned keys.</p>
+
+<h5><code>sshkey_server_publickey_dir</code></h5>
+
+<p>String: defaults to <code>${confdir}/sshkey_pubdir</code>.  Directory to store
+received keys</p>
+
+<h5><code>sshkey_server_private_key</code></h5>
+
+<p>String: defaults to &#39;/etc/ssh/ssh_host_rsa_key&#39;.  The private key used to
+sign replies with.</p>
+
+<h5><code>sshkey_server_authorized_keys</code></h5>
+
+<p>String: defaults to undefined.  The authorized_key file to use.  Undefined
+is interpreted by sshkey to mean the caller&#39;s authorized key file.</p>
+
+<h5><code>sshkey_server_send_key</code></h5>
+
+<p>String: defaults to undefined.  Specifies the public key
+sent back with the response for validation. You probably want
+&#39;/etc/ssh/ssh_host_rsa_key.pub&#39;.</p>
+
+<h3><code>mcollective::user</code> defined type</h3>
+
+<p><code>mcollective::user</code> installs a client configuration and any needed client
+certificates in a users home directory.</p>
+
+<h4>Parameters</h4>
+
+<h5><code>username</code></h5>
+
+<p>String: defaults to $name. The username of the user to install for.</p>
+
+<h5><code>group</code></h5>
+
+<p>String: defaults to $name. The group of the user to install for.</p>
+
+<h5><code>homedir</code></h5>
+
+<p>String: defaults to &quot;/home/$name&quot;.  The home directory of the user to
+install for.</p>
+
+<h5><code>certificate</code></h5>
+
+<p>String: defaults to undef.  A file source for the certificate of the user.
+Used by the &#39;ssl&#39; securityprovider to set the identity of the user. This is
+mutually exclusive with <code>certificate_content</code>.</p>
+
+<h5><code>certificate_content</code></h5>
+
+<p>String: defaults to undef.  The file content for the certificate of the user.
+Used by the &#39;ssl&#39; securityprovider to set the identity of the user. This is
+mutually exclusive with <code>certificate</code>.</p>
+
+<h5><code>private_key</code></h5>
+
+<p>String: defaults to undef.  A file source for the private key of the user.
+Used by the &#39;ssl&#39; &amp; &#39;sshkey&#39; securityprovider to sign messages as from this user.
+When not supplied to sshkey, this is interpreted to use the user&#39;s ssh-agent.
+This is mutually exclusive with <code>private_key_content</code>.</p>
+
+<h5><code>private_key_content</code></h5>
+
+<p>String: defaults to undef.  The file content for the private key of the user.
+Used by the &#39;ssl&#39; &amp; &#39;sshkey&#39; securityprovider to sign messages as from this user.
+This is mutually exclusive with <code>private_key</code>.</p>
+
+<h5><code>sshkey_learn_public_keys</code></h5>
+
+<p>Boolean: defaults to false.  Allow writing sshkey public keys to
+<code>sshkey_client_publickey_dir</code>.</p>
+
+<h5><code>sshkey_overwrite_stored_keys</code></h5>
+
+<p>Boolean: defaults to false.  Overwrite learned keys.</p>
+
+<h5><code>sshkey_publickey_dir</code></h5>
+
+<p>String: defaults to <code>${homedir}/.mcollective.d/public_keys</code>.  Directory to store
+received keys.</p>
+
+<h5><code>sshkey_enable_private_key</code></h5>
+
+<p>Boolean: defaults to false.  Enable manual specification of the private key to
+sign requests with.  False is interpreted by sshkey to use the
+user&#39;s ssh-agent.</p>
+
+<h5><code>sshkey_known_hosts</code></h5>
+
+<p>String: defaults to &#39;$homedir/$callerid/.ssh/known_hosts&#39;. The known_hosts
+file to use.  This is mutually exclusive with <code>sshkey_publickey_dir</code> and is disabled
+by <code>sshkey_learn_public_keys</code>.</p>
+
+<h5><code>sshkey_enable_send_key</code></h5>
+
+<p>Boolean: defaults to false.  Enable sending the user public key inside the
+request.</p>
+
+<h3><code>mcollective::plugin</code> defined type</h3>
+
+<p><code>mcollective::plugin</code> installs a plugin from a source uri or a package.  When
+installing from a source uri the plugin will be copied to
+<code>mcollective::site_libdir</code></p>
+
+<pre class="code puppet"><code class="puppet">mcollective::plugin { &#39;puppet&#39;:
+  package =&gt; true,
+}
+</code></pre>
+
+<p>When installing a plugin from source you need to create the correct directory
+structure for it to work.</p>
+
+<p>For example if you wish to sync an agent for apt which ships with <code>apt.ddl</code>
+and <code>apt.rb</code> you need to create the following structure:</p>
+
+<pre class="code ruby"><code class="ruby">site_mcollective/files/plugins/apt/
+                               └── mcollective
+                                   └── agent
+                                       ├── apt.ddl
+                                       └── apt.rb
+</code></pre>
+
+<p>Now you can then point the <code>source</code> attribute of the defined type to the
+apt folder in your plugins directory.</p>
+
+<pre class="code puppet"><code class="puppet">mcollective::plugin { &#39;apt&#39;:
+  source =&gt; &#39;puppet:///modules/site_mcollective/plugins/apt&#39;,
+}
+</code></pre>
+
+<p>For more examples have a look at the directory structure in <code>files/plugins</code>
+of this module.</p>
+
+<h4>Parameters</h4>
+
+<h5><code>name</code></h5>
+
+<p>String: the resource title.  The base name of the plugin to install.</p>
+
+<h5><code>source</code></h5>
+
+<p>String: will default to &quot;puppet:///modules/mcollective/plugins/$name&quot;.  The
+source uri that will be copied to <code>mcollective::site_libdir</code></p>
+
+<h5><code>package</code></h5>
+
+<p>Boolean: defaults to false.  Whether to install the plugin from a file copy or
+a package install.</p>
+
+<h5><code>type</code></h5>
+
+<p>String: defaults to &#39;agent&#39;.  The type of the plugin package to install.</p>
+
+<h5><code>has_client</code></h5>
+
+<p>Boolean: defaults to true.  When installing from a package, whether to attempt
+to install <code>mcollective-${name}-client</code> on the client node.</p>
+
+<h3><code>mcollective::actionpolicy</code> defined type</h3>
+
+<p><code>mcollective::actionpolicy</code> configures an agent for use with actionpolicy in
+conjunction with <code>mcollective::actionpolicy::rule</code>.</p>
+
+<h4>Parameters</h4>
+
+<h5><code>name</code></h5>
+
+<p>String: the resource title.  The name of the agent to set up an actionpolicy
+for.</p>
+
+<h5><code>default</code></h5>
+
+<p>String: defaults to &#39;deny&#39;.  The default actionpolicy to apply to the agent.</p>
+
+<h3><code>mcollective::actionpolicy::rule</code> defined type</h3>
+
+<p><code>mcollective::actionpolicy::rule</code> represents a single actionpolicy policy
+entry. See the actionpolicy plugin <a href="https://github.com/puppetlabs/mcollective-actionpolicy-auth#policy-file-format">Policy File Format</a>
+for specific restrictions on the values of these fields.</p>
+
+<h4>Parameters</h4>
+
+<h5><code>name</code></h5>
+
+<p>String: the resource title.  A descriptive name for the rule you are adding.</p>
+
+<h5><code>agent</code></h5>
+
+<p>String: required, no default.  The name of the agent you are adding a rule
+for.</p>
+
+<h5><code>action</code></h5>
+
+<p>String: defaults to &#39;allow&#39;.  What to do when the other conditions of this
+line are matched.</p>
+
+<h5><code>callerid</code></h5>
+
+<p>String: defaults to &#39;*&#39;.  What callerids should match this rule.</p>
+
+<h5><code>actions</code></h5>
+
+<p>String: defaults to &#39;*&#39;.  What actions should match this rule.</p>
+
+<h5><code>fact_filter</code></h5>
+
+<p>String: defaults to &#39;<em>&#39;.  What facts should match this rule. This can be either
+&#39;</em>&#39;, a space-separated list of <code>fact=value</code> pairs (which match if every listed
+fact matches), or any valid <a href="http://docs.puppetlabs.com/mcollective/reference/basic/basic_cli_usage.html#complex-compound-or-select-queries">compound filter string</a>.
+This matches the &quot;facts&quot; field of the policy file lines.</p>
+
+<h5><code>classes</code></h5>
+
+<p>String: defaults to &#39;*&#39;.  What classes should match this rule.</p>
+
+<h3><code>mcollective::common::setting</code> defined type</h3>
+
+<p><code>mcollective::common::setting</code> declares a setting that is common between
+server and client.</p>
+
+<h4>Parameters</h4>
+
+<h5><code>setting</code></h5>
+
+<p>String: defaults to the resource title.  The name of the setting to set.</p>
+
+<h5><code>value</code></h5>
+
+<p>String: no default.  The value to set.</p>
+
+<h5><code>order</code></h5>
+
+<p>String: default &#39;10&#39;.  The order in which to merge this setting.</p>
+
+<h3><code>mcollective::server::setting</code> defined type</h3>
+
+<p><code>mcollective::server::setting</code> declares a setting that is exclusive to a server.</p>
+
+<h4>Parameters</h4>
+
+<h5><code>setting</code></h5>
+
+<p>String: defaults to the resource title.  The name of the setting to set.</p>
+
+<h5><code>value</code></h5>
+
+<p>String: no default.  The value to set.</p>
+
+<h5><code>order</code></h5>
+
+<p>String: default &#39;30&#39;.  The order in which to merge this setting.</p>
+
+<h3><code>mcollective::client::setting</code> defined type</h3>
+
+<p><code>mcollective::client::setting</code> declares a setting that is common to clients
+and users.</p>
+
+<h4>Parameters</h4>
+
+<h5><code>setting</code></h5>
+
+<p>String: defaults to the resource title.  The name of the setting to set.</p>
+
+<h5><code>value</code></h5>
+
+<p>String: no default.  The value to set.</p>
+
+<h5><code>order</code></h5>
+
+<p>String: default &#39;30&#39;.  The order in which to merge this setting.</p>
+
+<h3><code>mcollective::user::setting</code> defined type</h3>
+
+<p><code>mcollective::user::setting</code> declares a setting that is specific to a user.</p>
+
+<h4>Parameters</h4>
+
+<h5><code>username</code></h5>
+
+<p>String: required, no default.  Which user to set this value for.</p>
+
+<h5><code>setting</code></h5>
+
+<p>String: required, no default. The name of the setting to set.</p>
+
+<h5><code>value</code></h5>
+
+<p>String: no default.  The value to set.</p>
+
+<h5><code>order</code></h5>
+
+<p>String: default &#39;70&#39;.  The order in which to merge this setting.</p>
+
+<h3><code>mcollective::server::config::factsource::yaml</code> private class</h3>
+
+<p><code>mcollective::server::config::factsource::yaml</code> is the class that implements
+cron-based fact generation and configures MCollective to use it. It is a private
+class and so may not be declared directly, but rather is invoked when the
+<code>mcollective</code> class is declared with the <code>factsource</code> parameter set to <code>yaml</code>
+(the default). Although <code>mcollective::server::config::factsource::yaml</code> is private
+it does have one parameter which can be tuned using data bindings (e.g. Hiera).</p>
+
+<h4>Parameters</h4>
+
+<h5><code>path</code></h5>
+
+<p>String: default $::path. What PATH environment variable to use when
+refresh-mcollective-metadata is invoked by cron.</p>
+
+<h2>Reference</h2>
+
+<h3>Configuration merging</h3>
+
+<p>The configuration of the server and client are built up from the various calls
+to <code>mcollective::common::setting</code>, <code>mcollective::server::setting</code>,
+<code>mcollective::client::setting</code>, and <code>mcollective::user::setting</code>.</p>
+
+<p>Settings for the server will be a merge of <code>mcollective::common::setting</code> and
+<code>mcollective::server::setting</code>, highest order of the setting wins.</p>
+
+<p>Settings for the client will be a merge of <code>mcollective::common::setting</code>,
+and <code>mcollective::client::setting</code>, highest order of the setting wins.</p>
+
+<p>Settings for a specific user will be a merge of
+<code>mcollective::common::setting</code>, <code>mcollective::client::setting</code> and
+<code>mcollective::user::setting</code> for that specific user, highest order of setting
+wins.</p>
+
+<h4>Overriding existing options</h4>
+
+<p>You can override an existing server setting from outside of the module by
+simply specifying that setting again with a higher order than the default of
+that type, for example to make a server&#39;s loglevel be debug (without simply
+setting mcollective::server_loglevel) you could write:</p>
+
+<pre class="code puppet"><code class="puppet">mcollective::server::setting { &#39;override loglevel&#39;:
+  setting =&gt; &#39;loglevel&#39;,
+  value   =&gt; &#39;debug&#39;,
+  order   =&gt; &#39;50&#39;,
+}
+</code></pre>
+
+<h2>Troubleshooting</h2>
+
+<h3>Why do I have no client.cfg?</h3>
+
+<p>I said to install the client, so why when I run <code>mco ping</code> am I seeing this:</p>
+
+<pre class="code shell"><code class="shell">$ mco ping
+Failed to generate application list: RuntimeError: Cannot find config file &#39;/etc/mcollective/client.cfg&#39;
+</code></pre>
+
+<p>You&#39;ve enabled the ssl security provider, which implies each user will have
+their own ssl credentials to use in the collective.  In order to avoid
+incomplete configuration of clients in this mode we delete the system-wide
+/etc/mcollective/client.cfg and only generate user configuration files with
+the <code>mcollective::user</code> definition.</p>
+
+<h2>Limitations</h2>
+
+<p>This module has been built on and tested against Puppet 3.0 and higher.</p>
+
+<p>The module has been tested on:</p>
+
+<ul>
+<li>CentOS 6</li>
+<li>Ubuntu 12.04</li>
+</ul>
+
+<p>Testing on other platforms has been light and cannot be guaranteed.</p>
+
+<h2>Development</h2>
+
+<p>Puppet Community modules on are open projects, and community contributions are
+essential for keeping them great. We can’t access the huge number of platforms
+and myriad of hardware, software, and deployment configurations that Puppet is
+intended to serve.</p>
+
+<p>We want to keep it as easy as possible to contribute changes so that our
+modules work in your environment. There are a few guidelines that we need
+contributors to follow so that we can have a chance of keeping on top of things.</p>
+
+<p>You can read the complete module contribution guide <a href="http://projects.puppetlabs.com/projects/module-site/wiki/Module_contributing">on the Puppet Labs wiki.</a></p>
+
+<p>Current build status is: <a href="https://travis-ci.org/voxpupuli/puppet-mcollective"><img src="https://api.travis-ci.org/voxpupuli/puppet-mcollective.png" alt="Build Status"></a></p>
+</div></div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>
