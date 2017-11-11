@@ -343,6 +343,11 @@ middleware.
 String: defaults to 'marionette'.  Password to use when connecting to the
 middleware.
 
+##### `middleware_multiple_ports`
+
+Boolean: defaults to false. Wheter to use different ports for each host
+defined in `middleware_hosts` list.
+
 ##### `middleware_port`
 
 String: defaults to '61613' (for `activemq`).  Port number to use when
@@ -352,6 +357,19 @@ connecting to the middleware over an unencrypted connection.
 
 String: defaults to '61614'. Port number to use when connecting to the
 middleware over a ssl connection.
+
+##### `middleware_ports`
+
+Array of strings: defaults to ['61613'] (for `activemq`). List of port numbers to use
+when connecting to the middleware over an unencrypted connection. Port defined in the
+array position `i` will be assigned to the host defined in the same position
+in `middleware_hosts` key.
+
+##### `middleware_ssl_ports`
+
+Array of strings: defaults to ['61614']. List of ports numbers to use when connecting to the
+middleware over a ssl connection. Port defined in the array position `i` will be assigned
+to the host defined in the same position in `middleware_hosts` key.
 
 ##### `middleware_ssl`
 

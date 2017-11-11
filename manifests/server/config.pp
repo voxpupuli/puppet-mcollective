@@ -85,6 +85,20 @@ class mcollective::server::config {
 
   }
 
+  $middleware_multiple_ports = str2bool($mcollective::middleware_multiple_ports)
+
+  if $middleware_multiple_ports {
+    $pool_host_size = size(flatten([$mcollective::middleware_hosts]))
+    $pool_port_size = $mcollective::middleware_ssl ? {
+      true    => size(flatten([$mcollective::middleware_ssl_ports])),
+      default => size(flatten([$mcollective::middleware_ports])),
+    }
+
+    if $pool_port_size != $pool_host_size {
+      fail('Hosts and ports list must have the same length')
+    }
+  }
+
   mcollective::soft_include { [
     "::mcollective::server::config::connector::${mcollective::connector}",
     "::mcollective::server::config::securityprovider::${mcollective::securityprovider}",
