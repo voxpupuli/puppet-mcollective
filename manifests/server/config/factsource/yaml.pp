@@ -28,7 +28,7 @@ class mcollective::server::config::factsource::yaml (
   if $yaml_fact_cron {
     if versioncmp($::facterversion, '3.0.0') >= 0 {
       cron { 'refresh-mcollective-metadata':
-        command     => "puppet facts --render-as yaml >${yaml_fact_path_real} 2>&1",
+        command     => "puppet facts --render-as yaml |sed 's%!ruby/object:Puppet::Node::Facts%%g' >${yaml_fact_path_real} 2>&1",
         environment => 'PATH=/opt/puppet/bin:/opt/puppetlabs/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         user        => 'root',
         minute      => $cron_minutes,
