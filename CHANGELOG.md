@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.1](https://github.com/voxpupuli/puppet-mcollective/tree/v3.0.1) (2017-11-15)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-mcollective/compare/v3.0.0...v3.0.1)
+
+**Fixed bugs:**
+
+- Remove Yaml class serialization information [\#353](https://github.com/voxpupuli/puppet-mcollective/pull/353) ([jfroche](https://github.com/jfroche))
+- fix redis implementation [\#350](https://github.com/voxpupuli/puppet-mcollective/pull/350) ([rwaffen](https://github.com/rwaffen))
+
+**Merged pull requests:**
+
+- Release 3.0.0 [\#352](https://github.com/voxpupuli/puppet-mcollective/pull/352) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v3.0.0](https://github.com/voxpupuli/puppet-mcollective/tree/v3.0.0) (2017-11-11)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-mcollective/compare/v2.5.0...v3.0.0)
