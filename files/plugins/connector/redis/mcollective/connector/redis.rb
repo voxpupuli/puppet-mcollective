@@ -111,7 +111,7 @@ module MCollective
       def publish(msg)
         Log.debug("About to publish to the sender queue")
 
-        target = {:name => nil, :headers => {}, :name => nil}
+        target = {:name => nil, :headers => {}}
 
         if msg.type == :direct_request
           msg.discovered_hosts.each do |node|
