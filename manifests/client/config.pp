@@ -1,8 +1,8 @@
 # private class
 class mcollective::client::config (
-    $owner = 'root',
-    $group = '0',
-    $mode  = '0444',
+    String $owner = 'root',
+    String $group = '0',
+    String $mode  = '0444',
   ) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
