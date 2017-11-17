@@ -1,5 +1,9 @@
 # private class
-class mcollective::client::config {
+class mcollective::client::config (
+    String $owner = 'root',
+    String $group = '0',
+    String $mode  = '0444',
+  ) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
@@ -14,9 +18,9 @@ class mcollective::client::config {
   }
   else {
     datacat { 'mcollective::client':
-      owner    => 'root',
-      group    => '0',
-      mode     => '0444',
+      owner    => $owner,
+      group    => $group,
+      mode     => $mode,
       path     => $mcollective::client_config_file_real,
       template => 'mcollective/settings.cfg.erb',
     }
