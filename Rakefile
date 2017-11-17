@@ -62,18 +62,4 @@ begin
   end
 rescue LoadError
 end
-
-desc 'prepare a new release'
-task :prepare_release, [:version] do |t, args|
-  # check for missing parameter
-  # exit early, exit often
-  (puts 'you need to provide a version like: rake prepare_releasep[1.0.0]'; exit) unless args[:version]
-  version = args[:version]
-  (puts 'format needs to be X.X.X'; exit) unless /^\d+\.\d+\.\d+$/.match(version)
-  ENV['BLACKSMITH_FULL_VERSION'] = version
-  Rake::Task['module:bump:full'].invoke
-  Rake::Task['changelog'].invoke
-  Rake::Task['strings:generate'].invoke
-end
-
 # vim: syntax=ruby
