@@ -190,6 +190,8 @@ deployment in the /examples folder, review the [sshkey module documentation](htt
 and review the [sshkeyauth rubygem documentation](https://github.com/jordansissel/ruby-sshkeyauth)
 (helpful for debugging errors).
 
+## Reference
+
 ### The `::mcollective::` class
 
 The `mcollective` class is the main entry point to the module.  From here you
@@ -760,7 +762,6 @@ it does have one parameter which can be tuned using data bindings (e.g. Hiera).
 String: default $::path. What PATH environment variable to use when
 refresh-mcollective-metadata is invoked by cron.
 
-## Reference
 
 ### Configuration merging
 
