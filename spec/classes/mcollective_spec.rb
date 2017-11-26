@@ -933,6 +933,9 @@ describe 'mcollective' do
 
           it 'defaults to false' do
             is_expected.not_to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl')
+            is_expected.not_to contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem")
+            is_expected.not_to contain_file("#{mcollective_config_path}/ssl/middleware_cert.pem")
+            is_expected.not_to contain_file("#{mcollective_config_path}/ssl/middleware_key.pem")
           end
 
           context 'true and "true"' do
@@ -942,6 +945,12 @@ describe 'mcollective' do
 
               it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl').with_value('1') }
               it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.fallback').with_value('0') }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.ca').with_value("#{mcollective_config_path}/ssl/middleware_ca.pem") }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.cert').with_value("#{mcollective_config_path}/ssl/middleware_cert.pem") }
+              it { is_expected.to contain_mcollective__common__setting('plugin.activemq.pool.1.ssl.key').with_value("#{mcollective_config_path}/ssl/middleware_key.pem") }
+              it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_ca.pem") }
+              it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_cert.pem") }
+              it { is_expected.to contain_file("#{mcollective_config_path}/ssl/middleware_key.pem") }
             end
           end
 
