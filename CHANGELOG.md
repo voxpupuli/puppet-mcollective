@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.1.0](https://github.com/voxpupuli/puppet-mcollective/tree/v3.1.0) (2017-11-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-mcollective/compare/v3.0.1...v3.1.0)
+
+**Implemented enhancements:**
+
+- Parameterize the client config [\#355](https://github.com/voxpupuli/puppet-mcollective/pull/355) ([BartWillems](https://github.com/BartWillems))
+- Make client middleware cert configurable [\#348](https://github.com/voxpupuli/puppet-mcollective/pull/348) ([benningm](https://github.com/benningm))
+
+**Fixed bugs:**
+
+- use different delimiter for the sed at the puppet facts cronjob [\#358](https://github.com/voxpupuli/puppet-mcollective/pull/358) ([tampakrap](https://github.com/tampakrap))
+
+**Merged pull requests:**
+
+- reorder param docs to the Reference section [\#357](https://github.com/voxpupuli/puppet-mcollective/pull/357) ([bastelfreak](https://github.com/bastelfreak))
+- modulesync 1.5.0 [\#356](https://github.com/voxpupuli/puppet-mcollective/pull/356) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v3.0.1](https://github.com/voxpupuli/puppet-mcollective/tree/v3.0.1) (2017-11-15)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-mcollective/compare/v3.0.0...v3.0.1)
@@ -15,6 +33,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
+- release 3.0.1 [\#354](https://github.com/voxpupuli/puppet-mcollective/pull/354) ([bastelfreak](https://github.com/bastelfreak))
 - Release 3.0.0 [\#352](https://github.com/voxpupuli/puppet-mcollective/pull/352) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v3.0.0](https://github.com/voxpupuli/puppet-mcollective/tree/v3.0.0) (2017-11-11)
