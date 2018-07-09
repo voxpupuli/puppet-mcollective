@@ -3,7 +3,7 @@
 define mcollective::common::config::connector::activemq::hosts_iteration {
   $middleware_hosts_array = flatten([$mcollective::middleware_hosts])
   mcollective::common::setting { "plugin.activemq.pool.${name}.host":
-    value => $middleware_hosts_array[$name - 1],
+    value => $middleware_hosts_array[Integer($name) - 1],
   }
 
   $middleware_ssl = str2bool($mcollective::middleware_ssl)
@@ -11,8 +11,8 @@ define mcollective::common::config::connector::activemq::hosts_iteration {
 
   $port = $middleware_multiple_ports ? {
     true    => $middleware_ssl ? {
-      true    => $mcollective::middleware_ssl_ports[$name - 1],
-      default => $mcollective::middleware_ports[$name - 1],
+      true    => $mcollective::middleware_ssl_ports[Integer($name) - 1],
+      default => $mcollective::middleware_ports[Integer($name) - 1],
     },
     default => $middleware_ssl ? {
       true    => $mcollective::middleware_ssl_port,
