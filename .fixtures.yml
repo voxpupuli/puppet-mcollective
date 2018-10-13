@@ -3,5 +3,3 @@ fixtures:
   repositories:
     datacat: 'https://github.com/richardc/puppet-datacat.git'
     stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
-  symlinks:
-    mcollective: '#{source_dir}'
