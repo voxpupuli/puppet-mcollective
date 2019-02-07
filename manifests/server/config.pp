@@ -5,11 +5,12 @@ class mcollective::server::config {
   }
 
   datacat { 'mcollective::server':
-    owner    => 'root',
-    group    => '0',
-    mode     => '0400',
-    path     => $mcollective::server_config_file_real,
-    template => 'mcollective/settings.cfg.erb',
+    owner     => 'root',
+    group     => '0',
+    mode      => '0400',
+    path      => $mcollective::server_config_file_real,
+    show_diff => false,
+    template  => 'mcollective/settings.cfg.erb',
   }
 
   mcollective::server::setting { 'classesfile':
@@ -52,10 +53,11 @@ class mcollective::server::config {
     }
 
     file { $::mcollective::middleware_ssl_key_path:
-      owner  => 'root',
-      group  => '0',
-      mode   => '0400',
-      source => $::mcollective::middleware_ssl_key_real,
+      owner     => 'root',
+      group     => '0',
+      mode      => '0400',
+      show_diff => false,
+      source    => $::mcollective::middleware_ssl_key_real,
     }
 
     file { $::mcollective::middleware_ssl_cert_path:
@@ -77,10 +79,11 @@ class mcollective::server::config {
     }
 
     file { $::mcollective::ssl_server_private_path:
-      owner  => 'root',
-      group  => '0',
-      mode   => '0400',
-      source => $::mcollective::ssl_server_private,
+      owner     => 'root',
+      group     => '0',
+      mode      => '0400',
+      show_diff => false,
+      source    => $::mcollective::ssl_server_private,
     }
 
   }
