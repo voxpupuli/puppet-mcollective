@@ -7,6 +7,10 @@
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/mcollective.svg)](https://forge.puppetlabs.com/puppet/mcollective)
 
+> [!CAUTION]
+> This module is **archived**, please switch to [choria/choria](https://forge.puppet.com/modules/choria/choria).
+> See [#396](https://github.com/voxpupuli/puppet-mcollective/issues/396) for more info.
+
 #### Table of Contents
 
 1. [Overview](#overview)
